@@ -1,7 +1,7 @@
 from browser import ajax
 
 class Ajax:
-    def get(url, then: function):
+    def get(url, then):
         req = ajax.ajax()
         req.open('GET', url, True)
         req.bind('complete', then)
