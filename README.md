@@ -4,7 +4,7 @@
 **NOTE**: MASTER BRANCH IS NOW ABSOLUTELY STABLE AFTER 1 YEAR OF DEVELOPMENT!!
 
 ## Stay Updated
-If you would like to get updates about the PyFyre framework, we created a [Facebook Page](https://www.facebook.com/pynaniframework) where we are going to post all the updates like newly created widgets, adjustments, core updates, and more. Please consider liking it also. Thank you so much!
+If you would like to get updates about the PyFyre framework, we created a [Facebook Page](https://www.facebook.com/PyFyreframework) where we are going to post all the updates like newly created widgets, adjustments, core updates, and more. Please consider liking it also. Thank you so much!
 
 ## Documentation
 Documentation for PyFyre is still in development.

@@ -1,6 +1,6 @@
 
-## Contributing to PyNani
-As an open source project, PyNani welcomes contributions of any forms.
+## Contributing to PyFyre
+As an open source project, PyFyre welcomes contributions of any forms.
 
 Examples of contributions include:
 * Code improvements

@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'PyNani'
+project = 'PyFyre'
 copyright = '2021, Jabez Borja'
 author = 'Jabez Borja'
 
