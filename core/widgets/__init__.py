@@ -97,3 +97,22 @@ class Text(Widget):
             element.bind("click", self.onClick)
         
         return element
+
+class Link(Widget):
+    
+    def __init__(self, *, textContent: str="Anchor", page: Widget, className: Optional[str], props: Optional[dict]=None):
+        super().__init__("a", className=className, props=props)
+        self.textContent = textContent
+        self.page = page
+    
+    def dom(self):
+        element = super().dom()
+        element.textContent = self.textContent
+        element.href = "#"
+        
+        element.bind("click", self.navigate)
+        
+        return element
+
+    def navigate(self, e):
+        runApp(self.page())
