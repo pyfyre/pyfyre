@@ -1,0 +1,35 @@
+.container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background-color: #222222;
+    color: white;
+}
+
+.title {
+    font-size: 4rem;
+}
+
+.desc {
+    margin-top: 10px;
+}
+
+.counter-app {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+    height: 50px;
+}
+
+.counter {
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 2rem;
+}
+
+.btn {
+    padding: 10px;
+}
