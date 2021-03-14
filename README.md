@@ -1,5 +1,4 @@
 ## PyNani
-\\
 PyNani is a Python web user interface framework for building reactive static websites and for those Python devs who hates HTML. Pynani is free and open source project.
 
 ## Documentation
