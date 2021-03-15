@@ -7,7 +7,7 @@ Documentation for PyNani is still in development.
 ## Examples
 We have examples in ```/examples``` folder. But here is the easy to access examples and explaination:
 
-```
+```py
 # Importing pynani and utils from the core folder
 from pynani.PyNani.core import pynani, utils
 
