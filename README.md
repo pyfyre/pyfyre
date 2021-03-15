@@ -39,7 +39,7 @@ Rendered PyNani:
 ![image](https://user-images.githubusercontent.com/64759159/111185923-76b13380-85ed-11eb-98a4-7e707a7d8ba8.png)
 
 
-### Installation
+## Installation
 Install Python3 on your local machine/PC.
 
 Create a folder called 'PyNani' on your C:\ folder.
@@ -50,7 +50,7 @@ Get the source code from PyNani repo on GitHub.
 ```
 C:\pynani>git clone https://github.com/jabezborja/pynani.git -b stable
 ```
-## Update your path
+### Update your path
 If you wish to run PyNani commands in the regular Windows console, take these steps to add PyNani to the PATH environment variable:
 
 * From the Start search bar, enter ‘env’ and select Edit environment variables for your account and click Environment Variables in the bottom right.
@@ -60,7 +60,7 @@ If you wish to run PyNani commands in the regular Windows console, take these st
 
 And now, you have the PyNani on your local machine!
 
-## Create an App
+### Create an App
 To create a Web App, go to the folder where you want PyNani to install in then go to CMD or command line and type:
 ```
 create_nani_app.py <App_Name>
@@ -91,7 +91,7 @@ To compile your PyNani Code, run the ```main.py``` by navigating to ```\src``` f
 
 To make your website live on your local machine, you can use XAMPP or Live Server in VSCode
 
-# Live Server
+#### Live Server
 Install VSCode or Visual Studio Code on your PC.
 
 Once you have the VS Code go to extensions, you can see it on your left then click the 4 blocks logo. Then type:
@@ -103,7 +103,7 @@ and it will install.
 
 Now, open your PyNani App folder and click ```Go Live``` on bottom right.
 
-# XAMPP
+#### XAMPP
 See https://www.apachefriends.org/index.html
 
 ## Contributing
