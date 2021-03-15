@@ -101,7 +101,11 @@ Live Server
 
 and it will install.
 
-Now, open your PyNani App folder and click ```Go Live``` on bottom right.
+Now, open your PyNani App folder on VSCode by typing on CMD located on your PyNani Folder:
+```
+C:\users\<your_username>\desktop\pynani>code .
+```
+it will load for few seconds and click ```Go Live``` on bottom right.
 
 #### XAMPP
 See https://www.apachefriends.org/index.html
