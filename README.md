@@ -4,6 +4,44 @@ PyNani is a Python web user interface framework for building reactive static web
 ## Documentation
 Documentation for PyNani is still in development.
 
+## Examples
+We have examples in ```/examples``` folder. But here is the easy to access examples and explaination:
+
+```
+# Importing pynani and utils from the core folder
+from pynani.PyNani.core import pynani, utils
+
+# Create a new variable with PyNaniDOM() instance from class
+pyNaniDOM = pynani.PyNaniDOM()
+
+# Same here
+utils = utils.Utils()
+
+# Here where all element rendered to the screen.
+pyNaniDOM.render(
+    # Props is a list of elements to render in the screen
+    props=[
+        # From HelloMessage function
+        HelloMessage("User"),
+        CustomHTML()
+    ]
+)
+
+def HelloMessage(text):
+    # Returns an Header1 which is equal to h1 in HTML
+    # Header1 is getting an argument (text(string), onclick(function), styles(list of CSS Styles))
+    return utils.header1(
+        text=text,
+        styles=[
+            "background-color: black"
+        ]
+    )
+
+def CustomHTML():
+    # PyNani also support custom HTML like ReactJS
+    return "<div>Hello, Frank!</div>
+```
+
 ## Installation
 We haven't added some code for installing the PyNani automatically but
 here's the installation guide to install PyNani and create a PyNani
