@@ -30,7 +30,7 @@ def HelloMessage(text):
     )
 
 def CustomHTML():
-    return "<div>Hello, Frank!</div>
+    return "<div>Hello, Frank!</div>"
 ```
 
 ## Installation
