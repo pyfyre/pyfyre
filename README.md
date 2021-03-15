@@ -35,7 +35,7 @@ pyNaniDOM.render(
     ]
 )
 ```
-
+Rendered PyNani:
 ![image](https://user-images.githubusercontent.com/64759159/111185923-76b13380-85ed-11eb-98a4-7e707a7d8ba8.png)
 
 
