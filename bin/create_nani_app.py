@@ -4,6 +4,8 @@ import os
 
 print("Creating your PyNani App")
 
+APP_NAME = sys.argv[1]
+
 # Get the Path
 PATH = os.getcwd() + "\\%s" % sys.argv[1]
 
@@ -11,14 +13,14 @@ PATH = os.getcwd() + "\\%s" % sys.argv[1]
 os.makedirs(PATH)
 
 # Create the SRC PATH
-src_path = os.makedirs(PATH + "\\src")
+src_path = os.makedirs(PATH + "\\%s\\src" % APP_NAME)
 
 # Create the Files
-main = open("%s\\src\\main.py" % (PATH), "w+")
-indexHTML = open("%s\\index.html" % (PATH), "w+")
+main = open("%s\\%s\\src\\main.py" % (PATH, APP_NAME), "w+")
+indexHTML = open("%s\\%s\\index.html" % (PATH, APP_NAME), "w+")
 
 # Create README.md
-readme = open("%s\\README.md" % (PATH), "w+")
+readme = open("%s\\%s\\README.md" % (PATH, APP_NAME), "w+")
 
 # Write to readme
 readme.writelines("""# PyNani
