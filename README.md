@@ -14,23 +14,26 @@ from pynani.PyNani.core import pynani, utils
 pyNaniDOM = pynani.PyNaniDOM()
 utils = utils.Utils()
 
-pyNaniDOM.render(
-    props=[
-        HelloMessage("User"),
-        CustomHTML()
-    ]
-)
-
 def HelloMessage(text):
     return utils.header1(
-        text=text,
+        text="Hello, " + text,
         styles=[
-            "background-color: black"
+            "background-color: black",
+            "color: white",
+            "padding: 30px",
+            "margin: 30px",
         ]
     )
 
 def CustomHTML():
-    return "<div>Hello, Frank!</div>"
+    return "<div style=\"margin-left: 30px\">Welcome to my Website</div>"
+
+pyNaniDOM.render(
+    props=[
+        HelloMessage("Max"),
+        CustomHTML()
+    ]
+)
 ```
 
 ## Installation
