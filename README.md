@@ -8,30 +8,28 @@ Documentation for PyNani is still in development.
 We have examples in ```/examples``` folder. But here is the easy to access examples:
 
 ```py
-from pynani.PyNani.core import pynani, utils
+# Import PyNani
+from PyNani import PyNani, utils
 
-# Creating an instance from class
-pyNaniDOM = pynani.PyNaniDOM()
+# Creates an instance for PyNaniDOM
+pyNaniDOM = PyNani.PyNaniDOM()
+# Also here.
 utils = utils.Utils()
 
-def HelloMessage(text):
+## Creates a function returning a header1, it is equal to
+## <h1> in HTML, utils.header1 is finding arguments:
+## (text[String], onClick[Javascript function], styles[List of CSS styles])
+def HelloMessage(message):
     return utils.header1(
-        text="Hello, " + text,
-        styles=[
-            "background-color: black",
-            "color: white",
-            "padding: 30px",
-            "margin: 30px",
-        ]
+        text="Hello, %s!" % message,
     )
 
-def CustomHTML():
-    return "<div style=\"margin-left: 30px\">Welcome to my Website</div>"
-
+## Here where all UI began to render in the screen.
+## render is finding argument called props:
+## (props[list of elements to render])
 pyNaniDOM.render(
     props=[
-        HelloMessage("Max"),
-        CustomHTML()
+        HelloMessage("Hello, World!"),
     ]
 )
 ```
