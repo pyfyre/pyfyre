@@ -78,14 +78,22 @@ Usage: pynani.py create-app <App_Name>""")
         main.writelines(
         """from PyNani import PyNani, utils
 
+        ## Creates an instance for PyNaniDOM
         pyNaniDOM = PyNani.PyNaniDOM()
+        ## Also here.
         utils = utils.Utils()
 
+        ## Creates a function returning a header1, it is equal to
+        ## <h1> in HTML, utils.header1 is finding arguments:
+        ## (text[String], onClick[Javascript function], styles[List of CSS styles])
         def HelloMessage(message):
             return utils.header1(
                 text="Hello, %s!" % message,
             )
 
+        ## Here where all UI began to render in the screen.
+        ## render is finding argument called props.
+        ## (props[list of elements to render])
         pyNaniDOM.render(
             props=[
                 HelloMessage("Hello, World!"),
