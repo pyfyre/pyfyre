@@ -1,4 +1,3 @@
-
 STARTER_HTML = """<!DOCTYPE html>
 <html lang="en">
     <head>
@@ -21,19 +20,18 @@ STARTER_HTML = """<!DOCTYPE html>
 </html>
 """
 
-class PyNani:
-    def __init__(self, file="", title="My First Nani App"):
-        self.title = title
+class PyNaniDOM:
+    def __init__(self):
         self.head_count = 1
         self.body_count = 1
         self.footer_count = 1
         self.counter_from_body = 0
-        self.file = file
+        self.file = "..\index.html"
         
         self.index = open(self.file, "r")
 
         with open(self.file, "w") as file:
-            file.write(STARTER_HTML % self.title)
+            file.write(STARTER_HTML % "My PyNani App")
             
         with open(self.file, "r") as lines:
             for line in lines:
@@ -41,24 +39,12 @@ class PyNani:
                     break
 
                 self.body_count += 1
-
-    def body(self):
-        # TODO: Create some styling ability to body
+    
+    def render(self, props=[]):
         data = ""
 
-    def container(self, onClick="", styles=[], child=""):
-        # TODO: DIV CHILD
-        onclick = "onclick=\"%s\"" % onClick
-        gathered_style = ""
-
-        # Get every styles
-        for style in styles:
-            gathered_style += "%s " % style
-
-        html_style = "style=\"%s\"" % gathered_style
-        
-
-        data = "        <div %s %s >\n          %s\n        </div>\n" % (onclick, html_style, child)
+        for prop in props:
+            data += "       " + prop + "\n"
 
         with open(self.file, "r") as file:
             filedata = file.readlines()
@@ -69,94 +55,3 @@ class PyNani:
             file.writelines(filedata)
 
         self.counter_from_body += 1
-
-    def header1(self, text="", onClick="", styles=[]):
-        onclick = "onclick=\"%s\"" % onClick
-        gathered_style = ""
-
-        # Get every styles
-        for style in styles:
-            gathered_style += "%s " % style
-
-        html_style = "style=\"%s\"" % gathered_style
-        
-        data = "        <h1 %s %s >%s</h1>\n" % (onclick, html_style, text)
-
-        with open(self.file, "r") as file:
-            filedata = file.readlines()
-
-        with open(self.file, "w") as file:
-            filedata.insert(self.body_count + self.counter_from_body, data)
-
-            file.writelines(filedata)
-
-        self.counter_from_body += 1
-
-    def paragraph(self, text="", onClick="", styles=[]):
-        onclick = "onclick=\"%s\"" % onClick
-        gathered_style = ""
-
-        # Get every styles
-        for style in styles:
-            gathered_style += "%s " % style
-
-        html_style = "style=\"%s\"" % gathered_style
-        
-        data = "        <p %s %s >%s</p>\n" % (onclick, html_style, text)
-
-        with open(self.file, "r") as file:
-            filedata = file.readlines()
-
-        with open(self.file, "w") as file:
-            filedata.insert(self.body_count + self.counter_from_body, data)
-
-            file.writelines(filedata)
-
-        self.counter_from_body += 1
-
-    def link(self, text="", link="", onClick="", styles=[]):
-        link = "href=\"%s\"" % link
-        onclick = "onclick=\"%s\"" % onClick
-        gathered_style = ""
-
-        # Get every styles
-        for style in styles:
-            gathered_style += "%s " % style
-
-        html_style = "style=\"%s\"" % gathered_style
-        
-        data = "        <a %s %s %s >%s</a>\n" % (link, onclick, html_style, text)
-
-        with open(self.file, "r") as file:
-            filedata = file.readlines()
-
-        with open(self.file, "w") as file:
-            filedata.insert(self.body_count + self.counter_from_body, data)
-
-            file.writelines(filedata)
-
-        self.counter_from_body += 1
-
-    def span(self, text="", onClick="", styles=[]):
-        onclick = "onclick=\"%s\"" % onClick
-        gathered_style = ""
-
-        # Get every styles
-        for style in styles:
-            gathered_style += "%s " % style
-
-        html_style = "style=\"%s\"" % gathered_style
-        
-        data = "        <span %s %s >%s</span>\n" % (onclick, html_style, text)
-
-        with open(self.file, "r") as file:
-            filedata = file.readlines()
-
-        with open(self.file, "w") as file:
-            filedata.insert(self.body_count + self.counter_from_body, data)
-
-            file.writelines(filedata)
-
-        self.counter_from_body += 1
-
-    
