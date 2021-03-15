@@ -44,7 +44,7 @@ Install Python3 on your local machine/PC.
 
 Create a folder called 'PyNani' on your C:\ folder.
 ```
-C:\PyNani\
+C:\pynani\
 ```
 Get the source code from PyNani repo on GitHub.
 ```
