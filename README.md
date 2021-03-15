@@ -63,12 +63,12 @@ And now, you have the PyNani on your local machine!
 ### Create an App
 To create a Web App, go to the folder where you want PyNani to install in then go to CMD or command line and type:
 ```
-create_nani_app.py <App_Name>
+pynani.py create-app <App_Name>
 ```
 
 in real world example, it should be:
 ```
-create_nani_app.py my_cool_app
+pynani.py create-app my_cool_app
 ```
 
 Then it will create a boilerplate code for you.
@@ -81,13 +81,23 @@ This command creates a environment for your app.
 
 It should take few seconds or minutes. Once it's done, go to the ```C:\pynani\``` and clone the PyNani folder to ```env\lib\site-packages```.
 
-And now, you can now run your web app!
+And type:
+```
+env\scripts\activate
+```
+To activate your virtual environment.
 
-To compile your PyNani Code, run the ```main.py``` by navigating to ```\src``` folder.
+For Hot Reload, you need to install a package called ```Watchdog``` for file changes watcher. To install that type 
 ```
->>> cd src
->>> py main.py
+pip install watchdog
 ```
+It will install and wait for few seconds.
+
+Now, locate to the main workspace navigate to ```src``` folder and type:
+```
+pynani.py runserver
+```
+It will run the watchdog and now the HOT RELOAD is now HOT!!!
 
 To make your website live on your local machine, you can use XAMPP or Live Server in VSCode
 
