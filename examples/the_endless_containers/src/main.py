@@ -4,7 +4,7 @@ from pynani.PyNani.core.utils import Utils
 
 utils = Utils()
 
-class App(App):
+class MyApp(App):
     def build(self):
         return utils.container(
             child=utils.container(
@@ -16,4 +16,4 @@ class App(App):
             )
         )
 
-App()
+MyApp()
