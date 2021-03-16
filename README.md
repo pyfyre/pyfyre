@@ -21,7 +21,7 @@ utils = utils.Utils()
 ## (text[String], onClick[Javascript function], styles[List of CSS styles])
 def HelloMessage(message):
     return utils.header1(
-        text="Hello, %s!" % message,
+        text="Hello, " + message,
     )
 
 ## Here where all UI began to render in the screen.
