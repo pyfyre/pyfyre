@@ -18,6 +18,28 @@ class Utils:
         </div>""" % (onclick, html_style, child)
 
         return data
+
+    def column(self, children=[], styles=[]):
+        gathered_style = ""
+
+        # Get every styles
+        for style in styles:
+            gathered_style += "%s;" % style
+
+        html_style = "style=\"%s\"" % gathered_style
+
+        childrens = ""
+        
+        for child in children:
+            childrens += child + "\n"
+
+        data = """
+        <div %s>
+            %s
+        </div>
+        """ % (html_style, childrens)
+        
+        return data
     
     def header1(self, text="", onClick="", styles=[]):
         onclick = "onclick=\"%s\"" % onClick

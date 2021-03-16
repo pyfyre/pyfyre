@@ -9,29 +9,32 @@ We have examples in ```/examples``` folder. But here is the super simple example
 
 ```py
 # Import PyNani
-from pynani.PyNani.core import PyNani, utils
+from pynani.PyNani.core.PyNani import App
+from pynani.PyNani.core.utils import Utils
 
-# Creates an instance for PyNaniDOM
-pyNaniDOM = PyNani.PyNaniDOM()
-# Also here.
-utils = utils.Utils()
+utils = Utils()
 
-## Creates a function returning a header1, it is equal to
-## <h1> in HTML, utils.header1 is finding arguments:
-## (text[String], onClick[Javascript function], styles[List of CSS styles])
-def HelloMessage(message):
-    return utils.header1(
-        text="Hello, " + message,
-    )
+# Create a new class called MyApp extending a subclass called App from PyNani Core
+class MyApp(App):
 
-## Here where all UI began to render in the screen.
-## render is finding argument called props:
-## (props[list of elements to render])
-pyNaniDOM.render(
-    props=[
-        HelloMessage("Jabez"),
-    ]
-)
+    # build, where all the rendering stuff begans
+    def build(self):
+
+        # Returning a container from utils
+        # utils.container is equal to <div> in HTML
+        return utils.container(
+
+            # With a child header1
+            # utils.header1 is equal to <h1> in HTML
+            child=utils.header1(
+
+                # With a text Hello, World!
+                text="Hello, World!"
+            )
+        )
+
+# RUN THE APP
+MyApp()
 ```
 Rendered PyNani:
 ![image](https://user-images.githubusercontent.com/64759159/111236942-fc090800-862e-11eb-9889-4c079e65823c.png)
