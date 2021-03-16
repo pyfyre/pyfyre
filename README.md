@@ -5,11 +5,11 @@ PyNani is a Python web user interface framework for building reactive static web
 Documentation for PyNani is still in development.
 
 ## Examples
-We have examples in ```/examples``` folder. But here is the easy to access examples:
+We have examples in ```/examples``` folder. But here is the super simple example:
 
 ```py
 # Import PyNani
-from PyNani import PyNani, utils
+from pynani.PyNani.core import PyNani, utils
 
 # Creates an instance for PyNaniDOM
 pyNaniDOM = PyNani.PyNaniDOM()
@@ -29,7 +29,7 @@ def HelloMessage(message):
 ## (props[list of elements to render])
 pyNaniDOM.render(
     props=[
-        HelloMessage("Hello, World!"),
+        HelloMessage("Jabez"),
     ]
 )
 ```
