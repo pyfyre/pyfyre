@@ -37,7 +37,7 @@ Rendered PyNani:
 ![image](https://user-images.githubusercontent.com/64759159/111236942-fc090800-862e-11eb-9889-4c079e65823c.png)
 
 
-## Installation
+## Installation (Windows)
 Install Python3 on your local machine/PC.
 
 Create a folder called 'PyNani' on your C:\ folder.
@@ -55,6 +55,28 @@ If you wish to run PyNani commands in the regular Windows console, take these st
 * Under User variables check if there is an entry called Path:
 -   If there is path, double click into it, and click ```new``` then type ```C:\pynani\PyNani\bin```.
 -   If there is none, click ```new``` and type ```Path``` as the Variable name and ```C:\pynani\PyNani\bin``` as value.
+
+## Installation (Linux)
+Install Python3 on your local machine/PC.
+
+Get the source code from PyNani repo on GitHub.
+```bash
+git clone https://github.com/jabezborja/pynani.git -b stable
+```
+
+Make the `pynani.py` an execurable file.
+```bash
+chmod +x PyNani/bin/pynani.py
+```
+
+### Update your path
+If you wish to run PyNani on any directory, take these steps to add PyNani to the PATH environment variable:
+
+* Go to your home directory by typing the `cd` command.
+* Then find the `.bashrc` file and insert the following:
+```bash
+export PATH=$PATH:<path_to_PyNani>/bin
+```
 
 And now, you have the PyNani on your local machine!
 
