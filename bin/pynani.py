@@ -116,6 +116,7 @@ Usage: pynani.py create-app <App_Name>""")
             def on_modified(self, event):
                 if not self.debounce:
                     self.debounce = True
+                    print("Changes detected! Hot reloading...")
                     os.system("py main.py")
                     time.sleep(5)
                     self.debounce = False
