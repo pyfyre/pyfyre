@@ -1,4 +1,4 @@
-from pynani.PyNani.core import pynani, utils
+from pynani.PyNani.core import PyNani, utils
 
 # Creating an instance from class
 pyNaniDOM = pynani.PyNaniDOM()
