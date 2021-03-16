@@ -64,7 +64,7 @@ Get the source code from PyNani repo on GitHub.
 git clone https://github.com/jabezborja/pynani.git -b stable
 ```
 
-Make the `pynani.py` an execurable file.
+Make the `pynani.py` an executable file.
 ```bash
 chmod +x PyNani/bin/pynani.py
 ```
