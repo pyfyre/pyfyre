@@ -20,7 +20,7 @@ STARTER_HTML = """<!DOCTYPE html>
 </html>
 """
 
-class App:
+class PyNaniDOM:
     def __init__(self):
         self.head_count = 1
         self.body_count = 1
@@ -39,18 +39,12 @@ class App:
                     break
 
                 self.body_count += 1
-                
-        widget = self.build()
-        self.data = widget
-        self.render()
-
-    def build(self):
-        return "I am just a placeholder"
-
-    def render(self):
+    
+    def render(self, props=[]):
         data = ""
 
-        data += "       " + self.data + "\n"
+        for prop in props:
+            data += "       " + prop + "\n"
 
         with open(self.file, "r") as file:
             filedata = file.readlines()

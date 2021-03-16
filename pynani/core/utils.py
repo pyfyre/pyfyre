@@ -2,6 +2,23 @@ class Utils:
     def __init__(self):
         pass
 
+    def container(self, child="", onClick="", styles=[]):
+        onclick = "onclick=\"%s\"" % onClick
+        gathered_style = ""
+
+        # Get every styles
+        for style in styles:
+            gathered_style += "%s;" % style
+
+        html_style = "style=\"%s\"" % gathered_style
+        
+        data = """
+        <div %s %s>
+            %s
+        </div>""" % (onclick, html_style, child)
+
+        return data
+    
     def header1(self, text="", onClick="", styles=[]):
         onclick = "onclick=\"%s\"" % onClick
         gathered_style = ""
@@ -12,7 +29,7 @@ class Utils:
 
         html_style = "style=\"%s\"" % gathered_style
         
-        data = "<h1 %s %s >%s</h1>\n" % (onclick, html_style, text)
+        data = "<h1 %s %s >%s</h1>" % (onclick, html_style, text)
 
         return data
 
