@@ -97,3 +97,24 @@ class Utils:
         data = "<span %s %s >%s</span>\n" % (onclick, html_style, text)
 
         return data
+
+    def listViewBuilder(self, count=0, builder=[], styles=[]):
+        build_data = ""
+        gathered_style = ""
+        build = []
+
+        for i in range(count):
+            build.append(builder[0](i))
+
+        # Get every styles
+        for style in styles:
+            gathered_style += "%s;" % style
+
+        html_style = "style=\"%s\"" % gathered_style
+
+        for built in build:
+            build_data += built + "\n"
+        
+        data = "<div %s >%s</div>" % (html_style, build_data)
+
+        return data
