@@ -1,16 +1,15 @@
-from pynani.PyNani.core import PyNani, utils
+from pynani.core.pynani import Component, RunApp
+from pynani.core.widgets import Widgets
 
-# Creating an instance from class
-pyNaniDOM = pynani.PyNaniDOM()
-utils = utils.Utils()
+widgets = Widgets()
 
-def helloWorld():
-    return utils.header1(
-        text="Hello, World!",
-    )
+class MyApp(Component):
+    def build(self):
+        return widgets.header1(
+            text="Hello, World!",
+            styles=[
+                "margin: 30px"
+            ]
+        )
 
-pyNaniDOM.render(
-    props=[
-        helloWorld()
-    ]
-)
+RunApp(MyApp())

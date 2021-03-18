@@ -1,10 +1,9 @@
-# Import PyNani
-from pynani.PyNani.core.PyNani import App
-from pynani.PyNani.core.utils import Utils
+from pynani.core.pynani import Component, RunApp
+from pynani.core.widgets import Widgets
 
-utils = Utils()
+widgets = Widgets()
 
-class MyApp(App):
+class MyApp(Component):
     def build(self):
         return utils.container(
             child=utils.container(
@@ -16,4 +15,4 @@ class MyApp(App):
             )
         )
 
-MyApp()
+RunApp(MyApp())
