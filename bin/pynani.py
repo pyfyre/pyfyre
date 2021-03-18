@@ -1,9 +1,15 @@
+#!usr/bin/env python
+
 from shutil import copyfile
 import sys
 import os
 import time
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
+
+try:
+    from watchdog.observers import Observer
+    from watchdog.events import FileSystemEventHandler
+except:
+    pass
 
 os.system("cls")
 
@@ -45,7 +51,7 @@ Usage: pynani.py create-app <App_Name>""")
         
         print("Creating your PyNani App")
 
-        # Create the Folder
+        # Create the Main Folder
         os.makedirs(PATH)
 
         # Create the SRC PATH
@@ -54,6 +60,7 @@ Usage: pynani.py create-app <App_Name>""")
         # Create the Files
         main = open("%s\\%s\\src\\main.py" % (PATH, APP_NAME), "w+")
         indexHTML = open("%s\\%s\\index.html" % (PATH, APP_NAME), "w+")
+        settings = open("%s\\%s\\settings.yaml" % (PATH, APP_NAME), "w+")
 
         # Create README.md
         readme = open("%s\\%s\\README.md" % (PATH, APP_NAME), "w+")
@@ -104,6 +111,7 @@ Usage: pynani.py create-app <App_Name>""")
 
         print("App created successfully!")
     elif sys.argv[1] == "runserver":
+        os.system("py main.py")
         os.system("color a")
         print("Heating up the Hot Reload, current is Cold Reload.")
         time.sleep(1)
@@ -118,6 +126,7 @@ Usage: pynani.py create-app <App_Name>""")
                     self.debounce = True
                     print("Changes detected! Hot reloading...")
                     os.system("py main.py")
+                    print("Hot reloaded!")
                     time.sleep(5)
                     self.debounce = False
 

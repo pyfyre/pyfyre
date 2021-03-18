@@ -1,20 +1,18 @@
-class Utils:
-    def __init__(self):
-        pass
-
+class Widgets:
+    def __init__(self): pass
     def container(self, child="", onClick="", styles=[]):
-        onclick = "onclick=\"%s\"" % onClick
         gathered_style = ""
 
         # Get every styles
         for style in styles:
             gathered_style += "%s;" % style
 
-        html_style = "style=\"%s\"" % gathered_style
+        onclick = "onclick=\"%s\"" % onClick if not onClick == "" else ""
+        html_style = "style=\"%s\"" % gathered_style if not gathered_style == "" else ""
+        child = child if not child == "" else ""
         
-        data = """
-        <div %s %s>
-            %s
+        data = """<div %s %s>
+        %s
         </div>""" % (onclick, html_style, child)
 
         return data
@@ -40,7 +38,7 @@ class Utils:
         """ % (html_style, childrens)
         
         return data
-    
+
     def header1(self, text="", onClick="", styles=[]):
         onclick = "onclick=\"%s\"" % onClick
         gathered_style = ""
@@ -52,6 +50,21 @@ class Utils:
         html_style = "style=\"%s\"" % gathered_style
         
         data = "<h1 %s %s >%s</h1>" % (onclick, html_style, text)
+
+        return data
+
+    def button(self, text="", onClick="", styles=[]):
+        gathered_style = ""
+
+        onClick()
+
+        # Get every styles
+        for style in styles:
+            gathered_style += "%s;" % style
+
+        html_style = "style=\"%s\"" % gathered_style
+        
+        data = "<button type=\"Button\" %s >%s</button>" % (html_style, text)
 
         return data
 
@@ -95,26 +108,5 @@ class Utils:
         html_style = "style=\"%s\"" % gathered_style
         
         data = "<span %s %s >%s</span>\n" % (onclick, html_style, text)
-
-        return data
-
-    def listViewBuilder(self, count=0, builder=[], styles=[]):
-        build_data = ""
-        gathered_style = ""
-        build = []
-
-        for i in range(count):
-            build.append(builder[0](i))
-
-        # Get every styles
-        for style in styles:
-            gathered_style += "%s;" % style
-
-        html_style = "style=\"%s\"" % gathered_style
-
-        for built in build:
-            build_data += built + "\n"
-        
-        data = "<div %s >%s</div>" % (html_style, build_data)
 
         return data
