@@ -2,8 +2,7 @@
 PyNani is a Python web user interface framework for building reactive static websites. Pynani is free and open source project.
 
 ## Updates
-If you would like to get some updates about the PyNani framework, we created a Facebook Page where we are going to post all the updates like newly created widgets, adjustments, core updates, and more. Please consider liking it also. Thank you! 
-[Facebook Page](https://www.facebook.com/pynaniframework)
+If you would like to get some updates about the PyNani framework, we created a [Facebook Page](https://www.facebook.com/pynaniframework) where we are going to post all the updates like newly created widgets, adjustments, core updates, and more. Please consider liking it also. Thank you so much!
 
 ## Documentation
 Documentation for PyNani is still in development.
@@ -13,32 +12,23 @@ We have examples in ```/examples``` folder. But here is the super simple example
 
 ```py
 # Import PyNani
-from pynani.PyNani.core.PyNani import App
-from pynani.PyNani.core.utils import Utils
+from pynani.core.pynani import Component, RunApp
+from pynani.core.widgets import Widgets
 
-utils = Utils()
+widgets = Widgets()
 
-# Create a new class called MyApp extending a subclass called App from PyNani Core
-class MyApp(App):
 
-    # build, where all the rendering stuff begans
+# Create class called MyApp extends Component from PyNani Core
+class MyApp(Component):
     def build(self):
-
-        # Returning a container from utils
-        # utils.container is equal to <div> in HTML
-        return utils.container(
-
-            # With a child header1
-            # utils.header1 is equal to <h1> in HTML
-            child=utils.header1(
-
-                # With a text Hello, World!
-                text="Hello, World!"
+        return widgets.container(
+            child=widgets.header1(
+                text="Hello, Jabez!"
             )
         )
 
-# RUN THE APP
-MyApp()
+## RUN THE APP
+RunApp(MyApp())
 ```
 Rendered PyNani:
 ![image](https://user-images.githubusercontent.com/64759159/111236942-fc090800-862e-11eb-9889-4c079e65823c.png)
@@ -53,7 +43,7 @@ C:\pynani\
 ```
 Get the source code from PyNani repo on GitHub.
 ```
-C:\pynani>git clone https://github.com/jabezborja/pynani.git -b stable
+C:\pynani> git clone https://github.com/jabezborja/pynani.git -b stable
 ```
 ### Update your path
 If you wish to run PyNani commands in the regular Windows console, take these steps to add PyNani to the PATH environment variable:
@@ -109,10 +99,7 @@ To make your website live on your local machine, you can use XAMPP or Live Serve
 #### Live Server
 Install VSCode or Visual Studio Code on your PC.
 
-Once you have the VS Code go to extensions, you can see it on your left then click the 4 blocks logo. Then type:
-```
-Live Server
-```
+Once you have the VS Code go to extensions, you can see it on your left then click the 4 blocks logo. Then type: ```Live Server```
 
 and it will install.
 
