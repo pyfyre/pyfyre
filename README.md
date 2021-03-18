@@ -3,7 +3,7 @@ PyNani is a Python web user interface framework for building reactive static web
 
 ## Updates
 If you would like to get some updates about the PyNani framework, we created a Facebook Page where we are going to post all the updates like newly created widgets, adjustments, core updates, and more. Please consider liking it also. Thank you! 
-[Facebook Page](https://www.facebook.com/pynaniframewo)
+[Facebook Page](https://www.facebook.com/pynaniframework)
 
 ## Documentation
 Documentation for PyNani is still in development.
