@@ -3,16 +3,26 @@ from pynani.core.widgets import Widgets
 
 widgets = Widgets()
 
-class MyApp(Component):
+class EndlessContainers(Component):
     def build(self):
         return widgets.container(
             child=widgets.container(
                 child=widgets.container(
-                    child=widgets.header1(
-                        text="HAHA I AM AT THE SUPER INSIDE OF A DIV :)"
+                    child=widgets.container(
+                        child=widgets.container(
+                            child=widgets.container(
+                                child=widgets.container(
+                                    child=widgets.container(
+                                        child=widgets.header1(
+                                            text="THERE'S NO DEADEND HERE, I CAN GO FAR FROM BEYOND"
+                                        )
+                                    )
+                                )
+                            )
+                        )
                     )
                 )
             )
         )
 
-RunApp(MyApp())
+RunApp(EndlessContainers())
