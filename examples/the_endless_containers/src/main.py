@@ -5,10 +5,10 @@ widgets = Widgets()
 
 class MyApp(Component):
     def build(self):
-        return utils.container(
-            child=utils.container(
-                child=utils.container(
-                    child=utils.header1(
+        return widgets.container(
+            child=widgets.container(
+                child=widgets.container(
+                    child=widgets.header1(
                         text="HAHA I AM AT THE SUPER INSIDE OF A DIV :)"
                     )
                 )
