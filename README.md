@@ -22,7 +22,7 @@ widgets = Widgets()
 
 class MyApp(Component):
     def build(self):
-        return widgets.header1(text="Hello, World!")
+        return widgets.header1(text="Hello, World!", styles=["margin-top: 10px"])
 
 RunApp(MyApp())
 ```
