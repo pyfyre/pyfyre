@@ -1,6 +1,8 @@
 # PyNani
 PyNani is a Python web user interface framework for building reactive static websites. Pynani is free and open source project.
 
+Note: Master Branch is not stable, if you want to use PyNani please use Stable branch, thank you!
+
 ## Stay Updated
 If you would like to get updates about the PyNani framework, we created a [Facebook Page](https://www.facebook.com/pynaniframework) where we are going to post all the updates like newly created widgets, adjustments, core updates, and more. Please consider liking it also. Thank you so much!
 
