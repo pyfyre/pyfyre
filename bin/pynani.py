@@ -42,7 +42,8 @@ Available commands:
 
 def create_app(app_name):
     try:
-        APP_NAME = app_name
+        APP_NAME = app_name if not app_name == "" else input("What is the name of the project? ")
+        DESCRIPTION = input("What is the description? ")
 
         # Get the Path
         PATH = os.path.join(os.getcwd(), APP_NAME)
@@ -143,7 +144,9 @@ RunApp(MyApp())
 </html>
     """)
 
-    settings.writelines(f"""app_name: {APP_NAME}""")
+    settings.writelines(f"""app_name: {APP_NAME}
+description: {DESCRIPTION}
+    """)
 
     manager.writelines("""from pynani.bin import pynani
 import os
@@ -170,6 +173,7 @@ elif sys.argv[1] == "":
     indexHTML.close()
     settings.close()
     readme.close()
+    manager.close()
 
     print("App created successfully!")
 
