@@ -1,5 +1,6 @@
 import pathlib
 import time
+import os
 
 class RunApp:
     def __init__(self, main_widget):
@@ -9,7 +10,7 @@ class RunApp:
         self.body_count = 1
         self.footer_count = 1
         self.index = "..\index.html"
-        self.render_file = "%s\\public\\index.html" % pathlib.Path(__file__).parent.absolute()
+        self.render_file = os.path.join(pathlib.Path(__file__).parent.absolute(), "public", "index.html")
         self.file = open(self.index, "r")
         self.html_data = ""
         STARTER_HTML = ""

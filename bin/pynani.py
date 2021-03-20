@@ -1,4 +1,4 @@
-#!usr/bin/env python
+#!/usr/bin/env python
 
 from shutil import copyfile
 import sys
@@ -11,7 +11,7 @@ try:
 except:
     pass
 
-os.system("cls")
+os.system("cls" if os.name == "nt" else "clear") # supports both Windows and Linux
 
 PATH = ""
 
@@ -41,8 +41,8 @@ try:
             APP_NAME = sys.argv[2]
 
             # Get the Path
-            PATH = os.getcwd() + "\\%s" % sys.argv[2]
-        except:
+            PATH = os.path.join(os.getcwd(), sys.argv[2])
+        except IndexError:
             print("""Needs an app name.
 
 Usage: pynani.py create-app <App_Name>""")
@@ -55,15 +55,15 @@ Usage: pynani.py create-app <App_Name>""")
         os.makedirs(PATH)
 
         # Create the SRC PATH
-        src_path = os.makedirs(PATH + "\\%s\\src" % APP_NAME)
+        os.makedirs(os.path.join(PATH, APP_NAME, "src"))
 
         # Create the Files
-        main = open("%s\\%s\\src\\main.py" % (PATH, APP_NAME), "w+")
-        indexHTML = open("%s\\%s\\index.html" % (PATH, APP_NAME), "w+")
-        settings = open("%s\\%s\\settings.yaml" % (PATH, APP_NAME), "w+")
-
+        main = open(os.path.join(PATH, APP_NAME, "src", "main.py"), "w+")
+        indexHTML = open(os.path.join(PATH, APP_NAME, "index.html"), "w+")
+        settings = open(os.path.join(PATH, APP_NAME, "settings.yaml"), "w+")
+        
         # Create README.md
-        readme = open("%s\\%s\\README.md" % (PATH, APP_NAME), "w+")
+        readme = open(os.path.join(PATH, APP_NAME, "README.md"), "w+")
 
         # Write to readme
         readme.writelines("""# PyNani
@@ -132,7 +132,13 @@ Usage: pynani.py create-app <App_Name>""")
     </style>
 </html>
         """)
-
+        
+        # close the files
+        main.close()
+        indexHTML.close()
+        settings.close()
+        readme.close()
+        
         print("App created successfully!")
     elif sys.argv[1] == "runserver":
         os.system("py main.py")
