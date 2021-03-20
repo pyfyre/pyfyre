@@ -1,4 +1,5 @@
 import pathlib
+import time
 
 class RunApp:
     def __init__(self, main_widget):
@@ -7,25 +8,23 @@ class RunApp:
         self.head_count = 1
         self.body_count = 1
         self.footer_count = 1
-        self.file = "..\index.html"
-        self.index = open(self.file, "r")
+        self.index = "..\index.html"
+        self.render_file = "%s\\public\\index.html" % pathlib.Path(__file__).parent.absolute()
+        self.file = open(self.index, "r")
+        self.html_data = ""
         STARTER_HTML = ""
 
         # Open the Starter.html and get all the lines from it.
-        with open("%s\\starter.html" % pathlib.Path(__file__).parent.absolute(), "r") as file:
-            html_data = file.readlines()
+        with open(self.index, "r") as file:
+            self.html_data = file.readlines()
 
-            for line in html_data:
+            for line in self.html_data:
                 if "title" in line:
                     line = "        <title>%s</title>\n" % "App Name"
                 STARTER_HTML += line
-
-        # And it will add it on index.html
-        with open(self.file, "w") as file:
-            file.write(STARTER_HTML)
             
         # This will count the index from the body
-        with open(self.file, "r") as lines:
+        with open(self.index, "r") as lines:
             for line in lines:
                 if "body" in line:
                     break
@@ -35,15 +34,13 @@ class RunApp:
         self.render()
 
     def render(self):
-        with open(self.file, "r") as file:
-            filedata = file.readlines()
+        with open(self.render_file, "w") as file:
+            self.html_data.insert(self.body_count, self.main_widget)
 
-        with open(self.file, "w") as file:
-            filedata.insert(self.body_count, self.main_widget)
-
-            file.writelines(filedata)
+            file.writelines(self.html_data)
 
             print("Rendered successfully!")
+
 
 class Component:
     def __init__(self):

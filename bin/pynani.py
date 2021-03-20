@@ -109,6 +109,30 @@ Usage: pynani.py create-app <App_Name>""")
         """
         )
 
+        # Write as the starter of index.html
+        indexHTML.writelines("""
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+    </head>
+    <body>
+        
+    </body>
+    <footer>
+    </footer>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</html>
+        """)
+
         print("App created successfully!")
     elif sys.argv[1] == "runserver":
         os.system("py main.py")
