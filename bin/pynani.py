@@ -1,4 +1,4 @@
-#!usr/bin/env python
+#!/usr/bin/env python
 
 from shutil import copyfile
 import sys
@@ -11,7 +11,7 @@ try:
 except:
     pass
 
-os.system("cls")
+os.system("cls" if os.name == "nt" else "clear") # supports both Windows and Linux
 
 PATH = ""
 
