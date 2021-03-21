@@ -81,12 +81,12 @@ source ~/.bashrc
 ### Create an App
 To create a Web App, go to the folder where you want PyNani to install in then go to CMD or command line and type:
 ```
-pynani.py create-app <App_Name>
+pynani.py create-app <App_Name> <App_Description>
 ```
 
 in real world example, it should be:
 ```
-pynani.py create-app my_cool_app
+pynani.py create-app my_cool_app "Cool app description."
 ```
 
 Then it will create a boilerplate code for you.
