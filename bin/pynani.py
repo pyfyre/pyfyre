@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-from shutil import copyfile
-
 import http.server
 import socketserver
 
@@ -25,7 +23,7 @@ Manage your PyNani development.
 
 Common commands:
 
-    pynani.py create-app <app_name>
+    pynani.py create-app <app_name> <app_description>
         Creates a new app in where you're located in the CMD
     
     pynani.py runserver
@@ -145,8 +143,6 @@ import os
 import sys
 
 try:
-    print(sys.argv[1])
-    
     if sys.argv[1] == "create-app":
         try:
             name = sys.argv[2]
@@ -234,19 +230,20 @@ def server_start(port):
         print("Thank you!")
         httpd.serve_forever()
 
-# Entry Point
-try:
-    if sys.argv[1] == "create-app":
-        try:
-            name = sys.argv[2]
-        except IndexError:
-            name = "My App"
-        
-        try:
-            description = sys.argv[3]
-        except IndexError:
-            description = "My PyNani application."
-        
-        create_app(name, description)
-except IndexError:
-    pynani_help()
+ # Entry Point
+if __name__ == "__main__":
+    try:
+        if sys.argv[1] == "create-app":
+            try:
+                name = sys.argv[2]
+            except IndexError:
+                name = "My App"
+            
+            try:
+                description = sys.argv[3]
+            except IndexError:
+                description = "My PyNani application."
+            
+            create_app(name, description)
+    except IndexError:
+        pynani_help()
