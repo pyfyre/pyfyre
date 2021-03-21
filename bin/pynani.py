@@ -26,9 +26,9 @@ try:
 		except:
 			create_app("My App")
 except:
-	help()
+	pynani_help()
 
-def help():
+def pynani_help():
     print("""
 Manage your PyNani development.
 
@@ -162,18 +162,19 @@ import sys
 
 print(sys.argv[1])
 
-if sys.argv[1] == "create-app":
-	try:
-		pynani.create_app(sys.argv[2])
-	except:
-		pynani.create_app("My Nani App")
-elif sys.argv[1] == "runserver":
-	try:
-		pynani.run_server(sys.argv[2])
-	except:
-		pynani.runserver()
-elif sys.argv[1] == "":
-	pynani.help()
+try:
+	if sys.argv[1] == "create-app":
+		try:
+			pynani.create_app(sys.argv[2])
+		except:
+			pynani.create_app("My Nani App")
+	elif sys.argv[1] == "runserver":
+		try:
+			pynani.run_server(sys.argv[2])
+		except:
+			pynani.runserver()
+except:
+	pynani.pynani_help()
     """)
 
     # close the files
