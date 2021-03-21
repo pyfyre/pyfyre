@@ -27,9 +27,9 @@ try:
 		except:
 			create_app("My App")
 except:
-	help()
+	pynani_help()
 
-def help():
+def pynani_help():
     print("""
 Manage your PyNani development.
 
