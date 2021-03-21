@@ -19,6 +19,15 @@ except:
 
 PATH = ""
 
+try:
+	if sys.argv[1] == "create-app":
+		try:
+			create_app(sys.argv[2])
+		except:
+			create_app("My App")
+except:
+	help()
+
 def help():
     print("""
 Manage your PyNani development.
