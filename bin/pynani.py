@@ -1,22 +1,21 @@
-#!usr/bin/env python
+#!/usr/bin/env python3
 
 from shutil import copyfile
 
 import http.server
 import socketserver
 
-import sys
 import os
+import sys
 import time
 import threading
+from os.path import join as path
 
 try:
     from watchdog.observers import Observer
     from watchdog.events import FileSystemEventHandler
 except:
     pass
-
-os.system("cls" if os.name == "nt" else "clear") # supports both Windows and Linux
 
 PATH = ""
 
@@ -46,7 +45,7 @@ def create_app(app_name):
         DESCRIPTION = input("What is the description? ")
 
         # Get the Path
-        PATH = os.path.join(os.getcwd(), APP_NAME)
+        PATH = path(os.getcwd(), APP_NAME)
     except:
         print("""Needs an app name.
 
@@ -60,16 +59,16 @@ Usage: pynani.py create-app <App_Name>""")
     os.makedirs(PATH)
 
     # Create the SRC PATH
-    os.makedirs(os.path.join(PATH, APP_NAME, "src"))
+    os.makedirs(path(PATH, APP_NAME, "src"))
 
     # Create the Files
-    main = open(os.path.join(PATH, APP_NAME, "src", "main.py"), "w+")
-    indexHTML = open(os.path.join(PATH, APP_NAME, "index.html"), "w+")
-    settings = open(os.path.join(PATH, APP_NAME, "settings.yaml"), "w+")
-    manager = open(os.path.join(PATH, APP_NAME, "manager.py")< "w+")
+    main = open(path(PATH, APP_NAME, "src", "main.py"), "w+")
+    indexHTML = open(path(PATH, APP_NAME, "index.html"), "w+")
+    settings = open(path(PATH, APP_NAME, "settings.yaml"), "w+")
+    manager = open(path(PATH, APP_NAME, "manager.py")< "w+")
     
     # Create README.md
-    readme = open(os.path.join(PATH, APP_NAME, "README.md"), "w+")
+    readme = open(path(PATH, APP_NAME, "README.md"), "w+")
 
     # Write to readme
     readme.writelines("""# PyNani
@@ -187,7 +186,7 @@ def run_server(port):
     server.join()
     
 def file_watching():
-    main_path = os.path.join(os.getcwd(), "src", "main.py")
+    main_path = path(os.getcwd(), "src", "main.py")
     print(f"I am the Path: {main_path}")
     exec(open(main_path).read())
     print("Heating up the Hot Reload, current is Cold Reload.")
@@ -223,7 +222,7 @@ def file_watching():
 def server_start(port):
     PORT = port if port == "" else 8000
 
-    web_dir = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'core', "public"))
+    web_dir = os.path.abspath(path(os.path.dirname( __file__ ), '..', 'core', "public"))
 
     os.chdir(web_dir)
 
