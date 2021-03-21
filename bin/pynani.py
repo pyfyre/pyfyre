@@ -14,19 +14,10 @@ from os.path import join as path
 try:
     from watchdog.observers import Observer
     from watchdog.events import FileSystemEventHandler
-except:
+except ImportError:
     pass
 
 PATH = ""
-
-try:
-	if sys.argv[1] == "create-app":
-		try:
-			create_app(sys.argv[2])
-		except:
-			create_app("My App")
-except:
-	pynani_help()
 
 def pynani_help():
     print("""
@@ -48,19 +39,12 @@ Available commands:
     help              For help
     """)
 
-def create_app(app_name):
-    try:
-        APP_NAME = app_name if not app_name == "" else input("What is the name of the project? ")
-        DESCRIPTION = input("What is the description? ")
+def create_app(app_name, description):
+    APP_NAME = app_name
+    DESCRIPTION = description
 
-        # Get the Path
-        PATH = path(os.getcwd(), APP_NAME)
-    except:
-        print("""Needs an app name.
-
-Usage: pynani.py create-app <App_Name>""")
-
-        exit()
+    # Get the Path
+    PATH = path(os.getcwd(), APP_NAME)
     
     print("Creating your PyNani App")
 
@@ -74,7 +58,7 @@ Usage: pynani.py create-app <App_Name>""")
     main = open(path(PATH, APP_NAME, "src", "main.py"), "w+")
     indexHTML = open(path(PATH, APP_NAME, "index.html"), "w+")
     settings = open(path(PATH, APP_NAME, "settings.yaml"), "w+")
-    manager = open(path(PATH, APP_NAME, "manager.py")< "w+")
+    manager = open(path(PATH, APP_NAME, "manager.py"), "w+")
     
     # Create README.md
     readme = open(path(PATH, APP_NAME, "README.md"), "w+")
@@ -160,21 +144,26 @@ description: {DESCRIPTION}
 import os
 import sys
 
-print(sys.argv[1])
-
 try:
-	if sys.argv[1] == "create-app":
-		try:
-			pynani.create_app(sys.argv[2])
-		except:
-			pynani.create_app("My Nani App")
-	elif sys.argv[1] == "runserver":
-		try:
-			pynani.run_server(sys.argv[2])
-		except:
-			pynani.runserver()
-except:
-	pynani.pynani_help()
+    print(sys.argv[1])
+    
+    if sys.argv[1] == "create-app":
+        try:
+            name = sys.argv[2]
+        except IndexError:
+            name = "My App"
+        
+        try:
+            description = sys.argv[3]
+        except IndexError:
+            description = "My PyNani application."
+        
+        pynani.create_app(name, description)
+    elif sys.argv[1] == "runserver":
+        pynani.runserver()
+except IndexError:
+    pynani.pynani_help()
+    
     """)
 
     # close the files
@@ -244,3 +233,20 @@ def server_start(port):
         print("To quit the server or to turn off exit the command-line")
         print("Thank you!")
         httpd.serve_forever()
+
+# Entry Point
+try:
+    if sys.argv[1] == "create-app":
+        try:
+            name = sys.argv[2]
+        except IndexError:
+            name = "My App"
+        
+        try:
+            description = sys.argv[3]
+        except IndexError:
+            description = "My PyNani application."
+        
+        create_app(name, description)
+except IndexError:
+    pynani_help()
