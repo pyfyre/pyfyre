@@ -1,21 +1,22 @@
 #!/usr/bin/env python3
 
-import http.server
-import socketserver
-
+# standard imports
 import os
 import sys
 import time
 import threading
+import http.server
+import socketserver
 from os.path import join as path
 
+# third-party imports
 try:
     from watchdog.observers import Observer
     from watchdog.events import FileSystemEventHandler
 except ImportError:
     pass
 
-PATH = ""
+VERSION = "1.0.0-alpha"
 
 def pynani_help():
     print("""
@@ -35,31 +36,23 @@ Available commands:
     create-app        Creates an new project app.
     runserver         Runs the Hot Reload WatchDog for watching the file changes and rerender
     help              For help
-    """)
+""")
 
 def create_app(app_name, description):
-    APP_NAME = app_name
-    DESCRIPTION = description
-
     # Get the Path
-    PATH = path(os.getcwd(), APP_NAME)
+    PATH = path(os.getcwd(), app_name)
     
-    print("Creating your PyNani App")
-
-    # Create the Main Folder
-    os.makedirs(PATH)
-
-    # Create the SRC PATH
-    os.makedirs(path(PATH, APP_NAME, "src"))
+    print("Creating your PyNani App...")
+    
+    os.makedirs(PATH) # Create the Main Folder
+    os.makedirs(path(PATH, app_name, "src")) # Create the SRC PATH
 
     # Create the Files
-    main = open(path(PATH, APP_NAME, "src", "main.py"), "w+")
-    indexHTML = open(path(PATH, APP_NAME, "index.html"), "w+")
-    settings = open(path(PATH, APP_NAME, "settings.yaml"), "w+")
-    manager = open(path(PATH, APP_NAME, "manager.py"), "w+")
-    
-    # Create README.md
-    readme = open(path(PATH, APP_NAME, "README.md"), "w+")
+    main = open(path(PATH, app_name, "src", "main.py"), "w+")
+    indexHTML = open(path(PATH, app_name, "index.html"), "w+")
+    settings = open(path(PATH, app_name, "settings.yaml"), "w+")
+    manager = open(path(PATH, app_name, "manager.py"), "w+")
+    readme = open(path(PATH, app_name, "README.md"), "w+")
 
     # Write to readme
     readme.writelines("""# PyNani
@@ -74,12 +67,10 @@ I, the creator of this Framework, thanks you for using or trying this Framework 
 If you have any questions, suggestions or bug reports about this Framework, please make an issue on Github repo, or email me at jabez.natsu@gmail.com.
 
 Again, thank you and enjoy!
-
-    """)
+""")
 
     # Write as the starter of Main.py
-    main.writelines(
-    """# Import PyNani
+    main.writelines("""# Import PyNani
 from pynani.core.pynani import Component, RunApp
 from pynani.core.widgets import Widgets
 
@@ -107,36 +98,15 @@ class MyApp(Component):
 
 ## To render the widgets into the screen, you need to call RunApp() to compile your code into raw HTML
 RunApp(MyApp())
-    """
-    )
+""")
 
     # Write as the starter of index.html
-    indexHTML.writelines("""
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-</head>
-<body>
-    
-</body>
-<footer>
-</footer>
-<style>
-    body {
-        padding: 0;
-        margin: 0;
-    }
-</style>
-</html>
-    """)
+    with open(os.path.abspath(path(os.path.dirname(__file__), "..", "core", "public", "index.html"))) as file:
+        indexHTML.writelines(file.read())
 
-    settings.writelines(f"""app_name: {APP_NAME}
-description: {DESCRIPTION}
-    """)
+    settings.writelines(f"""app_name: {app_name}
+description: {description}
+""")
 
     manager.writelines("""from pynani.bin import pynani
 import os
@@ -159,8 +129,7 @@ try:
         pynani.runserver()
 except IndexError:
     pynani.pynani_help()
-    
-    """)
+""")
 
     # close the files
     main.close()
@@ -172,19 +141,20 @@ except IndexError:
     print("App created successfully!")
 
 def run_server(port):
-    server = threading.Thread(target=server_start, args=(port,))
-    file_watcher = threading.Thread(target=file_watching, args=())
-
+    server = threading.Thread(target=server_start, args=(port, ))
+    file_watcher = threading.Thread(target=file_watching)
     file_watcher.start()
     server.start()
     file_watcher.join()
     server.join()
-    
+
 def file_watching():
     main_path = path(os.getcwd(), "src", "main.py")
-    print(f"I am the Path: {main_path}")
+    
+    print(f"I am at the path: {main_path}")
     exec(open(main_path).read())
-    print("Heating up the Hot Reload, current is Cold Reload.")
+    print("Heating up the Hot Reload, currently in Cold Reload.")
+    
     time.sleep(1)
     PATH = main_path.replace("main.py", "")
     
@@ -205,19 +175,21 @@ def file_watching():
     observer = Observer()
     observer.schedule(event_handler, path=PATH, recursive=True)
     observer.start()
+    
     print("Hot Reload is now Hot!")
     print("Now watching for file changes with WatchDog\n")
+    
     try:
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
         observer.stop()
+    
     observer.join()
 
-def server_start(port):
-    PORT = port if port == "" else 8000
-
-    web_dir = os.path.abspath(path(os.path.dirname( __file__ ), '..', 'core', "public"))
+def server_start(port: str):
+    PORT = int(port) if port else 8000
+    web_dir = os.path.abspath(path(os.path.dirname(__file__), "..", "core", "public"))
 
     os.chdir(web_dir)
 
@@ -225,13 +197,13 @@ def server_start(port):
 
     with socketserver.TCPServer(("", PORT), handler) as httpd:
         print(f"Server now started at localhost: {PORT}")
-        print("PyNani version that you're currently using is 1.0.0-alpha")
-        print("To quit the server or to turn off exit the command-line")
+        print(f"PyNani version that you're currently using is {VERSION}")
+        print("To stop the server, press CTRL+C or exit the command-line")
         print("Thank you!")
         httpd.serve_forever()
 
- # Entry Point
 if __name__ == "__main__":
+    # Entry Point
     try:
         if sys.argv[1] == "create-app":
             try:
