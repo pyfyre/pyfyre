@@ -38,11 +38,10 @@ Available commands:
     help              For help
 """)
 
-def create_app(app_name, description):
-    # Get the Path
-    PATH = path(os.getcwd(), app_name)
+def create_app(app_name: str, description: str):
+    PATH = path(os.getcwd(), app_name) # Get the path
     
-    print("Creating your PyNani App...")
+    print("Creating your PyNani app...")
     
     os.makedirs(PATH) # Create the Main Folder
     os.makedirs(path(PATH, app_name, "src")) # Create the SRC PATH
@@ -104,10 +103,8 @@ RunApp(MyApp())
     with open(os.path.abspath(path(os.path.dirname(__file__), "..", "core", "public", "index.html"))) as file:
         indexHTML.writelines(file.read())
 
-    settings.writelines(f"""app_name: {app_name}
-description: {description}
-""")
-
+    settings.writelines(f"app_name: {app_name}\ndescription: {description}")
+    
     manager.writelines("""from pynani.bin import pynani
 import os
 import sys
@@ -202,8 +199,8 @@ def server_start(port: str):
         print("Thank you!")
         httpd.serve_forever()
 
-if __name__ == "__main__":
-    # Entry Point
+def main():
+    """Entry Point"""
     try:
         if sys.argv[1] == "create-app":
             try:
@@ -219,3 +216,6 @@ if __name__ == "__main__":
             create_app(name, description)
     except IndexError:
         pynani_help()
+
+if __name__ == "__main__":
+    main()
