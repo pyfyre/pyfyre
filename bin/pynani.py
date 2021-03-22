@@ -8,6 +8,7 @@ import threading
 import http.server
 import socketserver
 from os.path import join as path
+from distutils.dir_util import copy_tree
 
 # third-party imports
 try:
@@ -39,102 +40,20 @@ Available commands:
 """)
 
 def create_app(app_name: str, description: str):
-    PATH = path(os.getcwd(), app_name) # Get the path
+    PATH = path(os.getcwd(), app_name) # get the path
     
     print("Creating your PyNani app...")
     
-    os.makedirs(PATH) # Create the Main Folder
-    os.makedirs(path(PATH, app_name, "src")) # Create the SRC PATH
-
-    # Create the Files
-    main = open(path(PATH, app_name, "src", "main.py"), "w+")
-    indexHTML = open(path(PATH, app_name, "index.html"), "w+")
-    settings = open(path(PATH, app_name, "settings.yaml"), "w+")
-    manager = open(path(PATH, app_name, "manager.py"), "w+")
-    readme = open(path(PATH, app_name, "README.md"), "w+")
-
-    # Write to readme
-    readme.writelines("""# PyNani
-Python web UI framework for building nice websites.
-
-## THANK YOU!
-Thank you for using PyNani! Your journey using PyNani begins here.
-
-I am the creator of PyNani, Jabez Borja, I am assuming that you saw this framework in Programming Philippines group.
-I, the creator of this Framework, thanks you for using or trying this Framework that I created. I appreciate it, sooo much!
-
-If you have any questions, suggestions or bug reports about this Framework, please make an issue on Github repo, or email me at jabez.natsu@gmail.com.
-
-Again, thank you and enjoy!
-""")
-
-    # Write as the starter of Main.py
-    main.writelines("""# Import PyNani
-from pynani.core.pynani import Component, RunApp
-from pynani.core.widgets import Widgets
-
-widgets = Widgets()
-
-# Create class called MyApp extends Component from PyNani Core
-class MyApp(Component):
-
-    # Where all rendering stuff began in a component...
-    def build(self):
-
-        # Returing widgets.container A.K.A <div> in HTML
-        # widgets.container(child[Widget], onClick[Javascript], styles[List of CSS Styles])
-        return widgets.container(
-
-            # With a child widgets.header1 A.K.A <h1> in HTML
-            # widgets.header1(text[String], onClick[Javascript], styles[List of CSS styles])
-            child=widgets.header1(
-                text="Hello, Jabez!",
-                styles=[
-                    "margin-top: 10px"
-                ]
-            )
-        )
-
-## To render the widgets into the screen, you need to call RunApp() to compile your code into raw HTML
-RunApp(MyApp())
-""")
-
-    # Write as the starter of index.html
-    with open(os.path.abspath(path(os.path.dirname(__file__), "..", "core", "public", "index.html"))) as file:
-        indexHTML.writelines(file.read())
-
-    settings.writelines(f"app_name: {app_name}\ndescription: {description}")
+    os.makedirs(PATH) # Create the user's project directory
     
-    manager.writelines("""from pynani.bin import pynani
-import os
-import sys
-
-try:
-    if sys.argv[1] == "create-app":
-        try:
-            name = sys.argv[2]
-        except IndexError:
-            name = "My App"
-        
-        try:
-            description = sys.argv[3]
-        except IndexError:
-            description = "My PyNani application."
-        
-        pynani.create_app(name, description)
-    elif sys.argv[1] == "runserver":
-        pynani.runserver()
-except IndexError:
-    pynani.pynani_help()
-""")
-
-    # close the files
-    main.close()
-    indexHTML.close()
-    settings.close()
-    readme.close()
-    manager.close()
-
+    # Copy the `core/user` contents to the user's project directory
+    user_dir = os.path.abspath(path(os.path.dirname(__file__), "..", "core", "user"))
+    copy_tree(user_dir, PATH)
+    
+    # Create the `settings.yaml` file
+    with open(path(PATH, "settings.yaml"), "w+") as file:
+        file.writelines(f"app_name: {app_name}\ndescription: {description}\n")
+    
     print("App created successfully!")
 
 def run_server(port):
