@@ -1,4 +1,3 @@
-
 ## Contributing to PyNani
 As an open source project, PyNani welcomes contributions of any forms.
 
