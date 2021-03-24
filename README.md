@@ -1,13 +1,13 @@
-# PyNani
-PyNani is a Python web user interface framework for building reactive static websites. Pynani is free and open source project.
+# PyFyre
+PyFyre is a Python web frontend framework for building reactive static websites. Pynani is free and open source project.
 
 Note: Master Branch is not stable, if you want to use PyNani please use Stable branch, thank you!
 
 ## Stay Updated
-If you would like to get updates about the PyNani framework, we created a [Facebook Page](https://www.facebook.com/pynaniframework) where we are going to post all the updates like newly created widgets, adjustments, core updates, and more. Please consider liking it also. Thank you so much!
+If you would like to get updates about the PyFyre framework, we created a [Facebook Page](https://www.facebook.com/pynaniframework) where we are going to post all the updates like newly created widgets, adjustments, core updates, and more. Please consider liking it also. Thank you so much!
 
 ## Documentation
-Documentation for PyNani is still in development.
+Documentation for PyFyre is still in development.
 
 ## Examples
 We have examples in the [examples](examples) folder. But here is the super simple example.
@@ -38,35 +38,35 @@ Rendered PyNani:
 * python3.x
 
 ### Windows
-Create a folder called `PyNani` on your `C:\` folder.
+Create a folder called `pyfyre` on your `C:\` folder.
 ```
-C:\pynani\
+C:\pyfyre\
 ```
 Get the source code from PyNani repo on GitHub.
 ```
 C:\pynani> git clone https://github.com/jabezborja/pynani.git -b stable
 ```
 #### Update Your Path
-If you wish to run PyNani commands in the regular Windows console, take these steps to add PyNani to the PATH environment variable:
+If you wish to run PyFyre commands in the regular Windows console, take these steps to add Pyfyre to the PATH environment variable:
 
 * From the Start search bar, enter ‘env’ and select Edit environment variables for your account and click Environment Variables in the bottom right.
 * Under User variables check if there is an entry called Path:
--   If there is path, double click into it, and click ```new``` then type ```C:\pynani\PyNani\bin```.
--   If there is none, click ```new``` and type ```Path``` as the Variable name and ```C:\pynani\PyNani\bin``` as value.
+-   If there is path, double click into it, and click ```new``` then type ```C:\pyfyre\pyfyre\bin```.
+-   If there is none, click ```new``` and type ```Path``` as the Variable name and ```C:\pyfyre\pyfyre\bin``` as value.
 
 ### Linux
 Get the source code from PyNani repo on GitHub.
 ```bash
-git clone https://github.com/jabezborja/pynani.git -b stable
+git clone https://github.com/pyfyre/pyfyre.git -b stable
 ```
 
 Make the [pynani.py](bin/pynani.py) an executable file.
 ```bash
-chmod +x PyNani/bin/pynani.py
+chmod +x pyfyre/bin/pynani.py
 ```
 
 #### Update Your Path
-If you wish to run PyNani on any directory, take these steps to add PyNani to the PATH environment variable:
+If you wish to run PyFyre on any directory, take these steps to add PyFyre to the PATH environment variable:
 
 * Go to your home directory by typing the `cd` command.
 * Then find the `.bashrc` file and insert the following:
@@ -79,7 +79,7 @@ source ~/.bashrc
 ```
 
 ### Create an App
-To create a Web App, go to the folder where you want PyNani to install in then go to CMD or command line and type:
+To create a Web App, go to the folder where you want PyFyre to install in then go to CMD or command line and type:
 ```
 pynani.py create-app <App_Name>
 ```
@@ -97,7 +97,7 @@ py -m venv env
 ```
 This command creates a environment for your app. 
 
-It should take few seconds or minutes. Once it's done, go to the ```C:\pynani\``` and clone the PyNani folder to ```env\lib\site-packages```.
+It should take few seconds or minutes. Once it's done, go to the ```C:\pyfyre\``` and clone the PyNani folder to ```env\lib\site-packages```.
 
 And type:
 ```
