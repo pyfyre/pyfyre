@@ -1,5 +1,5 @@
 # PyFyre
-PyFyre is a Python web frontend framework for building reactive static websites. Pynani is free and open source project.
+👌 PyFyre is a reactive, and incrementally adoptable Python web frontend framework for building UI on the web in just one codebase.
 
 Note: Master Branch is not stable, if you want to use PyNani please use Stable branch, thank you!
 
