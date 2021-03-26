@@ -1,6 +1,8 @@
 # PyFyre
 👌 PyFyre is a reactive, and incrementally adoptable Python web frontend framework for building UI on the web in just one codebase.
 
+We are planning to use Brython to transcompile Python to Javascript and run Python to browser, we are still in the development.
+
 Note: Master Branch is not stable, if you want to use PyNani please use Stable branch, thank you!
 
 ## Stay Updated
