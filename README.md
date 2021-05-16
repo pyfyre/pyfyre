@@ -1,7 +1,7 @@
 # PyFyre
 👌 PyFyre is a web frontend framework for building static UI on the web using Python. It allows you to create UI more effectively and efficiently without leaving any language, just Python. PyFyre works like a charm, it compiles your Python code to Raw HTML and render it on the web. It use Brython for Javascript communication.
 
-Note: Master Branch is not stable, if you want to use PyNani please use Stable branch, thank you!
+Note: Master Branch is not stable, if you want to use PyFyre please use Stable branch.
 
 ## Stay Updated
 If you would like to get updates about the PyFyre framework, we created a [Facebook Page](https://www.facebook.com/pynaniframework) where we are going to post all the updates like newly created widgets, adjustments, core updates, and more. Please consider liking it also. Thank you so much!
