@@ -1,5 +1,5 @@
 # PyFyre
-👌 PyFyre is a web frontend framework for building static UI on the web using Python. It allows you to create UI more effectively and efficiently without leaving any language, just Python. PyFyre works like a charm, it compiles your Python code into Raw HTML and render it on the web. It use Brython for Javascript communication.
+👌 PyFyre is a web frontend framework for building static UI on the web using Python. It allows you to create UI more effectively and efficiently without leaving any language, just Python. PyFyre works like a charm, it compiles your Python code into Raw HTML, CSS, and Javascript and render it on the web. It use Brython for Javascript communication.
 
 Note: Master Branch is not stable, if you want to use PyFyre please use Stable branch.
 
