@@ -136,4 +136,4 @@ it will load for few seconds and click ```Go Live``` on bottom right.
 See https://www.apachefriends.org/index.html
 
 ## Contributing
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for this.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for contributing.
