@@ -48,6 +48,7 @@ and here you go, you now have a PyFyre running on your web! Super simple, right?
 You can now edit your PyFyre app through `src/main.py`, and see the magic.
 
 **Note**: PyFyre may take up a seconds long to load in development because it transpile your code into native Javascript Just-In-Time!
+**Important Note**: The Python Linter might react wild a little bit about PyFyre's importing mechanism, it would be fix soon. **If it works, don't touch it.**
 
 ## Contributing
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for contributing.
