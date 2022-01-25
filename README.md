@@ -1,5 +1,5 @@
 # PyFyre - The First Python Web Frontend Framework
-👌 PyFyre is a web frontend framework for building static UI on the web using Python. It allows you to create UI more effectively and efficiently without leaving any language, just Python. PyFyre works like a charm, it transpiles your Python code into native Javascript with the help of Brython (Browser Python) Just-In-Time.
+👌 PyFyre is a web frontend framework for building reactive static UI on the web using Python. It allows you to create UI more effectively and efficiently without leaving any language, just Python. PyFyre works like a charm, it transpiles your Python code into native Javascript with the help of Brython (Browser Python) Just-In-Time.
 
 **NOTE**: MASTER BRANCH IS NOW ABSOLUTELY STABLE AFTER 1 YEAR OF DEVELOPMENT!!
 
