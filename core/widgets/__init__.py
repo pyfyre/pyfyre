@@ -2,7 +2,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional, Callable
 
-# third-party imports
+# third-party imports #
 from browser import document
 
 class PyFyreApp(ABC):

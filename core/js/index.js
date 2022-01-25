@@ -1,3 +1,4 @@
+// t
 window.addEventListener("load", () => {
     var __BODY__ = document.getElementById("app-mount");
     var t = document.createElement("h3");

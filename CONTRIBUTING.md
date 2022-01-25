@@ -9,4 +9,4 @@ Examples of contributions include:
 * Bug fixing & Bug reports
 
 ## Code of Conduct
-Please read [Code_of_conduct.md](CODE_OF_CONDUCT.md) for details.
+Please read [Code_of_conduct.md](CODE_OF_CONDUCT.md) for more details.
