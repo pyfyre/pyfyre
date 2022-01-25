@@ -46,4 +46,7 @@ class MyWebpage(PyFyreApp):
             ]
         )
 
-runApp(MyWebpage())
+runApp(
+    MyWebpage(),
+    mount="app-mount"    
+)

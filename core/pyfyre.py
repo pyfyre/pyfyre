@@ -1,6 +1,6 @@
 from browser import document
 
-def runApp(app):
-    body = document.select("body")[0]
+def runApp(app, mount="app-mount"):
+    body = document.getElementById(mount)
     body.innerHTML = ""
     body.appendChild(app.build().dom())

@@ -41,13 +41,11 @@ def create_app(app_name: str, app_description: str):
     # copy the `user` directory contents to the user's project directory
     user_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "user"))
     copy_tree(user_dir, path)
-
-    public_path = os.path.join(user_dir, "public")
     
     # edit the `index.html` file
-    with open(os.path.join(public_path, "index.html")) as file:
+    with open(os.path.join(user_dir, "index.html")) as file:
         content = file.read().format(app_name=app_name, app_description=app_description)
-    with open(os.path.join(public_path, "index.html"), "w") as file:
+    with open(os.path.join(user_dir, "index.html"), "w") as file:
         file.write(content)
     
     # edit the `README.md` file
