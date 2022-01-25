@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import os
-import sys
 from distutils.dir_util import copy_tree
 
 PYFYRE_HELP = """
@@ -42,11 +41,13 @@ def create_app(app_name: str, app_description: str):
     # copy the `user` directory contents to the user's project directory
     user_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "user"))
     copy_tree(user_dir, path)
+
+    public_path = os.path.join(user_dir, "public")
     
     # edit the `index.html` file
-    with open(os.path.join(user_dir, "index.html")) as file:
+    with open(os.path.join(public_path, "index.html")) as file:
         content = file.read().format(app_name=app_name, app_description=app_description)
-    with open(os.path.join(path, "index.html"), "w") as file:
+    with open(os.path.join(public_path, "index.html"), "w") as file:
         file.write(content)
     
     # edit the `README.md` file
@@ -69,27 +70,29 @@ def liveserver(port: int=8080):
     server.watch(os.path.join(os.getcwd(), "src", "*"))
     server.serve(port=port, host="localhost")
 
-def main():
+def main(argv=None):
     """Entry Point"""
     try:
-        if sys.argv[1] == "create-app":
+        if argv[1] == "create-app":
             try:
-                name = sys.argv[2]
+                name = argv[2]
             except IndexError:
                 name = "MyApp"
             
             try:
-                description = sys.argv[3]
+                description = argv[3]
             except IndexError:
                 description = "PyFyre web application."
             
             create_app(name, description)
-        elif sys.argv[1] == "runserver":
+        elif argv[1] == "runserver":
             try:
-                liveserver(port=int(sys.argv[2]))
+                liveserver(port=int(argv[2]))
             except IndexError:
                 liveserver()
-        elif sys.argv[1] == "help":
+        elif argv[1] == "help":
+            pyfyre_help()
+        else:
             pyfyre_help()
     except IndexError:
         pyfyre_help()
