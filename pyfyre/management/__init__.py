@@ -69,7 +69,7 @@ def liveserver(port: int=8080):
     server.watch(os.path.join(os.getcwd(), "src", "*"))
     server.serve(port=port, host="localhost")
 
-def main(argv=None):
+def execute_from_command_line(argv=None):
     """Entry Point"""
     try:
         if sys.argv[1] == "create-app":

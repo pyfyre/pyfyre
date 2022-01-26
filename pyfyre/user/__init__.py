@@ -10,5 +10,5 @@ with open(os.path.join(pyfyre_path, "ajax", "__init__.py")) as file:
 	exec(file.read())
 
 # Import user's `src/main.py` file
-with open(os.path.join("src", "main.py")) as file:
+with open(os.path.join("src", "__init__.py")) as file:
 	exec(file.read())
