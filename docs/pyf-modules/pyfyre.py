@@ -1,4 +1,4 @@
-from browser import document
+from browser import document, window
 
 def runApp(app, mount="app-mount"):
     body = document.getElementById(mount)
