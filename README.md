@@ -36,21 +36,16 @@ Rendered PyFyre:
 * python3.x
 
 ### Create An App
-PyFyre is not on the PIP or the Python Package Index yet. So you have to install it manually by cloning PyFyre repo to your local machine. You can do it by:
+Install PyFyre via PIP:
 ```
-git clone git@github.com:pyfyre/pyfyre.git
-```
-locate it and install it on your environment by:
-```
-py -m pip install .
+py -m pip install PyFyre
 ```
 It will automatically be installed.
 
 Now you have PyFyre to your local machine, you can now create an app by:
 ```
-py pyfyre create-app <app_name>
+pyfyre create-app <app_name>
 ```
-It will automatically create an app for you (Remember to `cd` out or `cd..` before doing this.)
 
 ### Run The App
 Running PyFyre is actually pretty simple, just run the `index.html` with a VSCode Extension Liveserver or by running it through 
