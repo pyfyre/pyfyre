@@ -8,7 +8,7 @@ class MyWebpage(PyFyreApp):
     def build(self):
         
         def fetch(event):
-            Ajax.get("https://randomuserapi.com/api/", then=display)
+            Ajax.get("https://randomuser.me/api", then=display)
 
         def display(request):
             data = json.loads(request.text)

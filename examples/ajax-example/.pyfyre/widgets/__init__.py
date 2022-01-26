@@ -2,7 +2,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional, Callable
 
-# third-party imports
+# third-party imports #
 from browser import document
 
 class PyFyreApp(ABC):
@@ -92,6 +92,23 @@ class Text(Widget):
     def dom(self):
         element = super().dom()
         element.textContent = self.textContent
+        
+        if self.onClick is not None:
+            element.bind("click", self.onClick)
+        
+        return element
+
+
+class Image(Widget):
+    
+    def __init__(self, *, src, onClick: Optional[Callable]=None, className: Optional[str], props: Optional[dict]=None):
+        super().__init__("img", className=className, props=props)
+        self.src = src
+        self.onClick = onClick
+    
+    def dom(self):
+        element = super().dom()
+        element.src = self.src
         
         if self.onClick is not None:
             element.bind("click", self.onClick)
