@@ -5,3 +5,7 @@ window.addEventListener("load", () => {
     t.style = "color: green;"
     __BODY__.appendChild(t)
 })
+
+window.onpaint = () => {
+    console.log("Hello")
+}
