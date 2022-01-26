@@ -1,10 +1,7 @@
+![image](https://user-images.githubusercontent.com/64759159/151080177-2b2ab45a-86e5-4746-b92f-6c4edd1aaa8f.png)
+
 # PyFyre - The First Python Web Frontend Framework
-👌 PyFyre is a web frontend framework for building static UI on the web using Python. It allows you to create UI more effectively and efficiently without leaving any language, just Python. PyFyre works like a charm, it transpiles your Python code into native Javascript with the help of Brython (Browser Python) Just-In-Time.
-
-**NOTE**: MASTER BRANCH IS NOW ABSOLUTELY STABLE AFTER 1 YEAR OF DEVELOPMENT!!
-
-## Stay Updated
-If you would like to get updates about the PyFyre framework, we created a [Facebook Page](https://www.facebook.com/pynaniframework) where we are going to post all the updates like newly created widgets, adjustments, core updates, and more. Please consider liking it also. Thank you so much!
+PyFyre is a web frontend framework for building reactive static user interfaces on the web using Python. It allows you to create UI more effectively and efficiently without leaving any language, just Python. PyFyre works like a charm, it transpiles your Python code into native Javascript with the help of Brython (Browser Python) Just-In-Time.
 
 ## Documentation
 Documentation for PyFyre is still in development.
@@ -38,6 +35,23 @@ Rendered PyFyre:
 ### Prerequisites
 * python3.x
 
+### Create An App
+PyFyre is not on the PIP or the Python Package Index yet. So you have to install it manually by cloning PyFyre repo to your local machine. You can do it by:
+```
+git clone git@github.com:pyfyre/pyfyre.git
+```
+locate it and install it on your environment by:
+```
+py -m pip install .
+```
+It will automatically be installed.
+
+Now you have PyFyre to your local machine, you can now create an app by:
+```
+py pyfyre create-app <app_name>
+```
+It will automatically create an app for you (Remember to `cd` out or `cd..` before doing this.)
+
 ### Run The App
 Running PyFyre is actually pretty simple, just run the `index.html` with a VSCode Extension Liveserver or by running it through 
 ```
@@ -48,6 +62,10 @@ and here you go, you now have a PyFyre running on your web! Super simple, right?
 You can now edit your PyFyre app through `src/main.py`, and see the magic.
 
 **Note**: PyFyre may take up a seconds long to load in development because it transpile your code into native Javascript Just-In-Time!
+**Important Note**: The Python Linter might react wild a little bit about PyFyre's importing mechanism, it would be fix soon. **If it works, don't touch it.**
 
 ## Contributing
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for contributing.
+
+## Stay Updated
+If you would like to get updates about the PyFyre framework, we created a [Facebook Page](https://www.facebook.com/PyFyreframework) where we are going to post all the updates like newly created widgets, adjustments, core updates, and more. Please consider liking it also. Thank you so much!!
