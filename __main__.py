@@ -8,7 +8,7 @@ import sys
 
 if __name__ == '__main__':
     try:
-        from bin import pyfyre
+        from . import bin
     except ImportError:
         raise ImportError(
             """
@@ -16,4 +16,4 @@ if __name__ == '__main__':
             """
         )
 
-    pyfyre.main(sys.argv)
+    bin.main(sys.argv)

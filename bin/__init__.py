@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import sys
 from distutils.dir_util import copy_tree
 
 PYFYRE_HELP = """
@@ -71,24 +72,24 @@ def liveserver(port: int=8080):
 def main(argv=None):
     """Entry Point"""
     try:
-        if argv[1] == "create-app":
+        if sys.argv[1] == "create-app":
             try:
-                name = argv[2]
+                name = sys.argv[2]
             except IndexError:
                 name = "MyApp"
             
             try:
-                description = argv[3]
+                description = sys.argv[3]
             except IndexError:
                 description = "PyFyre web application."
             
             create_app(name, description)
-        elif argv[1] == "runserver":
+        elif sys.argv[1] == "runserver":
             try:
-                liveserver(port=int(argv[2]))
+                liveserver(port=int(sys.argv[2]))
             except IndexError:
                 liveserver()
-        elif argv[1] == "help":
+        elif sys.argv[1] == "help":
             pyfyre_help()
         else:
             pyfyre_help()
