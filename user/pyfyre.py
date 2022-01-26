@@ -1,7 +1,7 @@
 import os
 
 # Import PyFyre's core modules
-pyfyre_path = os.path.join(".pyfyre")
+pyfyre_path = os.path.join("pyf-modules")
 with open(os.path.join(pyfyre_path, "pyfyre.py")) as file:
 	exec(file.read())
 with open(os.path.join(pyfyre_path, "widgets", "__init__.py")) as file:

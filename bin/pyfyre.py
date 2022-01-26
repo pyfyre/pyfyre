@@ -36,7 +36,7 @@ def create_app(app_name: str, app_description: str):
     
     # copy the `core` directory contents to the user's project directory
     core_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "core"))
-    copy_tree(core_dir, os.path.join(path, ".pyfyre"))
+    copy_tree(core_dir, os.path.join(path, "pyf-modules"))
     
     # copy the `user` directory contents to the user's project directory
     user_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "user"))
