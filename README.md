@@ -1,10 +1,7 @@
+![image](https://user-images.githubusercontent.com/64759159/151080177-2b2ab45a-86e5-4746-b92f-6c4edd1aaa8f.png)
+
 # PyFyre - The First Python Web Frontend Framework
-👌 PyFyre is a web frontend framework for building reactive static UI on the web using Python. It allows you to create UI more effectively and efficiently without leaving any language, just Python. PyFyre works like a charm, it transpiles your Python code into native Javascript with the help of Brython (Browser Python) Just-In-Time.
-
-**NOTE**: MASTER BRANCH IS NOW ABSOLUTELY STABLE AFTER 1 YEAR OF DEVELOPMENT!!
-
-## Stay Updated
-If you would like to get updates about the PyFyre framework, we created a [Facebook Page](https://www.facebook.com/PyFyreframework) where we are going to post all the updates like newly created widgets, adjustments, core updates, and more. Please consider liking it also. Thank you so much!!
+PyFyre is a web frontend framework for building reactive static user interfaces on the web using Python. It allows you to create UI more effectively and efficiently without leaving any language, just Python. PyFyre works like a charm, it transpiles your Python code into native Javascript with the help of Brython (Browser Python) Just-In-Time.
 
 ## Documentation
 Documentation for PyFyre is still in development.
@@ -69,3 +66,6 @@ You can now edit your PyFyre app through `src/main.py`, and see the magic.
 
 ## Contributing
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for contributing.
+
+## Stay Updated
+If you would like to get updates about the PyFyre framework, we created a [Facebook Page](https://www.facebook.com/PyFyreframework) where we are going to post all the updates like newly created widgets, adjustments, core updates, and more. Please consider liking it also. Thank you so much!!
