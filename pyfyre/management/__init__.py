@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+from shutil import copytree
 import sys
 from distutils.dir_util import copy_tree
 
@@ -63,6 +64,24 @@ def create_app(app_name: str, app_description: str):
     
     print("Project created successfully.")
 
+def build_app(directory):
+    print("Building your PyFyre Project...")
+
+    directory_path = directory if directory else os.getcwd()
+    build_path = os.path.join(directory_path, "build")
+    
+    copytree(directory_path, build_path)
+
+    with open(os.path.join(build_path, "index.html")) as file:
+        index_content = file.read()
+
+    os.system("cd build && brython-cli --install && brython-cli --modules")
+
+    with open(os.path.join(build_path, "index.html"), "w") as file:
+        file.write(index_content)
+
+    print("Project has been built successfully.")
+
 def liveserver(port: int=8080):
     from livereload import Server
     server = Server()
@@ -89,6 +108,13 @@ def execute_from_command_line(argv=None):
                 liveserver(port=int(sys.argv[2]))
             except IndexError:
                 liveserver()
+        elif sys.argv[1] == "build":
+            try:
+                directory = sys.argv[2]
+            except IndexError:
+                directory = None
+
+            build_app(directory)
         elif sys.argv[1] == "help":
             pyfyre_help()
         else:
