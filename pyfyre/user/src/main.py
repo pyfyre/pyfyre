@@ -1,5 +1,7 @@
 from pyf_modules.widgets import *
 
+# You can make components by inherting a Widget class
+# and initialize it on the `super().__init__()`.
 class MyWebpage(Container):
     def __init__(self):
         super().__init__(
