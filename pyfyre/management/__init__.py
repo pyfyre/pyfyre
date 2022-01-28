@@ -78,11 +78,6 @@ def build_app(directory):
 
     os.chdir(build_path)
     os.system("brython-cli --install")
-    os.remove("demo.html")
-    os.remove("unicode.txt")
-    os.remove("README.txt")
-    os.remove("brython_stdlib.js")
-    shutil.rmtree('/__pycache__', ignore_errors=True)
 
     with open(os.path.join(build_path, "index.html"), "w") as file:
         file.write(index_content)
