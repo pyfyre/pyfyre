@@ -78,7 +78,6 @@ def build_app(directory):
 
     os.chdir(build_path)
     os.system("brython-cli --install")
-    os.system("brython-cli --modules")
     os.remove("demo.html")
     os.remove("unicode.txt")
     os.remove("README.txt")
@@ -87,6 +86,9 @@ def build_app(directory):
 
     with open(os.path.join(build_path, "index.html"), "w") as file:
         file.write(index_content)
+
+    with open(os.path.join(build_path, "brython_stdlib.js"), "w") as file:
+        file.flush()
 
     os.system("cls" if os.name == "nt" else "clear")
 

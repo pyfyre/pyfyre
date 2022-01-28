@@ -1,23 +1,20 @@
 # standard imports
-from abc import ABC, abstractmethod
-from typing import Optional, Callable
 from pyf_modules.pyfyre import runApp
 
 # third-party imports #
 from browser import document
 
-class PyFyreApp(ABC):
+class PyFyreApp:
     
-    @abstractmethod
     def build(self):
         pass
     
     def update(self):
         runApp(self)
         
-class Widget(ABC):
+class Widget:
     
-    def __init__ (self, tagname: str, *, className: Optional[str], props: Optional[dict]=None):
+    def __init__ (self, tagname: str, *, className, props=None):
         self.tagname = tagname
         self.className = className
         self.props = props if props is not None else {}
@@ -33,7 +30,7 @@ class Widget(ABC):
 
 class Container(Widget):
     
-    def __init__(self, *, children: Optional[list], onClick: Optional[Callable]=None, className: Optional[str], props: Optional[dict]=None):
+    def __init__(self, *, children, onClick=lambda: print("Click!"), className, props=None):
         super().__init__("div", className=className, props=props)
         self.children = children
         self.onClick = onClick
@@ -51,7 +48,7 @@ class Container(Widget):
 
 class Button(Widget):
     
-    def __init__(self, *, textContent: str="Button", onClick: Optional[Callable]=None, className: Optional[str], props: Optional[dict]=None):
+    def __init__(self, *, textContent: str="Button", onClick=lambda: print("Click!"), className, props):
         super().__init__("button", className=className, props=props)
         self.textContent = textContent
         self.onClick = onClick
@@ -67,7 +64,7 @@ class Button(Widget):
 
 class Anchor(Widget):
     
-    def __init__(self, *, textContent: str="Anchor", onClick: Optional[Callable]=None, link: str="#", className: Optional[str], props: Optional[dict]=None):
+    def __init__(self, *, textContent: str="Anchor", onClick=lambda: print("Click!"), link: str="#", className, props=None):
         super().__init__("a", className=className, props=props)
         self.textContent = textContent
         self.onClick = onClick
@@ -85,7 +82,7 @@ class Anchor(Widget):
 
 class Text(Widget):
     
-    def __init__(self, *, textContent: str="Anchor", onClick: Optional[Callable]=None, className: Optional[str], props: Optional[dict]=None):
+    def __init__(self, *, textContent: str="Anchor", onClick=lambda: print("Click!"), className, props=None):
         super().__init__("p", className=className, props=props)
         self.textContent = textContent
         self.onClick = onClick
@@ -102,7 +99,7 @@ class Text(Widget):
 
 class Image(Widget):
     
-    def __init__(self, *, src, onClick: Optional[Callable]=None, className: Optional[str], props: Optional[dict]=None):
+    def __init__(self, *, src, onClick=lambda: print("Click!"), className, props=None):
         super().__init__("img", className=className, props=props)
         self.src = src
         self.onClick = onClick
@@ -118,7 +115,7 @@ class Image(Widget):
 
 class Link(Widget):
     
-    def __init__(self, *, textContent: str="Anchor", page: Widget, className: Optional[str], props: Optional[dict]=None):
+    def __init__(self, *, textContent: str="Anchor", page: Widget, className, props=None):
         super().__init__("a", className=className, props=props)
         self.textContent = textContent
         self.page = page
