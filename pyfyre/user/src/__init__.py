@@ -1,4 +1,5 @@
 from pyf_modules.widgets import *
+from pyf_modules.pyfyre import runApp
 from src.main import MyWebpage
 from src.components.header import Header
 
