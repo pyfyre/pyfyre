@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
-import os
+import os, shutil, sys
 from shutil import copytree
-import sys
 from distutils.dir_util import copy_tree
 
 PYFYRE_HELP = """
@@ -38,7 +37,7 @@ def create_app(app_name: str, app_description: str):
     
     # copy the `core` directory contents to the user's project directory
     core_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "core"))
-    copy_tree(core_dir, os.path.join(path, "pyf-modules"))
+    copy_tree(core_dir, os.path.join(path, "pyf_modules"))
     
     # copy the `user` directory contents to the user's project directory
     user_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "user"))
@@ -65,22 +64,33 @@ def create_app(app_name: str, app_description: str):
     print("Project created successfully.")
 
 def build_app(directory):
-    print("Building your PyFyre Project...")
+    print("Producing optimized build for your project...")
 
     directory_path = directory if directory else os.getcwd()
     build_path = os.path.join(directory_path, "build")
+
+    print(build_path)
     
     copytree(directory_path, build_path)
 
     with open(os.path.join(build_path, "index.html")) as file:
         index_content = file.read()
 
-    os.system("cd build && brython-cli --install && brython-cli --modules")
+    os.chdir(build_path)
+    os.system("brython-cli --install")
+    os.system("brython-cli --modules")
+    os.remove("demo.html")
+    os.remove("unicode.txt")
+    os.remove("README.txt")
+    os.remove("brython_stdlib.js")
+    shutil.rmtree('/__pycache__', ignore_errors=True)
 
     with open(os.path.join(build_path, "index.html"), "w") as file:
         file.write(index_content)
 
-    print("Project has been built successfully.")
+    os.system("cls" if os.name == "nt" else "clear")
+
+    print("Build succeeded!")
 
 def liveserver(port: int=8080):
     from livereload import Server
