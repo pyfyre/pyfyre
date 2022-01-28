@@ -1,6 +1,7 @@
 # standard imports
 from abc import ABC, abstractmethod
 from typing import Optional, Callable
+from pyf_modules.pyfyre import runApp
 
 # third-party imports #
 from browser import document
