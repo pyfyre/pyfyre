@@ -1,6 +1,10 @@
 ![image](https://user-images.githubusercontent.com/64759159/151080177-2b2ab45a-86e5-4746-b92f-6c4edd1aaa8f.png)
 
 # PyFyre - The First Python Web Frontend Framework
+[![GitHub Version](https://img.shields.io/github/release/pyfyre/pyfyre.svg?style=for-the-badge)](https://github.com/pyfyre/pyfyre/releases)
+[![Github Star](https://img.shields.io/github/stars/pyfyre/pyfyre.svg?style=for-the-badge)](https://github.com/pyfyre/pyfyre/stargazers) 
+[![License](https://img.shields.io/github/license/pyfyre/pyfyre.svg?style=for-the-badge)](https://github.com/pyfyre/pyfyre/blob/main/LICENSE)
+
 PyFyre is a web frontend framework for building reactive static user interfaces on the web using Python. It allows you to create UI more effectively and efficiently without leaving any language, just Python. PyFyre works like a charm, it transpiles your Python code into native Javascript with the help of Brython (Browser Python) Just-In-Time.
 
 ## Documentation
@@ -54,10 +58,7 @@ py -m http.server
 ```
 and here you go, you now have a PyFyre running on your web! Super simple, right? That's it.
 
-You can now edit your PyFyre app through `src/main.py`, and see the magic.
-
-**Note**: PyFyre may take up a seconds long to load in development because it transpile your code into native Javascript Just-In-Time!
-**Important Note**: The Python Linter might react wild a little bit about PyFyre's importing mechanism, it would be fix soon. **If it works, don't touch it.**
+You can now edit your PyFyre app through `src/__init__.py`, and see the magic.
 
 ## Contributing
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for contributing.
