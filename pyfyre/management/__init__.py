@@ -78,16 +78,22 @@ def build_app(directory):
 
     os.chdir(build_path)
     os.system("brython-cli --install")
+    os.remove("brython_stdlib.js")
     os.remove("demo.html")
     os.remove("unicode.txt")
     os.remove("README.txt")
     shutil.rmtree('/__pycache__', ignore_errors=True)
 
+    # Produce an optimized js to directories
+    os.chdir(os.path.join(build_path, "pyf_modules"))
+    os.system("brython-cli --make_package pyf_modules")
+    os.chdir(os.path.join(build_path, "src"))
+    os.system("brython-cli --make_package src")
+
+    os.chdir(build_path)
+
     with open(os.path.join(build_path, "index.html"), "w") as file:
         file.write(index_content)
-
-    with open(os.path.join(build_path, "brython_stdlib.js"), "w") as file:
-        file.flush()
 
     os.system("cls" if os.name == "nt" else "clear")
 
