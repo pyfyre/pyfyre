@@ -105,10 +105,19 @@ def build_app(directory):
     with open(os.path.join("..", "src.brython.js"), "w") as file:
         file.write(content)
 
+    with open(os.path.join(build_path, "src", "__init__.py")) as file:
+        content = file.read()
+    with open(os.path.join(build_path, "__init__.py"), "w") as file:
+        file.write(content)
+
+    css_path = os.path.join(build_path, "src", "css")
+    src_css_path = os.path.join(build_path, "css")
+    copytree(css_path, src_css_path)
+
     os.chdir("..")
     rmtree("src")
     rmtree("pyf_modules")
-
+    
     # Rename files for production secret
     pyfyre_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
     src_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
@@ -122,8 +131,7 @@ def build_app(directory):
     with open(os.path.join(build_path, "index.html"), "w") as file:
         file.write(index_content)
 
-    # Remove unnecessary files
-    os.remove("__init__.py")
+    # Remove unnecessary files for production
     os.remove("README.md")
     os.remove("settings.yaml")
     rmtree("__pycache__")
