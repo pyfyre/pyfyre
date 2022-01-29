@@ -45,7 +45,7 @@ def create_app(app_name: str, app_description: str):
     
     # edit the `index.html` file
     with open(os.path.join(user_dir, "index.html")) as file:
-        content = file.read().format(app_name=app_name, app_description=app_description)
+        content = file.read().format(app_name=app_name, app_description=app_description, pyfyre_key="{pyfyre_key}", src_key="{pyfyre_key}")
     with open(os.path.join(user_dir, "index.html"), "w") as file:
         file.write(content)
     
