@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import os, shutil, sys
+import os, shutil, sys, random, string
 from shutil import copytree, rmtree
 from distutils.dir_util import copy_tree
 
@@ -86,27 +86,47 @@ def build_app(directory):
     
     copytree(directory_path, build_path)
 
-    with open(os.path.join(build_path, "index.html")) as file:
-        index_content = file.read()
-
-    os.chdir(build_path)
-    os.system("brython-cli --install")
-    os.remove("brython_stdlib.js")
-    os.remove("demo.html")
-    os.remove("unicode.txt")
-    os.remove("README.txt")
-    shutil.rmtree('/__pycache__', ignore_errors=True)
-
     # Produce an optimized js to directories
     os.chdir(os.path.join(build_path, "pyf_modules"))
     os.system("brython-cli --make_package pyfyre")
+
+    with open(os.path.join("pyfyre.brython.js")) as file:
+        content = file.read()
+    with open(os.path.join("..", "pyfyre.brython.js"), "w") as file:
+        file.write(content)
+
+    os.chdir("..")
+
     os.chdir(os.path.join(build_path, "src"))
     os.system("brython-cli --make_package src")
+    
+    with open(os.path.join("src.brython.js")) as file:
+        content = file.read()
+    with open(os.path.join("..", "src.brython.js"), "w") as file:
+        file.write(content)
+
+    os.chdir("..")
+    rmtree("src")
+    rmtree("pyf_modules")
+
+    # Rename files for production secret
+    pyfyre_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
+    src_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
+    os.rename("pyfyre.brython.js", "%s.js" % pyfyre_key)
+    os.rename("src.brython.js", "%s.js" % src_key)
 
     os.chdir(build_path)
 
+    with open(os.path.join(build_path, "index.html")) as file:
+        index_content = file.read().format(pyfyre_key=pyfyre_key, src_key=src_key)
     with open(os.path.join(build_path, "index.html"), "w") as file:
         file.write(index_content)
+
+    # Remove unnecessary files
+    os.remove("__init__.py")
+    os.remove("README.md")
+    os.remove("settings.yaml")
+    rmtree("__pycache__")
 
     os.system("cls" if os.name == "nt" else "clear")
 
