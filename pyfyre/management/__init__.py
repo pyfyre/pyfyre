@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os, shutil, sys
-from shutil import copytree
+from shutil import copytree, rmtree
 from distutils.dir_util import copy_tree
 
 PYFYRE_HELP = """
@@ -36,8 +36,8 @@ def create_app(app_name: str, app_description: str):
         return
     
     # copy the `core` directory contents to the user's project directory
-    core_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "core"))
-    copy_tree(core_dir, os.path.join(path, "pyf_modules"))
+    core_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    copy_tree(core_dir, os.path.join(path, "pyfyre"))
     
     # copy the `user` directory contents to the user's project directory
     user_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "user"))
@@ -60,16 +60,29 @@ def create_app(app_name: str, app_description: str):
         content = file.read().format(app_name=app_name, app_description=app_description)
     with open(os.path.join(path, "settings.yaml"), "w") as file:
         file.write(content)
+
+    os.chdir(os.path.join(path, "pyfyre"))
+    os.system("brython-cli --make_package pyfyre")
+
+    with open(os.path.join("pyfyre.brython.js")) as file:
+        content = file.read()
+
+    os.chdir(os.path.join(".."))
+    os.mkdir("pyf_modules")
+    rmtree("pyfyre")
+
+    with open(os.path.join("pyf_modules", "pyfyre.brython.js"), "w") as file:
+        file.write(content)
+        
+    os.system("cls" if os.name == "nt" else "clear")
     
     print("Project created successfully.")
 
 def build_app(directory):
     print("Producing optimized build for your project...")
 
-    directory_path = directory if directory else os.getcwd()
+    directory_path = os.path.join(directory) if directory else os.getcwd()
     build_path = os.path.join(directory_path, "build")
-
-    print(build_path)
     
     copytree(directory_path, build_path)
 
@@ -86,7 +99,7 @@ def build_app(directory):
 
     # Produce an optimized js to directories
     os.chdir(os.path.join(build_path, "pyf_modules"))
-    os.system("brython-cli --make_package pyf_modules")
+    os.system("brython-cli --make_package pyfyre")
     os.chdir(os.path.join(build_path, "src"))
     os.system("brython-cli --make_package src")
 

@@ -1,5 +1,5 @@
 # standard imports
-from pyf_modules.pyfyre import runApp
+from pyfyre.pyfyre import runApp
 
 # third-party imports #
 from browser import document

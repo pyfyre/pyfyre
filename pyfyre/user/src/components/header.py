@@ -1,4 +1,4 @@
-from pyf_modules.widgets import *
+from pyfyre.widgets import *
 
 class Header(Container):
     def __init__(self, greet):

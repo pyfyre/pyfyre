@@ -1,4 +1,4 @@
-from pyf_modules.widgets import *
+from pyfyre.widgets import *
 
 # You can make components by inherting a Widget class
 # and initialize it on the `super().__init__()`.
