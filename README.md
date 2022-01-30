@@ -17,7 +17,9 @@ We have examples in the [examples](examples) folder. But here is the super simpl
 See how easy it is to create a simple Hello World web app that shows Hello, World text:
 
 ```py
-# Import PyFyre
+from pyfyre.widgets import *
+from pyfyre.pyfyre import runApp
+
 class MyWebpage(PyFyreApp):
     def build(self):
         return Container(
@@ -66,4 +68,4 @@ You can now edit your PyFyre app through `src/__init__.py`, and see the magic.
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for contributing.
 
 ## Stay Updated
-If you would like to get updates about the PyFyre framework, we created a [Facebook Page](https://www.facebook.com/PyFyreframework) where we are going to post all the updates like newly created widgets, adjustments, core updates, and more. Please consider liking it also. Thank you so much!!
+If you would like to get updates about the PyFyre framework, we created a [Facebook Page](https://www.facebook.com/PyFyreframework) where we are going to post all the updates like newly created widgets, adjustments, core updates, and more!
