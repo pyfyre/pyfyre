@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-import os, shutil, sys, random, string
-from shutil import copytree, rmtree
+import os, sys, random, string
+from shutil import copytree, rmtree, move
 from distutils.dir_util import copy_tree
 
 PYFYRE_HELP = """
@@ -78,73 +78,168 @@ def create_app(app_name: str, app_description: str):
     
     print("Project created successfully.")
 
+def produce(directory_path, build_path, reload=False):
+
+    # If it's in the entry point, create a new path for the first time and produce
+    # the essential Python js module. This will make the Hot Reload more faster.
+    if not reload:
+        copytree(directory_path, build_path)
+
+        with open(os.path.join(directory_path, "pyf_modules", "pyfyre.brython.js")) as file:
+            content = file.read()
+        with open(os.path.join(build_path, "pyfyre.brython.js"), "w") as file:
+            file.write(content)
+
+        # Refresh the css files
+        css_path = os.path.join(directory_path, "src", "css")
+        src_css_path = os.path.join(build_path, "css")
+        os.mkdir(os.path.join(build_path, "__temp__"))
+
+        copytree(css_path, src_css_path)
+
+    # Produce the `src` module.
+    os.chdir(os.path.join(directory_path, "src"))
+    os.system("brython-cli --make_package src")
+    
+    # Write files to build directory
+    with open(os.path.join("src.brython.js")) as file:
+        content = file.read()
+    with open(os.path.join(build_path, "src.brython.js"), "w") as file:
+        file.write(content)
+    with open(os.path.join(build_path, "__temp__", "src.brython.js"), "w") as file:
+        file.write(content)
+    with open(os.path.join(directory_path, "src", "__init__.py")) as file:
+        content = file.read()
+    with open(os.path.join(build_path, "__init__.py"), "w") as file:
+        file.flush()
+        file.write(content)
+
+    os.remove("src.brython.js")
+
+    os.chdir(build_path)
+    
+    # Remove the reloading files for refresh
+    if reload:
+        os.remove("src.brython.js")
+
+        _temp = set(["__temp__"])
+
+        # Remove the src files
+        for _, dirs, filenames in os.walk(build_path):
+            [dirs.remove(tmp) for tmp in list(dirs) if tmp in _temp]
+
+            for filename in filenames:
+                _, ext = os.path.splitext(filename)
+
+                if ext == ".js":
+                    with open(filename) as file:
+                        content = file.readlines()
+
+                        if str(content[0]) == "/* __SRC_FILES__ */\n":
+                            # Rename the newly generated `src` file
+                            with open(os.path.join(build_path, "__temp__", "src.brython.js")) as file:
+                                content = file.readlines()
+                            content.insert(0, "/* __SRC_FILES__ */\n")
+                            with open(filename, "w") as file:
+                                content = "".join(content)
+                                file.write(content)
+
+                            break
+
+        # Refresh the css files
+        css_path = os.path.join(directory_path, "src", "css")
+        src_css_path = os.path.join(build_path, "css")
+
+        rmtree(src_css_path)
+
+        src_css_path = os.path.join(build_path, "css")
+
+        copytree(css_path, src_css_path)
+
+    if not reload:
+        # Rename files for production secret
+        pyfyre_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
+        src_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
+        os.rename("pyfyre.brython.js", "%s.js" % pyfyre_key)
+        os.rename("src.brython.js", "%s.js" % src_key)
+
+        # Insert js identifier `__PYF_MODULES__`
+        with open(f"{pyfyre_key}.js") as file: content = file.readlines()
+        content.insert(0, "/* __PYF_MODULES__ */\n")
+        with open(f"{pyfyre_key}.js", "w") as file:
+            content = "".join(content)
+            file.write(content)
+
+        # Insert js identifier `__SRC_FILES__`
+        with open(f"{src_key}.js") as file: content = file.readlines()
+        content.insert(0, "/* __SRC_FILES__ */\n")
+        with open(f"{src_key}.js", "w") as file:
+            content = "".join(content)
+            file.write(content)
+
+        # Format the js script link of the `index.html`
+        with open(os.path.join(build_path, "index.html")) as file:
+            content = file.read().format(pyfyre_key=pyfyre_key, src_key=src_key)
+        with open(os.path.join(build_path, "index.html"), "w") as file:
+            file.write(content)
+
+    # Remove unnecessary files
+    if not reload:
+        os.remove("README.md")
+        os.remove("settings.yaml")
+        rmtree("src")
+        rmtree("pyf_modules")
+        rmtree("__pycache__")
+
+def run_app(directory, port: int=5500):
+    print("Running your app in a development server...")
+
+    try:
+        from livereload import Server
+    except ImportError:
+        raise ImportError("Cannot find the liveserver module. Is it installed?")
+
+    server = Server()
+
+    _directory = os.path.abspath(directory) if directory else os.getcwd()
+
+    def checkServes():
+        if os.path.exists(os.path.join(_directory, "__serve__")):
+            rmtree(os.path.join(_directory, "__serve__"))
+
+    def reload():
+        print("Detected file changes, performing hot     reload...")
+
+        produce(_directory, _build, reload=True)
+
+        #os.system("cls" if os.name == "nt" else "clear")
+
+        print("Hot reload successful!")
+
+    checkServes()
+    
+    _build = os.path.join(_directory, "__serve__")
+
+    produce(_directory, _build)
+
+    os.system("cls" if os.name == "nt" else "clear")
+    print("Happy Hacking!")
+
+    server.watch(f"{_directory}/src/", reload)
+    os.chdir(os.path.join(_directory, "__serve__"))
+    server.serve(port=8000, host="localhost")
+
 def build_app(directory):
     print("Producing optimized build for your project...")
 
-    directory_path = os.path.join(directory) if directory else os.getcwd()
+    directory_path = os.path.abspath(directory) if directory else os.getcwd()
     build_path = os.path.join(directory_path, "build")
-    
-    copytree(directory_path, build_path)
 
-    # Produce an optimized js to directories
-    os.chdir(os.path.join(build_path, "pyf_modules"))
-    os.system("brython-cli --make_package pyfyre")
+    print(directory_path)
 
-    with open(os.path.join("pyfyre.brython.js")) as file:
-        content = file.read()
-    with open(os.path.join("..", "pyfyre.brython.js"), "w") as file:
-        file.write(content)
-
-    os.chdir("..")
-
-    os.chdir(os.path.join(build_path, "src"))
-    os.system("brython-cli --make_package src")
-    
-    with open(os.path.join("src.brython.js")) as file:
-        content = file.read()
-    with open(os.path.join("..", "src.brython.js"), "w") as file:
-        file.write(content)
-
-    with open(os.path.join(build_path, "src", "__init__.py")) as file:
-        content = file.read()
-    with open(os.path.join(build_path, "__init__.py"), "w") as file:
-        file.write(content)
-
-    css_path = os.path.join(build_path, "src", "css")
-    src_css_path = os.path.join(build_path, "css")
-    copytree(css_path, src_css_path)
-
-    os.chdir("..")
-    rmtree("src")
-    rmtree("pyf_modules")
-    
-    # Rename files for production secret
-    pyfyre_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
-    src_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
-    os.rename("pyfyre.brython.js", "%s.js" % pyfyre_key)
-    os.rename("src.brython.js", "%s.js" % src_key)
-
-    os.chdir(build_path)
-
-    with open(os.path.join(build_path, "index.html")) as file:
-        index_content = file.read().format(pyfyre_key=pyfyre_key, src_key=src_key)
-    with open(os.path.join(build_path, "index.html"), "w") as file:
-        file.write(index_content)
-
-    # Remove unnecessary files for production
-    os.remove("README.md")
-    os.remove("settings.yaml")
-    rmtree("__pycache__")
-
-    os.system("cls" if os.name == "nt" else "clear")
+    produce(directory_path, build_path)
 
     print("Build succeeded!")
-
-def liveserver(port: int=8080):
-    from livereload import Server
-    server = Server()
-    server.watch(os.path.join(os.getcwd(), "src", "*"))
-    server.serve(port=port, host="localhost")
 
 def execute_from_command_line(argv=None):
     """Entry Point"""
@@ -161,11 +256,18 @@ def execute_from_command_line(argv=None):
                 description = "PyFyre web application."
             
             create_app(name, description)
-        elif sys.argv[1] == "runserver":
+        elif sys.argv[1] == "runapp":
             try:
-                liveserver(port=int(sys.argv[2]))
+                directory = sys.argv[2]
             except IndexError:
-                liveserver()
+                directory = None
+
+            try:
+                port = sys.argv[3]
+            except IndexError:
+                port = None
+
+            run_app(directory, port)
         elif sys.argv[1] == "build":
             try:
                 directory = sys.argv[2]
@@ -181,4 +283,4 @@ def execute_from_command_line(argv=None):
         pyfyre_help()
 
 if __name__ == "__main__":
-    main()
+    execute_from_command_line()
