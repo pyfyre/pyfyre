@@ -122,7 +122,7 @@ def produce(directory_path, build_path, reload=False):
     if reload:
         os.remove("src.brython.js")
 
-        _temp = set(["__temp__"])
+        _temp = set(["__temp__", "__serve__"])
 
         # Remove the src files
         for _, dirs, filenames in os.walk(build_path):
@@ -203,16 +203,16 @@ def run_app(directory, port: int=5500):
 
     _directory = os.path.abspath(directory) if directory else os.getcwd()
 
+    print(_directory)
+
     def checkServes():
         if os.path.exists(os.path.join(_directory, "__serve__")):
             rmtree(os.path.join(_directory, "__serve__"))
 
     def reload():
-        print("Detected file changes, performing hot     reload...")
+        print("Detected file changes, performing hot reload...")
 
         produce(_directory, _build, reload=True)
-
-        #os.system("cls" if os.name == "nt" else "clear")
 
         print("Hot reload successful!")
 
@@ -226,8 +226,7 @@ def run_app(directory, port: int=5500):
     print("Happy Hacking!")
 
     server.watch(f"{_directory}/src/", reload)
-    os.chdir(os.path.join(_directory, "__serve__"))
-    server.serve(port=8000, host="localhost")
+    server.serve(port=8000, host="localhost", root=os.path.join(_directory, "__serve__"))
 
 def build_app(directory):
     print("Producing optimized build for your project...")
