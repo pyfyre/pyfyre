@@ -56,7 +56,7 @@ pyfyre create-app <app_name>
 ```
 
 ### Run The App (With HOT RELOAD)
-Running PyFyre is actually pretty simple, just run:
+Running PyFyre is actually pretty simple, just run while sitting on the PyFyre app directory:
 ```
 pyfyre runapp
 ```
