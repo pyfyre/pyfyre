@@ -53,12 +53,12 @@ Now you have PyFyre to your local machine, you can now create an app by:
 pyfyre create-app <app_name>
 ```
 
-### Run The App
-Running PyFyre is actually pretty simple, just run the `index.html` with a VSCode Extension Liveserver or by running it through 
+### Run The App (With HOT RELOAD)
+Running PyFyre is actually pretty simple, just run:
 ```
-py -m http.server
+pyfyre runapp
 ```
-and here you go, you now have a PyFyre running on your web! Super simple, right? That's it.
+and you now have a PyFyre app running on your local machine with HOT RELOAD.
 
 You can now edit your PyFyre app through `src/__init__.py`, and see the magic.
 
