@@ -1,8 +1,10 @@
 # standard imports
 from pyfyre.pyfyre import runApp
+from pyfyre.globals import Globals
 
 # third-party imports #
-from browser import document
+from browser import document, window
+from pyfyre.router import Router
 
 class PyFyreApp:
     
@@ -30,7 +32,7 @@ class Widget:
 
 class Container(Widget):
     
-    def __init__(self, *, children, onClick=lambda: print("Click!"), className, props=None):
+    def __init__(self, *, children, onClick=None, className, props=None):
         super().__init__("div", className=className, props=props)
         self.children = children
         self.onClick = onClick
@@ -48,7 +50,7 @@ class Container(Widget):
 
 class Button(Widget):
     
-    def __init__(self, *, textContent: str="Button", onClick=lambda: print("Click!"), className, props):
+    def __init__(self, *, textContent: str="Button", onClick=None, className, props):
         super().__init__("button", className=className, props=props)
         self.textContent = textContent
         self.onClick = onClick
@@ -64,7 +66,7 @@ class Button(Widget):
 
 class Anchor(Widget):
     
-    def __init__(self, *, textContent: str="Anchor", onClick=lambda: print("Click!"), link: str="#", className, props=None):
+    def __init__(self, *, textContent: str="Anchor", onClick=None, link: str="#", className, props=None):
         super().__init__("a", className=className, props=props)
         self.textContent = textContent
         self.onClick = onClick
@@ -82,7 +84,7 @@ class Anchor(Widget):
 
 class Text(Widget):
     
-    def __init__(self, *, textContent: str="Anchor", onClick=lambda: print("Click!"), className, props=None):
+    def __init__(self, *, textContent: str="Anchor", onClick=None, className, props=None):
         super().__init__("p", className=className, props=props)
         self.textContent = textContent
         self.onClick = onClick
@@ -99,7 +101,7 @@ class Text(Widget):
 
 class Image(Widget):
     
-    def __init__(self, *, src, onClick=lambda: print("Click!"), className, props=None):
+    def __init__(self, *, src, onClick=None, className, props=None):
         super().__init__("img", className=className, props=props)
         self.src = src
         self.onClick = onClick
@@ -115,10 +117,10 @@ class Image(Widget):
 
 class Link(Widget):
     
-    def __init__(self, *, textContent: str="Anchor", page: Widget, className, props=None):
+    def __init__(self, *, textContent: str="Anchor", to='/', className, props=None):
         super().__init__("a", className=className, props=props)
         self.textContent = textContent
-        self.page = page
+        self.to = to
     
     def dom(self):
         element = super().dom()
@@ -130,4 +132,5 @@ class Link(Widget):
         return element
 
     def navigate(self, e):
-        runApp(self.page())
+        e.preventDefault()
+        Router.push(self.to)
