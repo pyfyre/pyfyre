@@ -43,26 +43,21 @@ Rendered PyFyre:
 ### Prerequisites
 * python3.x
 
-### Create An App
-Install PyFyre via PIP:
+### Setting Up a Project
+Install the PyFyre CLI:
 ```
 py -m pip install PyFyre
 ```
-It will automatically be installed.
-
-Now you have PyFyre to your local machine, you can now create an app by:
+Create a new application:
 ```
 pyfyre create-app <app_name>
 ```
-
-### Run The App (With HOT RELOAD)
-Running PyFyre is actually pretty simple, just run while sitting on the PyFyre app directory:
+Run the application:
 ```
+cd <project-name>
 pyfyre runapp
 ```
-and you now have a PyFyre app running on your local machine with HOT RELOAD.
-
-You can now edit your PyFyre app through `src/__init__.py`, and see the magic.
+PyFyre has a built-in hot reload to enhance your productivity tremendously. Try it out by editing the `src/__init__.py` and see the magic works.
 
 ## Contributing
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for contributing.
