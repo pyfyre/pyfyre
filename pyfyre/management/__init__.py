@@ -203,8 +203,6 @@ def run_app(directory, port: int=5500):
 
     _directory = os.path.abspath(directory) if directory else os.getcwd()
 
-    print(_directory)
-
     def checkServes():
         if os.path.exists(os.path.join(_directory, "__serve__")):
             rmtree(os.path.join(_directory, "__serve__"))
