@@ -17,7 +17,9 @@ We have examples in the [examples](examples) folder. But here is the super simpl
 See how easy it is to create a simple Hello World web app that shows Hello, World text:
 
 ```py
-# Import PyFyre
+from pyfyre.widgets import *
+from pyfyre.pyfyre import runApp
+
 class MyWebpage(PyFyreApp):
     def build(self):
         return Container(
@@ -41,29 +43,24 @@ Rendered PyFyre:
 ### Prerequisites
 * python3.x
 
-### Create An App
-Install PyFyre via PIP:
+### Setting Up a Project
+Install the PyFyre CLI:
 ```
 py -m pip install PyFyre
 ```
-It will automatically be installed.
-
-Now you have PyFyre to your local machine, you can now create an app by:
+Create a new application:
 ```
 pyfyre create-app <app_name>
 ```
-
-### Run The App
-Running PyFyre is actually pretty simple, just run the `index.html` with a VSCode Extension Liveserver or by running it through 
+Run the application:
 ```
-py -m http.server
+cd <project-name>
+pyfyre runapp
 ```
-and here you go, you now have a PyFyre running on your web! Super simple, right? That's it.
-
-You can now edit your PyFyre app through `src/__init__.py`, and see the magic.
+PyFyre has a built-in hot reload to enhance your productivity tremendously. Try it out by editing the `src/__init__.py` and see the magic works.
 
 ## Contributing
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for contributing.
 
 ## Stay Updated
-If you would like to get updates about the PyFyre framework, we created a [Facebook Page](https://www.facebook.com/PyFyreframework) where we are going to post all the updates like newly created widgets, adjustments, core updates, and more. Please consider liking it also. Thank you so much!!
+If you would like to get updates about the PyFyre framework, we created a [Facebook Page](https://www.facebook.com/PyFyreframework) where we are going to post all the updates like newly created widgets, adjustments, core updates, and more!
