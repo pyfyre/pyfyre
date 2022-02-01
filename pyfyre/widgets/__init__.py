@@ -134,3 +134,22 @@ class Link(Widget):
     def navigate(self, e):
         e.preventDefault()
         Router.push(self.to)
+
+class ListBuilder(Widget):
+    
+    def __init__(self, *, count, builder, onClick=None, className, props=None):
+        super().__init__("div", className=className, props=props)
+        self.count = count
+        self.builder = builder
+        self.onClick = onClick
+    
+    def dom(self):
+        element = super().dom()
+        
+        if self.onClick is not None:
+            element.bind("click", self.onClick)
+        
+        for i in range(self.count):
+            element.appendChild(self.builder(i).dom())
+        
+        return element
