@@ -188,6 +188,7 @@ def produce(directory_path, build_path, reload=False):
         try:
             rmtree("__serve__")
             rmtree("__temp__")
+            rmtree("__pycache__")
         except Exception: pass
 
         rmtree("pyf_modules")
@@ -196,7 +197,6 @@ def produce(directory_path, build_path, reload=False):
         os.remove("settings.yaml")
 
         rmtree("src")
-        rmtree("__pycache__")
 
 def run_app(directory, port: int=5500):
     print("Running your app in a development server...")
