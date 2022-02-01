@@ -185,10 +185,17 @@ def produce(directory_path, build_path, reload=False):
 
     # Remove unnecessary files
     if not reload:
+        try:
+            rmtree("__serve__")
+            rmtree("__temp__")
+        except Exception: pass
+
+        rmtree("pyf_modules")
+
         os.remove("README.md")
         os.remove("settings.yaml")
+
         rmtree("src")
-        rmtree("pyf_modules")
         rmtree("__pycache__")
 
 def run_app(directory, port: int=5500):
