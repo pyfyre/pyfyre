@@ -85,10 +85,16 @@ def produce(directory_path, build_path, reload=False):
     if not reload:
         copytree(directory_path, build_path)
 
-        with open(os.path.join(directory_path, "pyf_modules", "pyfyre.brython.js")) as file:
-            content = file.read()
-        with open(os.path.join(build_path, "pyfyre.brython.js"), "w") as file:
-            file.write(content)
+        for _, __, filenames in os.walk(os.path.join(build_path, "pyf_modules")):
+            for filename in filenames:
+
+                _, ext = os.path.splitext(filename)
+
+                if ext == ".js":
+                    with open(os.path.join(directory_path, "pyf_modules", filename)) as file:
+                        content = file.read()
+                    with open(os.path.join(build_path, filename), "w") as file:
+                        file.write(content)
 
         # Refresh the css files
         css_path = os.path.join(directory_path, "src", "css")
@@ -186,6 +192,9 @@ def produce(directory_path, build_path, reload=False):
     # Remove unnecessary files
     if not reload:
         try:
+            os.remove("requirements.txt")
+            os.remove("runtime.txt")
+
             rmtree("__serve__")
             rmtree("__temp__")
             rmtree("__pycache__")
