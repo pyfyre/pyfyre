@@ -12,7 +12,7 @@ class PyFyreApp:
         pass
     
     def update(self):
-        runApp(self)
+        runApp(Globals.__LOC__)
         
 class Widget:
     
@@ -32,16 +32,12 @@ class Widget:
 
 class Container(Widget):
     
-    def __init__(self, *, children, onClick=None, className, props=None):
+    def __init__(self, children=[], className="", props=None):
         super().__init__("div", className=className, props=props)
         self.children = children
-        self.onClick = onClick
     
     def dom(self):
         element = super().dom()
-        
-        if self.onClick is not None:
-            element.bind("click", self.onClick)
         
         for child in self.children:
             element.appendChild(child.dom())
@@ -50,26 +46,21 @@ class Container(Widget):
 
 class Button(Widget):
     
-    def __init__(self, *, textContent: str="Button", onClick=None, className, props):
+    def __init__(self, textContent, className="", props=None):
         super().__init__("button", className=className, props=props)
         self.textContent = textContent
-        self.onClick = onClick
     
     def dom(self):
         element = super().dom()
         element.textContent = self.textContent
         
-        if self.onClick is not None:
-            element.bind("click", self.onClick)
-        
         return element
 
 class Anchor(Widget):
     
-    def __init__(self, *, textContent: str="Anchor", onClick=None, link: str="#", className, props=None):
+    def __init__(self, textContent, link: str="#", className="", props=None):
         super().__init__("a", className=className, props=props)
         self.textContent = textContent
-        self.onClick = onClick
         self.link = link
     
     def dom(self):
@@ -77,47 +68,36 @@ class Anchor(Widget):
         element.textContent = self.textContent
         element.href = self.link
         
-        if self.onClick is not None:
-            element.bind("click", self.onClick)
-        
         return element
 
 class Text(Widget):
     
-    def __init__(self, *, textContent: str="Anchor", onClick=None, className, props=None):
+    def __init__(self, textContent: str, className="", props=None):
         super().__init__("p", className=className, props=props)
         self.textContent = textContent
-        self.onClick = onClick
     
     def dom(self):
         element = super().dom()
         element.textContent = self.textContent
-        
-        if self.onClick is not None:
-            element.bind("click", self.onClick)
         
         return element
 
 
 class Image(Widget):
     
-    def __init__(self, *, src, onClick=None, className, props=None):
+    def __init__(self, src, className="", props=None):
         super().__init__("img", className=className, props=props)
         self.src = src
-        self.onClick = onClick
     
     def dom(self):
         element = super().dom()
         element.src = self.src
         
-        if self.onClick is not None:
-            element.bind("click", self.onClick)
-        
         return element
 
 class Link(Widget):
     
-    def __init__(self, *, textContent: str="Anchor", to='/', className, props=None):
+    def __init__(self, textContent: str, to='/', className="", props=None):
         super().__init__("a", className=className, props=props)
         self.textContent = textContent
         self.to = to
@@ -137,17 +117,13 @@ class Link(Widget):
 
 class ListBuilder(Widget):
     
-    def __init__(self, *, count, builder, onClick=None, className, props=None):
+    def __init__(self, count=1, builder=None, className="", props=None):
         super().__init__("div", className=className, props=props)
         self.count = count
         self.builder = builder
-        self.onClick = onClick
     
     def dom(self):
         element = super().dom()
-        
-        if self.onClick is not None:
-            element.bind("click", self.onClick)
         
         for i in range(self.count):
             element.appendChild(self.builder(i).dom())
