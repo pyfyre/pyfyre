@@ -20,16 +20,17 @@
 .counter-app {
     margin-top: 2rem;
     display: flex;
+    flex-direction: column;
+}
+
+.counters {
+    display: flex;
     justify-content: center;
     height: 50px;
+    align-items: center;
 }
 
-.counter {
-    margin-left: 10px;
-    margin-right: 10px;
-    font-size: 2rem;
-}
-
-.btn {
-    padding: 10px;
+.btn-counter {
+    margin-left: 0.75rem;
+    margin-right: 0.75rem;
 }

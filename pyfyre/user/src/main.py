@@ -1,3 +1,4 @@
+from src.components.counterapp import CounterApp
 from pyfyre.widgets import *
 from src.components.experiment import Experiment
 
@@ -15,6 +16,7 @@ class MyWebpage(UsesState):
                     f"{self.greet} to PyFyre!",
                     className="title"
                 ),
-                Experiment()
+                Experiment(),
+                CounterApp()
             ]
         )
