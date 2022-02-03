@@ -16,23 +16,30 @@ class PyFyreApp:
         
 class Widget:
     
-    def __init__ (self, tagname: str, *, className, props=None):
+    def __init__ (self, tagname: str, *, className, props: dict=None):
         self.tagname = tagname
         self.className = className
+        self.element = None
         self.props = props if props is not None else {}
     
     def dom(self):
         element = document.createElement(self.tagname)
         element.className = self.className
+
+        self.element = element
         
         for key, value in self.props.items():
             element.attrs[key] = value
         
         return element
 
+    def update(self):
+        self.element.remove()
+        self.element = self.dom()
+
 class Container(Widget):
     
-    def __init__(self, children=[], className="", props=None):
+    def __init__(self, children=[], className="", props: dict=None):
         super().__init__("div", className=className, props=props)
         self.children = children
     
@@ -46,19 +53,22 @@ class Container(Widget):
 
 class Button(Widget):
     
-    def __init__(self, textContent, className="", props=None):
+    def __init__(self, textContent, onClick=lambda: print(""), className="", props: dict=None):
         super().__init__("button", className=className, props=props)
         self.textContent = textContent
+        self.onClick = onClick
     
     def dom(self):
         element = super().dom()
         element.textContent = self.textContent
+
+        element.bind("click", self.onClick)
         
         return element
 
 class Anchor(Widget):
     
-    def __init__(self, textContent, link: str="#", className="", props=None):
+    def __init__(self, textContent, link: str="#", className="", props: dict=None):
         super().__init__("a", className=className, props=props)
         self.textContent = textContent
         self.link = link
@@ -72,7 +82,7 @@ class Anchor(Widget):
 
 class Text(Widget):
     
-    def __init__(self, textContent: str, className="", props=None):
+    def __init__(self, textContent: str, className="", props: dict=None):
         super().__init__("p", className=className, props=props)
         self.textContent = textContent
     
@@ -85,7 +95,7 @@ class Text(Widget):
 
 class Image(Widget):
     
-    def __init__(self, src, className="", props=None):
+    def __init__(self, src, className="", props: dict=None):
         super().__init__("img", className=className, props=props)
         self.src = src
     
@@ -97,7 +107,7 @@ class Image(Widget):
 
 class Link(Widget):
     
-    def __init__(self, textContent: str, to='/', className="", props=None):
+    def __init__(self, textContent: str, to='/', className="", props: dict=None):
         super().__init__("a", className=className, props=props)
         self.textContent = textContent
         self.to = to
@@ -117,7 +127,7 @@ class Link(Widget):
 
 class ListBuilder(Widget):
     
-    def __init__(self, count=1, builder=None, className="", props=None):
+    def __init__(self, count=1, builder=None, className="", props: dict=None):
         super().__init__("div", className=className, props=props)
         self.count = count
         self.builder = builder
