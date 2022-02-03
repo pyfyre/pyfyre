@@ -1,7 +1,7 @@
 from pyf_modules.widgets import *
 from pyf_modules.pyfyre import runApp
 
-class App(PyFyreApp):
+class App(UsesState):
     def __init__(self):
         self.count = 0
 

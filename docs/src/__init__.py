@@ -4,7 +4,7 @@ from src.main import HomePage
 from src.components.header import Header
 from src.components.docs import Docs
 
-class App(PyFyreApp):
+class App(UsesState):
     def __init__(self):
         self.greet = "Hello, there"
 

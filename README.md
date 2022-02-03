@@ -20,7 +20,7 @@ See how easy it is to create a simple Hello World web app that shows Hello, Worl
 from pyfyre.widgets import *
 from pyfyre.pyfyre import runApp
 
-class MyWebpage(PyFyreApp):
+class MyWebpage(UsesState):
     def build(self):
         return Container(
             className = "container",

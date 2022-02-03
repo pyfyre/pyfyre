@@ -4,9 +4,9 @@ from src.main import MyWebpage
 
 # This class is called at `runApp` method
 # at the bottom. A class that inherits
-# PyFyreApp class has a `build` method that
+# UsesState class has a `build` method that
 # should return a Widget.
-class App(PyFyreApp):
+class App(UsesState):
     def __init__(self):
         # If you want to store a variable, you should store it
         # in `self` at the `__init__` method.
@@ -20,7 +20,7 @@ class App(PyFyreApp):
         return MyWebpage(self.greet)
 
 # This is the main entry point of your app.
-# Any class that inherits the PyFyreApp class
+# Any class that inherits the UsesState class
 # should be passed as the first parameter.
 # The second parameter is the `mount`, it's
 # an provided element id where your app will render.

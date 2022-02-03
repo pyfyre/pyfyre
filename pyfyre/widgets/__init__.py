@@ -6,14 +6,29 @@ from pyfyre.globals import Globals
 from browser import document, window
 from pyfyre.router import Router
 
-class PyFyreApp:
+class UsesState:
+
+    def __init__(self):
+        self.domElement = None
     
     def build(self):
         pass
-    
+
+    def dom(self):
+        self.domElement = self.build().dom()
+        return self.domElement
+
     def update(self):
-        runApp(Globals.__LOC__)
+        """
+        Updates the DOM element. Instead of painting the app again
+        for state change, only update the DOM where the change happens.
+        """
         
+        parentNode = self.domElement.parentNode
+        self.domElement.remove()
+        self.domElement = self.dom()
+        parentNode.appendChild(self.domElement)
+
 class Widget:
     
     def __init__ (self, tagname: str, *, className, props: dict=None):
@@ -33,9 +48,6 @@ class Widget:
         
         return element
 
-    def update(self):
-        self.element.remove()
-        self.element = self.dom()
 
 class Container(Widget):
     

@@ -6,7 +6,7 @@ from pyf_modules.pyfyre import runApp
 # third-party imports #
 from browser import document
 
-class PyFyreApp(ABC):
+class UsesState(ABC):
     
     @abstractmethod
     def build(self):

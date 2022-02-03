@@ -3,7 +3,7 @@ from pyf_modules.widgets import *
 from pyf_modules.pyfyre import runApp
 from pyf_modules.ajax import Ajax
 
-class App(PyFyreApp):
+class App(UsesState):
     def __init__(self):
         self.image = "None"
     

@@ -1,7 +1,7 @@
 from pyf_modules.widgets import *
 from pyf_modules.pyfyre import runApp
 
-class App(PyFyreApp):
+class App(UsesState):
     def build(self):
         return Container(
             className = "container",
@@ -18,7 +18,7 @@ class App(PyFyreApp):
             ]
         )
 
-class AboutPage(PyFyreApp):
+class AboutPage(UsesState):
     def build(self):
         return Container(
             className="container-2",
