@@ -43,9 +43,6 @@ class HomePage(Container):
             
             layouts.append(_layouts)
 
-        def placeholder(e):
-            print("Click!")
-
         def feature(i):
             return Container(
                 className="",
@@ -115,15 +112,15 @@ class HomePage(Container):
                         Container(
                             className="flex space-x-3 mx-auto mt-20 mb-44",
                             children=[
-                                Text(
+                                Link(
                                     className="bg-[#444444] w-fit px-5 py-2 text-base rounded-3xl text-white cursor-pointer",
                                     textContent="Documentation",
-                                    onClick=placeholder
+                                    to="/docs"
                                 ),
-                                Text(
+                                Link(
                                     className="bg-[#fab327] w-fit px-5 py-2 text-base rounded-3xl text-white cursor-pointer",
                                     textContent="Get started",
-                                    onClick=placeholder
+                                    to="/docs/introduction"
                                 )
                             ]
                         )
