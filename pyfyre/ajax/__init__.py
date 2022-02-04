@@ -1,6 +1,5 @@
 from browser import ajax
 
-#
 class Ajax:
     def get(url, then):
         req = ajax.ajax()

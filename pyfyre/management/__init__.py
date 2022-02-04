@@ -45,7 +45,7 @@ def create_app(app_name: str, app_description: str):
     
     # edit the `index.html` file
     with open(os.path.join(user_dir, "index.html")) as file:
-        content = file.read().format(app_name=app_name, app_description=app_description, pyfyre_key="{pyfyre_key}", src_key="{src_key}")
+        content = file.read().format(app_name=app_name, app_description=app_description, modules_key="{modules_key}", builtins_key="{builtins_key}", pyfyre_key="{pyfyre_key}")
     with open(os.path.join(user_dir, "index.html"), "w") as file:
         file.write(content)
     
@@ -62,18 +62,35 @@ def create_app(app_name: str, app_description: str):
         file.write(content)
 
     os.chdir(os.path.join(path, "pyfyre"))
-    os.system("brython-cli --make_package pyfyre")
 
-    with open(os.path.join("pyfyre.brython.js")) as file:
-        content = file.read()
+    os.system("brython-cli --install")
+
+    # Remove unused files produced by Brython
+    os.remove("demo.html")
+    os.remove("unicode.txt")
+    os.remove("README.txt")
+    os.remove("brython.js")
+    os.remove("index.html")
+
+    rmtree(os.path.join(path, "pyfyre", "management"))
+    rmtree(os.path.join(path, "pyfyre", "user"))
+
+    os.system("brython-cli --modules")
+    os.system("brython-cli --make_package pyfyre")
 
     os.chdir(os.path.join(".."))
     os.mkdir("pyf_modules")
-    rmtree("pyfyre")
 
-    with open(os.path.join("pyf_modules", "pyfyre.brython.js"), "w") as file:
+    with open(os.path.join(path, "pyfyre", "brython_modules.js")) as file:
+        content = file.read()
+    with open(os.path.join("pyf_modules", "builtins.js"), "w") as file:
         file.write(content)
-        
+    with open(os.path.join(path, "pyfyre", "pyfyre.brython.js")) as file:
+        content = file.read()
+    with open(os.path.join("pyf_modules", "modules.js"), "w") as file:
+        file.write(content)
+    
+    rmtree("pyfyre")
     os.system("cls" if os.name == "nt" else "clear")
     
     print("Project created successfully.")
@@ -117,10 +134,9 @@ def produce(directory_path, build_path, reload=False):
     os.remove(os.path.join(build_path, "brython.js"))
 
     # Produce modules
-
     if reload: os.chdir(directory_path)
 
-    os.system("brython-cli --modules") 
+    os.system("brython-cli --modules")
     
     # Write files to build directory
     with open(os.path.join(build_path, "index.html"), "w") as file:
@@ -165,14 +181,16 @@ def produce(directory_path, build_path, reload=False):
     if not reload:
         # Rename files for production secret
         modules_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
+        builtins_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
         pyfyre_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
 
         os.rename("brython_modules.js", "main.%s.js" % modules_key)
-        os.rename("pyfyre.brython.js", "pyf.%s.js" % pyfyre_key)
+        os.rename("modules.js", "std.%s.js" % builtins_key)
+        os.rename("builtins.js", "pyf.%s.js" % pyfyre_key)
 
         # Format the js script link of the `index.html`
         with open(os.path.join(build_path, "index.html")) as file:
-            content = file.read().format(modules_key=modules_key, pyfyre_key=pyfyre_key)
+            content = file.read().format(modules_key=modules_key, pyfyre_key=pyfyre_key, builtins_key=builtins_key)
         with open(os.path.join(build_path, "index.html"), "w") as file:
             file.write(content)
 
