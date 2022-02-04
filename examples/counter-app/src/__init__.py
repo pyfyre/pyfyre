@@ -1,47 +1,36 @@
-from pyf_modules.widgets import *
-from pyf_modules.pyfyre import runApp
+from pyfyre.widgets import *
+from pyfyre.pyfyre import runApp
 
 class App(UsesState):
     def __init__(self):
         self.count = 0
 
+    def increment(self, event):
+        self.count = self.count + 1
+        self.update()
+
+    def decrement(self, event):
+        self.count = self.count - 1
+        self.update()
+
     def build(self):
-        
-        def increment(event):
-            self.count = self.count + 1
-            self.update()
-
-        def decrement(event):
-            self.count = self.count - 1
-            self.update()
-
         return Container(
-            className = "container",
-            children = [
-                Text(
-                    className = "title",
-                    textContent = "Welcome to PyFyre!"
-                ),
-                Text(
-                    className = "desc",
-                    textContent = "Try the Counter app on the bottom and make an experiment, edit the src/main.py and wait for it to reload automatically on a liveserver."
-                ),
+            props={"style": "height: 100vh; width: 100vw; display: flex; flex-direction: column; justify-content: center; align-items: center;"},
+            children=[
+                Text("Counter app example:"),
                 Container(
-                    className = "counter-app",
-                    children = [
+                    className="counters",
+                    children=[
                         Button(
-                            className="btn",
-                            textContent="-",
-                            onClick=decrement
+                            "-",
+                            onClick=self.decrement,
+                            className="btn-counter"
                         ),
-                        Text(
-                            className="counter",
-                            textContent=self.count
-                        ),
+                        Text(self.count),
                         Button(
-                            className="btn",
-                            textContent="+",
-                            onClick=increment
+                            "+",
+                            onClick=self.increment,
+                            className="btn-counter"
                         )
                     ]
                 )

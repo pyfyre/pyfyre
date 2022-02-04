@@ -1,34 +1,31 @@
-import json
-from pyf_modules.widgets import *
-from pyf_modules.pyfyre import runApp
-from pyf_modules.ajax import Ajax
+from pyfyre.widgets import *
+from pyfyre.pyfyre import runApp
+from pyfyre.ajax import Ajax
 
 class App(UsesState):
     def __init__(self):
-        self.image = "None"
+        self.image = self.fetch(0)
+
+    def fetch(self, e):
+        Ajax.get("https://randomuser.me/api", then=self.display)
+
+    def display(self, request):
+        self.image = request.json["results"][0]["picture"]["large"]
+
+        self.update() # Rerender the app
     
     def build(self):
-        
-        def fetch(event):
-            Ajax.get("https://randomuser.me/api", then=display)
-
-        def display(request):
-            data = json.loads(request.text)
-            self.image = data["results"][0]["picture"]["large"]
-
-            self.update() # Rerender the app
-
         return Container(
-            className = "container",
+            props={"style": "height: 100vh; width: 100vw; display: flex; flex-direction: column; justify-content: center;"},
             children = [
                 Image(
-                    className="image",
+                    props={"style": "width: 300px; height: 300px; margin-left: auto; margin-right: auto;"},
                     src=self.image
                 ),
                 Button(
-                    className="btn",
+                    props={"style": "width: 300px; margin-top: 30px; margin-left: auto; margin-right: auto;"},
                     textContent="Fetch Random User",
-                    onClick=fetch
+                    onClick=self.fetch
                 )
             ]
         )
