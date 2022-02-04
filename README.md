@@ -10,7 +10,7 @@
 PyFyre is a web frontend framework for building reactive static user interfaces on the web using Python.
 - Component-based framework. Developers who have experience of using other frontend frameworks should feel quite at home when using PyFyre, especially Flutter developers.
 - Supports JavaScript interoperability, allowing developers to leverage NPM packages and integrate with existing JavaScript applications.
-- Supports CPython interoparabilty, allowing developers to use existing PyPi packages on the client-side web.
+- Supports CPython interoperability, allowing developers to use existing PyPi packages on the client-side web.
 
 *Note: PyFyre is not 1.0 yet. Be prepared to do major refactoring due to breaking API changes.*
 
