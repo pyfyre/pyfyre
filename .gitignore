@@ -5,6 +5,7 @@ __pycache__/
 
 # PyFyre
 __serve__/
+__dev__/
 
 # C extensions
 *.so

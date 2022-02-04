@@ -128,7 +128,7 @@ def produce(directory_path, build_path, reload=False):
     if reload:
         os.remove("src.brython.js")
 
-        _temp = set(["__temp__", "__serve__"])
+        _temp = set(["__temp__", "__serve__", "__dev__"])
 
         # Remove the src files
         for _, dirs, filenames in os.walk(build_path):
