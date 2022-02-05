@@ -4,7 +4,7 @@ class BaseException:
     def __init__(self, e):
         self.e = e
 
-    def printScreen(self):
+    def dom(self):
         return self.TextException(self.e).dom()
 
     class TextException(Widget):

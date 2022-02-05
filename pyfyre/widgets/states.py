@@ -16,7 +16,7 @@ class UsesState:
             self.domElement = self.build().dom()
             return self.domElement
         except Exception as e:
-            self.domElement = self.onerror(e).printScreen()
+            self.domElement = self.onerror(e).dom()
             return self.domElement
 
     def onerror(self, e):
