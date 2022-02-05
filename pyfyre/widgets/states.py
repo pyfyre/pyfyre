@@ -1,5 +1,21 @@
 """PyFyre States"""
 
+from pyfyre.widgets.widget import Widget
+
+class TextException(Widget):
+    
+    def __init__(self, error: str, className="", props: dict=None):
+        super().__init__("h1", className=className, props=props)
+        self.error = error
+    
+    def dom(self):
+        element = super().dom()
+        element.textContent = self.error
+        
+        element.attrs["style"] = "background-color: #efa3a3; width: fit-content; padding: 10px;"
+        
+        return element
+
 class UsesState:
 
     def __init__(self):
@@ -9,8 +25,29 @@ class UsesState:
         pass
 
     def dom(self):
-        self.domElement = self.build().dom()
-        return self.domElement
+        try:
+            self.domElement = self.build().dom()
+            return self.domElement
+        except Exception as e:
+            self.domElement = self.onerror(e).dom()
+            return self.domElement
+
+    def onerror(self, e):
+        """
+        Handle errors on every component separately. When an error
+        interrupts the `build` method on the component, this `onerror`
+        method will be fired and you can handle it professionally without
+        blowing the entire app.
+        
+        Override this method by declaring another `onerror` method on your
+        component and taking another parameter where the error exception will
+        pass. You must return a widget in which when an error occured,
+        it will replace the component temporarily.
+        """
+        
+        print("ERR!", e)
+
+        return TextException("Oh no! Something went wrong. We're working on fixing it.")
 
     def update(self):
         """
