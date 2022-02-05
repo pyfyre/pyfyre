@@ -1,20 +1,7 @@
 """PyFyre States"""
 
 from pyfyre.widgets.widget import Widget
-
-class TextException(Widget):
-    
-    def __init__(self, error: str, className="", props: dict=None):
-        super().__init__("h1", className=className, props=props)
-        self.error = error
-    
-    def dom(self):
-        element = super().dom()
-        element.textContent = self.error
-        
-        element.attrs["style"] = "background-color: #efa3a3; width: fit-content; padding: 10px;"
-        
-        return element
+from pyfyre.core.exceptions import RenderError
 
 class UsesState:
 
@@ -29,7 +16,7 @@ class UsesState:
             self.domElement = self.build().dom()
             return self.domElement
         except Exception as e:
-            self.domElement = self.onerror(e).dom()
+            self.domElement = self.onerror(e).printScreen()
             return self.domElement
 
     def onerror(self, e):
@@ -47,7 +34,7 @@ class UsesState:
         
         print("ERR!", e)
 
-        return TextException("Oh no! Something went wrong. We're working on fixing it.")
+        return RenderError("Oh no! Something went wrong. We're working on fixing it.")
 
     def update(self):
         """
