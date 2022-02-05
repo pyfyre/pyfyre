@@ -41,8 +41,8 @@ class UsesState:
         
         Override this method by declaring another `onerror` method on your
         component and taking another parameter where the error exception will
-        pass. You must return a widget in which when an error occured,
-        it will replace the component temporarily.
+        pass. You must return a widget in which the UI you want your
+        users to see temporarily.
         """
         
         print("ERR!", e)
