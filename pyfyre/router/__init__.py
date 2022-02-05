@@ -5,10 +5,26 @@ from pyfyre.pyfyre import runApp
 from browser import document, window, bind
 
 class Router:
-    """
-    Router v0.2-alpha.
+    """Router v0.2-alpha.
+    
+    Creates a wrapper object with window location
+    history listener that when it's changed,
+    the whole app rerenders and get the provided
+    routes and map it correctly.
 
-    TODO: add url linking.
+    Attributes
+    ----------
+    routes : dict
+        A dictionary of object routes. Every value
+        must inherit the [UsesState] object.
+
+        For instance:
+            Router(
+                routes={
+                    "/": Home(),
+                    "/about": About()
+                }
+            )
     """
 
     def __init__(self, routes):

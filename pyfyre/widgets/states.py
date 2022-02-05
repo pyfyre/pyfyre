@@ -4,6 +4,20 @@ from pyfyre.widgets.widget import Widget
 from pyfyre.core.exceptions import RenderError
 
 class UsesState:
+    """Create a component that is stateful.
+
+    If you think the component will update again and again,
+    you might want to use [UsesState] for that component.
+
+    This allows you to rerender the component when data
+    changes by calling `self.update()` method.
+
+    This also wraps the uncaught errors on `self.onerror` method
+    where you can also override and create your own UI error.
+
+    Your [UsesState] method must override the build method returning
+    an another component or a Widget.
+    """
 
     def __init__(self):
         self.domElement = None
