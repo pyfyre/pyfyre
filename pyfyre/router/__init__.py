@@ -89,14 +89,13 @@ class Router:
                 pathurl = self.pathurl
 
                 for route in Globals.DYNAMIC_ROUTES:
-                    print(route[0], route[1])
                     if route[0] == pathurl:
                         dom = route[1].dom()
             except Exception:
                 # TODO: Create a 404.py that allows develoeprs to customize 404 UI.
                 # that can also be modified on the settings so they can
                 # customize the 404.py name for their like.
-                raise Exception("404: Cannot find the path you give.")
+                raise Exception("PATH 404: Cannot find the path.")
 
         return dom
 
