@@ -147,7 +147,6 @@ def produce(directory_path, build_path, reload=False):
     
     # Remove the reloading files for refresh
     if reload:
-        os.remove("src.brython.js")
 
         _ignores = set(["__temp__", "__serve__", "__dev__"])
 
