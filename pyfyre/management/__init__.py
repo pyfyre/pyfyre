@@ -45,7 +45,7 @@ def create_app(app_name: str, app_description: str):
     
     # edit the `index.html` file
     with open(os.path.join(user_dir, "index.html")) as file:
-        content = file.read().format(app_name=app_name, app_description=app_description, modules_key="{modules_key}", builtins_key="{builtins_key}", pyfyre_key="{pyfyre_key}")
+        content = file.read().format(app_name=app_name, app_description=app_description, main_key="{main_key}", builtins_key="{builtins_key}", pyfyre_key="{pyfyre_key}")
     with open(os.path.join(user_dir, "index.html"), "w") as file:
         file.write(content)
     
@@ -75,8 +75,9 @@ def create_app(app_name: str, app_description: str):
     rmtree(os.path.join(path, "pyfyre", "management"))
     rmtree(os.path.join(path, "pyfyre", "user"))
 
-    os.system("brython-cli --modules")
     os.system("brython-cli --make_package pyfyre")
+    os.remove("pyfyre.py")
+    os.system("brython-cli --modules")
 
     os.chdir(os.path.join(".."))
     os.mkdir("pyf_modules")
@@ -124,21 +125,14 @@ def produce(directory_path, build_path, reload=False):
         index_content = file.read()
 
     # Produce the necessary standard library for Brython
-    os.chdir(build_path)
-    os.system("brython-cli --install")
+    os.chdir(os.path.join(directory_path, "src"))
+    os.system("brython-cli --make_package src")
 
-    # Remove unused files produced by Brython
-    os.remove(os.path.join(build_path, "demo.html"))
-    os.remove(os.path.join(build_path, "unicode.txt"))
-    os.remove(os.path.join(build_path, "README.txt"))
-    os.remove(os.path.join(build_path, "brython.js"))
-
-    # Produce modules
-    if reload: os.chdir(directory_path)
-
-    os.system("brython-cli --modules")
-    
     # Write files to build directory
+    with open(os.path.join("src.brython.js")) as file:
+        content = file.read()
+    with open(os.path.join(build_path, "src.brython.js"), "w") as file:
+        file.write(content)
     with open(os.path.join(build_path, "index.html"), "w") as file:
         file.write(index_content)
     with open(os.path.join(directory_path, "src", "__init__.py")) as file:
@@ -147,10 +141,13 @@ def produce(directory_path, build_path, reload=False):
         file.flush()
         file.write(content)
 
+    os.remove("src.brython.js")
+
     os.chdir(build_path)
     
     # Remove the reloading files for refresh
     if reload:
+        os.remove("src.brython.js")
 
         _ignores = set(["__temp__", "__serve__", "__dev__"])
 
@@ -163,7 +160,7 @@ def produce(directory_path, build_path, reload=False):
 
                 if ext == ".js":
                     if "main" in name:
-                        with open(os.path.join(build_path, "brython_modules.js")) as file:
+                        with open(os.path.join(build_path, "src.brython.js")) as file:
                             content = file.read()
                         with open(filename, "w") as file:
                             file.write(content)
@@ -180,40 +177,36 @@ def produce(directory_path, build_path, reload=False):
 
     if not reload:
         # Rename files for production secret
-        modules_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
+        main_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
         builtins_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
         pyfyre_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
 
-        os.rename("brython_modules.js", "main.%s.js" % modules_key)
-        os.rename("modules.js", "std.%s.js" % builtins_key)
-        os.rename("builtins.js", "pyf.%s.js" % pyfyre_key)
+        os.rename("src.brython.js", "main.%s.js" % main_key)
+        os.rename("modules.js", "pyf.%s.js" % pyfyre_key)
+        os.rename("builtins.js", "std.%s.js" % builtins_key)
 
         # Format the js script link of the `index.html`
         with open(os.path.join(build_path, "index.html")) as file:
-            content = file.read().format(modules_key=modules_key, pyfyre_key=pyfyre_key, builtins_key=builtins_key)
+            content = file.read().format(main_key=main_key, pyfyre_key=pyfyre_key, builtins_key=builtins_key)
         with open(os.path.join(build_path, "index.html"), "w") as file:
             file.write(content)
 
     # Remove unnecessary files
     if not reload:
         try:
-            os.remove("requirements.txt")
-            os.remove("runtime.txt")
-
             rmtree("__serve__")
             rmtree("__temp__")
             rmtree("__pycache__")
+
+            os.remove("requirements.txt")
+            os.remove("runtime.txt")
         except Exception: pass
 
         rmtree("pyf_modules")
         os.remove("README.md")
         os.remove("settings.yaml")
-        os.remove("brython_stdlib.js")
 
         rmtree("src")
-    elif reload:
-        os.remove("brython_stdlib.js")
-        os.remove("brython_modules.js")
 
 def run_app(directory, port):
     print("Running your app in a development server...")
@@ -279,14 +272,14 @@ def execute_from_command_line(argv=None):
             create_app(name, description)
         elif sys.argv[1] == "runapp":
             try:
-                directory = sys.argv[2]
-            except IndexError:
-                directory = None
-
-            try:
-                port = sys.argv[3]
+                port = sys.argv[2]
             except IndexError:
                 port = None
+
+            try:
+                directory = sys.argv[3]
+            except IndexError:
+                directory = None
 
             run_app(directory, port)
         elif sys.argv[1] == "build":
