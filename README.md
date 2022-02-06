@@ -12,7 +12,9 @@ PyFyre is a web frontend framework for building reactive static user interfaces 
 - Supports JavaScript interoperability, allowing developers to leverage NPM packages and integrate with existing JavaScript applications.
 - Supports CPython interoperability, allowing developers to use existing PyPi packages on the client-side web.
 
-*Note: PyFyre is not 1.0 yet. Be prepared to do major refactoring due to breaking API changes.*
+PyFyre is at the top of Brython (Browser Python), a Python 3 implementation for client-side web programming.
+
+**Note: PyFyre is not 1.0 yet. Be prepared to do major refactoring due to breaking API changes.**
 
 ## Documentation
 Documentation for PyFyre is still in development.
