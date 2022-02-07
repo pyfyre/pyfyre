@@ -4,6 +4,8 @@ import os, sys, random, string, time
 from shutil import copytree, rmtree
 from distutils.dir_util import copy_tree
 
+from .python_minifier import minify
+
 class ManagementUtility:
     def pyfyre_help(self):
         PYFYRE_HELP = """Manage your PyFyre projects.
@@ -73,6 +75,8 @@ class ManagementUtility:
 
         rmtree(os.path.join(path, "pyfyre", "management"))
         rmtree(os.path.join(path, "pyfyre", "user"))
+
+        self.minify_dir(os.path.join(path, "pyfyre"))
 
         os.system("brython-cli --make_package pyfyre")
         os.remove("pyfyre.py")
@@ -306,9 +310,25 @@ class ManagementUtility:
         with open(os.path.join(build_path, "index.html"), "w") as file:
             file.write(content)
 
+        with open(os.path.join(build_path, "__init__.py")) as file:
+            minified = minify(file.read())
+        with open(os.path.join(build_path, "__init__.py"), "w") as file:
+            file.write(minified)
+
         os.remove(f"src.brython.js")
         os.remove(f"modules.js")
         os.remove(f"builtins.js")
+
+    def minify_dir(self, path):
+        for dirpath, _, filenames in os.walk(path):
+            for filename in filenames:
+                _, ext = os.path.splitext(filename)
+
+                if ext == ".py":
+                    with open(os.path.join(dirpath, filename)) as file:
+                        minified = minify(file.read())
+                    with open(os.path.join(dirpath, filename), "w") as file:
+                        file.write(minified)
 
 def execute_from_command_line(argv=None):
     utility = ManagementUtility()
