@@ -75,10 +75,10 @@ class Router:
         for routeName, view in self.routes.items():
             pathname = routeName.split('/')
 
-            query = pathname[-1]
-            pathurl = pathname[-2]
-            
             try:
+                query = pathname[-1]
+                pathurl = pathname[-2]
+                
                 if query[0] == ":":
                     queryName = query.replace(":", "")
                     Globals.DYNAMIC_ROUTES.append([pathurl, queryName, view])
