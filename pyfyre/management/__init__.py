@@ -6,24 +6,6 @@ from distutils.dir_util import copy_tree
 
 from .python_minifier import minify
 
-__GITIGNORE__ = """# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-
-# PyFyre
-build/
-__serve__/
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/"""
-
 def execute_from_command_line(argv=None):
     utility = ManagementUtility()
 
@@ -261,6 +243,9 @@ class ManagementUtility:
             try: os.remove("runtime.txt")
             except Exception: ...
 
+            try: os.remove(".gitignore")
+            except Exception: ...
+
             rmtree("pyf_modules")
             os.remove("README.md")
             os.remove("settings.yaml")
@@ -287,7 +272,7 @@ class ManagementUtility:
         def reload():
             print("Detected file changes, performing hot reload...")
             self.produce(_directory, _build, reload=True)
-            self.produceJsBundle(_build)
+            self.produceJsBundle(_build, _directory, reload=True)
             print("Hot reload successful!")
 
         self.produce(_directory, _build)
@@ -315,7 +300,7 @@ class ManagementUtility:
 
         print("Build succeeded!")
 
-    def produceJsBundle(self, build_path):
+    def produceJsBundle(self, build_path, directory_path=None, reload=False):
 
         try:
             import js2py
@@ -329,19 +314,19 @@ class ManagementUtility:
         ctx_main = js2py.EvalJs()
         ctx_std = js2py.EvalJs()
         ctx_pyf = js2py.EvalJs()
-
-        with open(os.path.join(build_path, f"src.brython.js")) as file:
+        
+        with open(os.path.join(build_path, "src.brython.js")) as file:
             content = file.readlines()
             content.pop(0)
             content.pop(1)
             main_js = ''.join(content)
-        with open(os.path.join(build_path, f"builtins.js")) as file:
+        with open(os.path.join(build_path, "builtins.js") if not reload else os.path.join(directory_path, "pyf_modules", "builtins.js")) as file:
             content = file.readlines()
             content.pop(0)
             content.pop(0)
             content.pop(1)
             std_js = ''.join(content)
-        with open(os.path.join(build_path, f"modules.js")) as file:
+        with open(os.path.join(build_path, "modules.js") if not reload else os.path.join(directory_path, "pyf_modules", "modules.js")) as file:
             content = file.readlines()
             content.pop(0)
             content.pop(1)
@@ -368,6 +353,16 @@ class ManagementUtility:
 
         main_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
 
+        if reload:
+            for _, _, files in os.walk(build_path):
+                for file in files:
+                    name, ext = os.path.splitext(file)
+
+                    if ext == ".js":
+                        if "main" in name:
+                            name = name.split('.')
+                            main_key = name[-1]
+
         with open(os.path.join(build_path, f"main.{main_key}.js"), "w") as file:
             vfs["$timestamp"] = int(1000 * time.time())
 
@@ -390,8 +385,10 @@ class ManagementUtility:
             file.write(minified)
 
         os.remove(f"src.brython.js")
-        os.remove(f"modules.js")
-        os.remove(f"builtins.js")
+
+        if not reload:
+            os.remove(f"modules.js")
+            os.remove(f"builtins.js")
 
     def minify_dir(self, path):
         for dirpath, _, filenames in os.walk(path):
@@ -403,6 +400,24 @@ class ManagementUtility:
                         minified = minify(file.read())
                     with open(os.path.join(dirpath, filename), "w") as file:
                         file.write(minified)
+
+__GITIGNORE__ = """# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyFyre
+build/
+__serve__/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/"""
 
 if __name__ == "__main__":
     execute_from_command_line()
