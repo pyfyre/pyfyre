@@ -90,9 +90,7 @@ class Router:
             dom = self.routes[Globals.__LOC__].dom()
         except KeyError:
             try:
-                path = f"{Globals.__LOC__}"
-                pathname = path.split('/')
-                pathurl = pathname[-2]
+                _, pathurl = self.get_params()
 
                 for route in Globals.DYNAMIC_ROUTES:
                     if route[0] == pathurl:
@@ -113,12 +111,8 @@ class Router:
 
     @staticmethod
     def query():
-        path = f"{Globals.__LOC__}"
-        pathname = path.split('/')
-
-        query = pathname[-1]
-        pathurl = pathname[-2]
-
+        query, pathurl = Router.get_params(Router)
+        
         queryNames = {}
 
         for route in Globals.DYNAMIC_ROUTES:
@@ -139,3 +133,12 @@ class Router:
             Globals.__LOC__ = window.location.pathname
             Events.broadcast("change_route")
             e.preventDefault()
+
+    def get_params(self):
+        path = f"{Globals.__LOC__}"
+        pathname = path.split('/')
+
+        query = pathname[-1]
+        pathurl = pathname[-2]
+
+        return query, pathurl
