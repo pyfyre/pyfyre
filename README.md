@@ -30,12 +30,8 @@ from pyfyre.pyfyre import runApp
 class MyWebpage(UsesState):
     def build(self):
         return Container(
-            className = "container",
-            children = [
-                Text(
-                    className = "title",
-                    textContent = "Hello, World!"
-                ),
+            children=[
+                Text("Hello, World!")
             ]
         )
 
