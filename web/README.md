@@ -1,2 +1,2 @@
-# docs-2
+# web
 PyFyre web application.

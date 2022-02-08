@@ -4,16 +4,17 @@ class Header(Container):
     def __init__(self):
 
         _nav_items = [
-            ["Documentation", "/docs"],
-            ["Examples", "/"],
-            ["Cookbook", "/"]
+            ["Documentation", "https://pyfyre.gitbook.io/docs/"],
+            # ["Examples", "/"],
+            # ["Cookbook", "/"]
         ]
 
         def nav_items(i):
             return Link(
                 className="block py-2 pr-4 pl-3 text-base text-white md:bg-transparent md:text-white md:p-0 dark:text-white cursor-pointer",
                 textContent=_nav_items[i][0],
-                to=_nav_items[i][1]
+                to=_nav_items[i][1],
+                external=True
             )
 
         super().__init__(
@@ -36,13 +37,15 @@ class Header(Container):
                             children=[
                                 ListBuilder(
                                     className="invisible flex space-x-5 lg:visible",
-                                    count=3,
+                                    count=len(_nav_items),
                                     builder=nav_items
                                 ),
-                                Text(
+                                Link(
                                     className="text-white cursor-pointer font-bold bg-[#fab327] focus:ring-4 font-medium rounded-3xl text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800",
-                                    textContent="Get started"
-                                ), 
+                                    textContent="Get Started",
+                                    to="https://pyfyre.gitbook.io/docs/quick-start",
+                                    external=True
+                                )
                             ]
                         ),
                     ]

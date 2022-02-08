@@ -1,6 +1,5 @@
 from pyfyre.widgets import *
 from src.components.cta import CallToAction
-from src.components.description import Descriptions
 
 # You can make components by inherting a Widget class
 # and initialize it on the `super().__init__()`.
@@ -74,15 +73,15 @@ class HomePage(Container):
                                         className="mb-8 text-base leading-relaxed text-left text-blueGray-600",
                                         textContent=_features[i][3]
                                     ),
-                                    Container(
-                                        className="flex flex-col justify-center lg:flex-row",
-                                        children=[
-                                            Text(
-                                                className="flex items-center px-6 py-2 mt-auto font-semibold text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-lg hover:bg-blue-700 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2",
-                                                textContent=_features[i][4]
-                                            ),
-                                        ]
-                                    )
+                                    # Container(
+                                    #     className="flex flex-col justify-center lg:flex-row",
+                                    #     children=[
+                                    #         Text(
+                                    #             className="flex items-center px-6 py-2 mt-auto font-semibold text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-lg hover:bg-blue-700 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2",
+                                    #             textContent=_features[i][4]
+                                    #         ),
+                                    #     ]
+                                    # )
                                 ]
                             )
                         ]
@@ -115,22 +114,23 @@ class HomePage(Container):
                                 Link(
                                     className="bg-[#444444] w-fit px-5 py-2 text-base rounded-3xl text-white cursor-pointer",
                                     textContent="Documentation",
-                                    to="/docs"
+                                    to="https://pyfyre.gitbook.io/docs/",
+                                    external=True
                                 ),
                                 Link(
                                     className="bg-[#fab327] w-fit px-5 py-2 text-base rounded-3xl text-white cursor-pointer",
                                     textContent="Get started",
-                                    to="/docs/introduction"
+                                    to="https://pyfyre.gitbook.io/docs/quick-start",
+                                    external=True
                                 )
                             ]
                         )
                     ]
                 ),
                 ListBuilder(
-                    className="",
                     count=len(_features),
                     builder=feature
                 ),
-                CallToAction("Brython", "PyFyre is powered by Brython, a Python 3 implementation for client-side web programming.", "brython.info"),
+                CallToAction("Brython", "PyFyre is powered by Brython, a Python 3 implementation for client-side web programming.", "https://brython.info"),
             ]
         )
