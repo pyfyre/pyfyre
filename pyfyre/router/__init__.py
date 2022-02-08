@@ -12,7 +12,7 @@ class Router:
     the whole app rerenders and get the provided
     routes and map it correctly.
 
-    Attributes
+    Parameters
     ----------
     routes : dict
         A dictionary of object routes. Every value
@@ -29,6 +29,8 @@ class Router:
                 }
             )
 
+    Attributes
+    ----------
     query : str
         If dynamic routing is allowed to the route, you can
         get the query of the route.
