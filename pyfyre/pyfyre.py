@@ -7,6 +7,8 @@ def runApp(app, mount="app-mount"):
 
     Parameters
     ----------
+    app : UsesState (Positional)
+        This is what the app will render.
     mount : str
         Where the app will mount on the index.html. This is a provided
         id of a `div` element.

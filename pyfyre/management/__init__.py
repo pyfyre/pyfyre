@@ -6,6 +6,67 @@ from distutils.dir_util import copy_tree
 
 from .python_minifier import minify
 
+__GITIGNORE__ = """# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyFyre
+build/
+__serve__/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/"""
+
+def execute_from_command_line(argv=None):
+    utility = ManagementUtility()
+
+    """Entry Point"""
+    try:
+        if sys.argv[1] == "create-app":
+            try:
+                name = sys.argv[2]
+            except IndexError:
+                name = "MyApp"
+            
+            try:
+                description = sys.argv[3]
+            except IndexError:
+                description = "PyFyre web application."
+            
+            utility.create_app(name, description)
+        elif sys.argv[1] == "runapp":
+            try:
+                port = sys.argv[2]
+            except IndexError:
+                port = None
+
+            try:
+                directory = sys.argv[3]
+            except IndexError:
+                directory = None
+
+            utility.run_app(directory, port)
+        elif sys.argv[1] == "build":
+            try:
+                directory = sys.argv[2]
+            except IndexError:
+                directory = None
+
+            utility.build_app(directory)
+        elif sys.argv[1] == "help":
+            utility.pyfyre_help()
+        else:
+            utility.pyfyre_help()
+    except IndexError as e:
+        utility.pyfyre_help()
+
 class ManagementUtility:
     def pyfyre_help(self):
         PYFYRE_HELP = """Manage your PyFyre projects.
@@ -33,8 +94,14 @@ class ManagementUtility:
         try:
             os.makedirs(path)
         except FileExistsError:
-            print("Project already exists. Aborted.")
-            return
+            prompt = input(f"Project already exists. Want to overwrite the project '{app_name}'? (y or n): ")
+
+            if prompt == "y":
+                rmtree(path)
+                os.makedirs(path)
+            else:
+                print("Aborting...")
+                return
         
         # copy the `core` directory contents to the user's project directory
         core_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -61,6 +128,10 @@ class ManagementUtility:
             content = file.read().format(app_name=app_name, app_description=app_description)
         with open(os.path.join(path, "settings.yaml"), "w") as file:
             file.write(content)
+
+        # edit the `.gitignore` file
+        with open(os.path.join(path, ".gitignore"), "w") as file:
+            file.write(__GITIGNORE__)
 
         os.chdir(os.path.join(path, "pyfyre"))
 
@@ -178,13 +249,17 @@ class ManagementUtility:
 
         # Remove unnecessary files
         if not reload:
-            try:
-                rmtree("__serve__")
-                rmtree("__pycache__")
+            try: rmtree("__serve__")
+            except Exception: ...
 
-                os.remove("requirements.txt")
-                os.remove("runtime.txt")
-            except Exception: pass
+            try: rmtree("__pycache__")
+            except Exception: ...
+            
+            try: os.remove("requirements.txt")
+            except Exception: ...
+            
+            try: os.remove("runtime.txt")
+            except Exception: ...
 
             rmtree("pyf_modules")
             os.remove("README.md")
@@ -249,7 +324,7 @@ class ManagementUtility:
 
         os.chdir(build_path)
 
-        main = {}
+        vfs = {}
 
         ctx_main = js2py.EvalJs()
         ctx_std = js2py.EvalJs()
@@ -272,7 +347,6 @@ class ManagementUtility:
             content.pop(1)
             pyf_js = ''.join(content)
 
-
         ctx_main.execute(main_js)
         ctx_std.execute(std_js)
         ctx_pyf.execute(pyf_js)
@@ -281,25 +355,25 @@ class ManagementUtility:
         std_scripts = ctx_std.scripts.to_dict()
         pyf_scripts = ctx_pyf.scripts.to_dict()
 
-        def loopThroughDict(sc):
+        def appendVfs(sc):
             for k, v in list(sc.items()):
                 if k == "$timestamp":
                     sc.pop(k)
                 
-                main[k] = v
+                vfs[k] = v
 
-        loopThroughDict(main_scripts)
-        loopThroughDict(std_scripts)
-        loopThroughDict(pyf_scripts)
+        appendVfs(main_scripts)
+        appendVfs(std_scripts)
+        appendVfs(pyf_scripts)
 
         main_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
 
         with open(os.path.join(build_path, f"main.{main_key}.js"), "w") as file:
-            main["$timestamp"] = time.time()
+            vfs["$timestamp"] = int(1000 * time.time())
 
             brython = [
                 "__BRYTHON__.use_VFS = true;\n",
-                f"var scripts = {str(main)}",
+                f"var scripts = {str(vfs)}",
                 "\n__BRYTHON__.update_VFS(scripts)"
             ]
             
@@ -329,49 +403,6 @@ class ManagementUtility:
                         minified = minify(file.read())
                     with open(os.path.join(dirpath, filename), "w") as file:
                         file.write(minified)
-
-def execute_from_command_line(argv=None):
-    utility = ManagementUtility()
-
-    """Entry Point"""
-    try:
-        if sys.argv[1] == "create-app":
-            try:
-                name = sys.argv[2]
-            except IndexError:
-                name = "MyApp"
-            
-            try:
-                description = sys.argv[3]
-            except IndexError:
-                description = "PyFyre web application."
-            
-            utility.create_app(name, description)
-        elif sys.argv[1] == "runapp":
-            try:
-                port = sys.argv[2]
-            except IndexError:
-                port = None
-
-            try:
-                directory = sys.argv[3]
-            except IndexError:
-                directory = None
-
-            utility.run_app(directory, port)
-        elif sys.argv[1] == "build":
-            try:
-                directory = sys.argv[2]
-            except IndexError:
-                directory = None
-
-            utility.build_app(directory)
-        elif sys.argv[1] == "help":
-            utility.pyfyre_help()
-        else:
-            utility.pyfyre_help()
-    except IndexError as e:
-        utility.pyfyre_help()
 
 if __name__ == "__main__":
     execute_from_command_line()

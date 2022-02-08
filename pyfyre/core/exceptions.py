@@ -20,5 +20,4 @@ class BaseException:
             
             return element
 
-class RenderError(BaseException):
-    pass
+class RenderError(BaseException): ...
