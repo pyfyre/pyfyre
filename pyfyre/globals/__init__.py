@@ -1,5 +1,7 @@
 
 class Globals:
+    
+    DEBUG = False
 
     # The Parent of all widgets object stored here
     # from `runApp`'s first parameter.

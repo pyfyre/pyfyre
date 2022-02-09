@@ -1,20 +1,23 @@
 from pyfyre.widgets.widget import Widget
 
 class BaseException:
-    def __init__(self, e):
+    def __init__(self, msg, e):
+        self.msg = msg
         self.e = e
 
     def dom(self):
-        return self.TextException(self.e).dom()
+        print(f"Uncaught exception: {self.e}")
+
+        return self.TextException(self.msg).dom()
 
     class TextException(Widget):
-        def __init__(self, error: str, className="", props: dict=None):
+        def __init__(self, msg: str, className="", props: dict=None):
             super().__init__("h1", className=className, props=props)
-            self.error = error
+            self.msg = msg
         
         def dom(self):
             element = super().dom()
-            element.textContent = self.error
+            element.textContent = self.msg
             
             element.attrs["style"] = "background-color: #efa3a3; width: fit-content; padding: 10px;"
             

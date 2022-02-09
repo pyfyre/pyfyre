@@ -1,5 +1,6 @@
 """PyFyre States"""
 
+from pyfyre.globals import Globals
 from pyfyre.widgets.widget import Widget
 from pyfyre.core.exceptions import RenderError
 
@@ -30,6 +31,8 @@ class UsesState:
             self.domElement = self.build().dom()
             return self.domElement
         except Exception as e:
+            if Globals.DEBUG: raise e
+            
             self.domElement = self.onerror(e).dom()
             return self.domElement
 
@@ -46,9 +49,7 @@ class UsesState:
         users to see temporarily.
         """
         
-        print("ERR!", e)
-
-        return RenderError("Oh no! Something went wrong. We're working on fixing it.")
+        return RenderError("Oh no! Something went wrong. We're working on fixing it.", e)
 
     def update(self):
         """

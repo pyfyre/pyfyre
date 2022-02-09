@@ -105,10 +105,10 @@ class ManagementUtility:
         with open(os.path.join(path, "README.md"), "w") as file:
             file.write(content)
         
-        # edit the `settings.yaml` file
-        with open(os.path.join(user_dir, "settings.yaml")) as file:
+        # edit the `settings.py` file
+        with open(os.path.join(user_dir, "settings.py")) as file:
             content = file.read().format(app_name=app_name, app_description=app_description)
-        with open(os.path.join(path, "settings.yaml"), "w") as file:
+        with open(os.path.join(path, "settings.py"), "w") as file:
             file.write(content)
 
         # edit the `.gitignore` file
@@ -248,7 +248,6 @@ class ManagementUtility:
 
             rmtree("pyf_modules")
             os.remove("README.md")
-            os.remove("settings.yaml")
 
             rmtree("src")
 
@@ -331,6 +330,8 @@ class ManagementUtility:
             content.pop(0)
             content.pop(1)
             pyf_js = ''.join(content)
+        with open(os.path.join(build_path, "settings.py")) as file:
+            settings = file.read()
 
         ctx_main.execute(main_js)
         ctx_std.execute(std_js)
@@ -340,7 +341,11 @@ class ManagementUtility:
         std_scripts = ctx_std.scripts.to_dict()
         pyf_scripts = ctx_pyf.scripts.to_dict()
 
-        def appendVfs(sc):
+        def appendVfs(sc, py_script=False, name=None, requires=None):
+            if py_script:
+                vfs[f"{name}"] = [".py", sc, requires]
+                return
+
             for k, v in list(sc.items()):
                 if k == "$timestamp":
                     sc.pop(k)
@@ -350,6 +355,7 @@ class ManagementUtility:
         appendVfs(main_scripts)
         appendVfs(std_scripts)
         appendVfs(pyf_scripts)
+        appendVfs(settings, py_script=True, name="pyfyre.settings", requires=["pyfyre.globals"])
 
         main_key = ''.join(random.choice(string.ascii_lowercase) for i in range(15))
 
