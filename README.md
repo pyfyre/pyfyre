@@ -17,7 +17,8 @@ PyFyre is at the top of Brython (Browser Python), a Python 3 implementation for 
 **Note: PyFyre is not 1.0 yet. Be prepared to do major refactoring due to breaking API changes.**
 
 ## Documentation
-Documentation for PyFyre is still in development.
+The documentation can be found in PyFyre website:
+https://pyfyre.netlify.app/
 
 ## Examples
 We have examples in the [examples](examples) folder. But here is the super simple example.
