@@ -5,9 +5,10 @@ from pyfyre.widgets.link import Link
 from pyfyre.widgets.listbuilder import ListBuilder
 from pyfyre.widgets.states import UsesState
 from pyfyre.widgets.text import Text
+from pyfyre.widgets.textinput import TextInput, TextInputController
 
 __all__ = [
     'Button', 'Container', 'Image',
     'Link', 'ListBuilder', 'UsesState',
-    'Text'
+    'Text', 'TextInput', 'TextInputController'
 ]
