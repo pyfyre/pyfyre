@@ -1,9 +1,9 @@
 from pyfyre.widgets.widget import Widget
 
-class BaseException:
-    def __init__(self, msg, e):
+class UIBaseException:
+    def __init__(self, msg, e=None):
         self.msg = msg
-        self.e = e
+        self.e = e if e else msg
 
     def dom(self):
         print(f"Uncaught exception: {self.e}")
@@ -23,4 +23,5 @@ class BaseException:
             
             return element
 
-class RenderError(BaseException): ...
+class RenderError(UIBaseException): ...
+class InvalidController(BaseException): ...

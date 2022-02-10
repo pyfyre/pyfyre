@@ -1,6 +1,7 @@
 """PyFyre States"""
 
 from pyfyre.globals import Globals
+from pyfyre.globals.events import Events
 from pyfyre.widgets.widget import Widget
 from pyfyre.core.exceptions import RenderError
 
@@ -61,3 +62,19 @@ class UsesState:
         self.domElement.remove()
         self.domElement = self.dom()
         parentNode.appendChild(self.domElement)
+
+class State:
+    def __init__(self, value):
+        self.value = value
+
+        # Adds a new global event for when this state
+        # change, every listener of this State will be
+        # fired and will be adapt to new state changes.
+        Events.add(f"state-{id(self)}")
+
+    def setValue(self, newValue):
+        self.value = newValue
+        
+        # When this state has detected a change, all
+        # listeners of this State will adapt to state change.
+        Events.broadcast(f"state-{id(self)}")
