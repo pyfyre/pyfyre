@@ -53,8 +53,7 @@ class TextInputController:
     TextInputController, used to leverage HTML `input` built-ins.
     
     To use this, you must initialize this on the `__init__` method of
-    your component and passed the variable on TextInput on the
-    controller parameter.
+    your component and pass the variable on the TextInput as a controller.
 
     Methods
     -------
