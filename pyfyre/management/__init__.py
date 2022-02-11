@@ -271,11 +271,11 @@ class ManagementUtility:
         def reload():
             print("Detected file changes, performing hot reload...")
             self.produce(_directory, _build, reload=True)
-            self.produceJsBundle(_build, _directory, reload=True)
+            self.produceVfsBundle(_build, _directory, reload=True)
             print("Hot reload successful!")
 
         self.produce(_directory, _build)
-        self.produceJsBundle(_build)
+        self.produceVfsBundle(_build)
 
         os.system("cls" if os.name == "nt" else "clear")
         
@@ -295,11 +295,11 @@ class ManagementUtility:
         build_path = os.path.join(directory_path, "build")
 
         self.produce(directory_path, build_path)
-        self.produceJsBundle(build_path)
+        self.produceVfsBundle(build_path)
 
         print("Build succeeded!")
 
-    def produceJsBundle(self, build_path, directory_path=None, reload=False):
+    def produceVfsBundle(self, build_path, directory_path=None, reload=False):
 
         try:
             import js2py
