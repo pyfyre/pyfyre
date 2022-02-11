@@ -105,4 +105,4 @@ class TextInputController:
         return self.this.element.value
 
     def setValue(self, newValue):
-        self.this.element.value = newValue
+        self.state = newValue
