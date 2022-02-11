@@ -1,3 +1,4 @@
+from pyfyre.globals.events import Events
 
 class Globals:
     
@@ -24,3 +25,5 @@ class Globals:
 
     # Path of Assets folder
     __ASSETS__ = ""
+
+__all__ = ['Events', 'Globals']

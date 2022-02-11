@@ -1,7 +1,6 @@
 """PyFyre States"""
 
 from pyfyre.globals import Globals
-from pyfyre.widgets.widget import Widget
 from pyfyre.core.exceptions import RenderError
 
 class UsesState:
