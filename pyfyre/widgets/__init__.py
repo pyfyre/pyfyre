@@ -9,6 +9,6 @@ from pyfyre.widgets.textinput import TextInput, TextInputController
 
 __all__ = [
     'Button', 'Container', 'Image',
-    'Link', 'ListBuilder', 'UsesState',
+    'Link', 'ListBuilder', 'UsesState', 'Clickable',
     'Text', 'TextInput', 'TextInputController'
 ]
