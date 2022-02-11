@@ -1,5 +1,3 @@
-from pyfyre.globals.events import Events
-
 class Globals:
     
     DEBUG = False

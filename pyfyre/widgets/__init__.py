@@ -3,12 +3,13 @@ from pyfyre.widgets.container import Container
 from pyfyre.widgets.image import Image
 from pyfyre.widgets.link import Link
 from pyfyre.widgets.listbuilder import ListBuilder
-from pyfyre.core.states import UsesState
 from pyfyre.widgets.text import Text
 from pyfyre.widgets.textinput import TextInput, TextInputController
+from pyfyre.widgets.clickable import Clickable
 
 __all__ = [
     'Button', 'Container', 'Image',
-    'Link', 'ListBuilder', 'UsesState', 'Clickable',
+    'Link', 'ListBuilder', 'Clickable',
     'Text', 'TextInput', 'TextInputController',
+    'Clickable'
 ]
