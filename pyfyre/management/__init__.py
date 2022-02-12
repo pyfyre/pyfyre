@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os, sys, random, string, time
-from shutil import copytree, rmtree
+from shutil import copytree, rmtree, copy
 from distutils.dir_util import copy_tree
 
 from .python_minifier import minify
@@ -92,11 +92,13 @@ class ManagementUtility:
         # copy the `user` directory contents to the user's project directory
         user_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "user"))
         copy_tree(user_dir, path)
+
+        os.mkdir(os.path.join(path, "public"))
         
         # edit the `index.html` file
         with open(os.path.join(user_dir, "index.html")) as file:
             content = file.read().format(app_name=app_name, app_description=app_description, main_key="{main_key}")
-        with open(os.path.join(user_dir, "index.html"), "w") as file:
+        with open(os.path.join(path, "public", "index.html"), "w") as file:
             file.write(content)
         
         # edit the `README.md` file
@@ -148,6 +150,19 @@ class ManagementUtility:
             file.write(content)
         
         rmtree("pyfyre")
+        os.remove("__init__.py")
+        os.remove("index.html")
+        os.remove(os.path.join("styles", "__init__.py"))
+
+        try: rmtree("__pycache__")
+        except: ...
+
+        try: rmtree(os.path.join("src", "__pycache__"))
+        except: ...
+
+        try: rmtree(os.path.join("styles", "__pycache__"))
+        except: ...
+
         os.system("cls" if os.name == "nt" else "clear")
         
         print("Project created successfully.")
@@ -171,12 +186,15 @@ class ManagementUtility:
                             file.write(content)
 
             # Refresh the css files
-            css_path = os.path.join(directory_path, "src", "css")
-            src_css_path = os.path.join(build_path, "css")
+            try:
+                css_path = os.path.join(directory_path, "styles")
+                src_css_path = os.path.join(build_path, "styles")
+                
+                copytree(css_path, src_css_path)
+            except:
+                print("Warning: `styles` folder cannot be found.")
 
-            copytree(css_path, src_css_path)
-
-        with open(os.path.join(build_path, "index.html")) as file:
+        with open(os.path.join(build_path, "public", "index.html")) as file:
             index_content = file.read()
 
         # Produce the necessary standard library for Brython
@@ -203,7 +221,7 @@ class ManagementUtility:
         # Remove the reloading files for refresh
         if reload:
 
-            _ignores = set(["__serve__", "__dev__"])
+            _ignores = set(["serve", "__dev__"])
 
             # Remove the src files
             for _, dirs, filenames in os.walk(build_path):
@@ -219,25 +237,37 @@ class ManagementUtility:
                             with open(filename, "w") as file:
                                 file.write(content)
 
-            # Refresh the css files
-            css_path = os.path.join(directory_path, "src", "css")
-            src_css_path = os.path.join(build_path, "css")
+            try:
+                # Refresh the css files
+                css_path = os.path.join(directory_path, "styles")
+                src_css_path = os.path.join(build_path, "styles")
 
-            rmtree(src_css_path)
+                rmtree(src_css_path)
 
-            src_css_path = os.path.join(build_path, "css")
+                src_css_path = os.path.join(build_path, "css")
 
-            copytree(css_path, src_css_path)
+                copytree(css_path, src_css_path)
+            except FileNotFoundError:
+                print("Warning: `styles` folder cannot be found.")
 
         # Remove unnecessary files
         if not reload:
-            try: rmtree("__serve__")
+            try: rmtree("public")
             except Exception: ...
 
             try: rmtree("__pycache__")
             except Exception: ...
+
+            try: rmtree(os.path.join("src", "__pycache__"))
+            except Exception: ...
+
+            try: rmtree(os.path.join("styles", "__pycache__"))
+            except Exception: ...
             
             try: os.remove("requirements.txt")
+            except Exception: ...
+
+            try: os.remove("settings.py")
             except Exception: ...
             
             try: os.remove("runtime.txt")
@@ -263,10 +293,10 @@ class ManagementUtility:
 
         _directory = os.path.abspath(directory) if directory else os.getcwd()
         
-        if os.path.exists(os.path.join(_directory, "__serve__")):
-            rmtree(os.path.join(_directory, "__serve__"))
+        if os.path.exists(os.path.join(_directory, "_pyfyre")):
+            rmtree(os.path.join(_directory, "_pyfyre"))
         
-        _build = os.path.join(_directory, "__serve__")
+        _build = os.path.join(_directory, "_pyfyre")
 
         def reload():
             print("Detected file changes, performing hot reload...")
@@ -282,7 +312,8 @@ class ManagementUtility:
         print("Happy Hacking!")
 
         server.watch(f"{_directory}/src/", reload)
-        server.serve(port=port if port else 8000, host="localhost", root=os.path.join(_directory, "__serve__"))
+        server.watch(f"{_directory}/styles/", reload)
+        server.serve(port=port if port else 8000, host="localhost", root=os.path.join(_directory, "_pyfyre"))
 
     def build_app(self, directory):
         print("Producing optimized build for your project...")
@@ -330,7 +361,7 @@ class ManagementUtility:
             content.pop(0)
             content.pop(1)
             pyf_js = ''.join(content)
-        with open(os.path.join(build_path, "settings.py")) as file:
+        with open(os.path.join("..", "settings.py")) as file:
             settings = file.read()
 
         ctx_main.execute(main_js)
@@ -414,7 +445,7 @@ __pycache__/
 
 # PyFyre
 build/
-__serve__/
+serve/
 
 # Environments
 .env
