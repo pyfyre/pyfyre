@@ -194,7 +194,7 @@ class ManagementUtility:
             except:
                 print("Warning: `styles` folder cannot be found.")
 
-        with open(os.path.join(build_path, "public", "index.html")) as file:
+        with open(os.path.join(build_path, "public", "index.html") if not reload else os.path.join(build_path, "index.html")) as file:
             index_content = file.read()
 
         # Produce the necessary standard library for Brython
