@@ -4,7 +4,7 @@ import os, sys, random, string, time
 from shutil import copytree, rmtree, copy
 from distutils.dir_util import copy_tree
 
-from .python_minifier import minify
+from ..shared.pythonMinifier import minify
 
 def execute_from_command_line(argv=None):
     utility = ManagementUtility()

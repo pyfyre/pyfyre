@@ -1,6 +1,5 @@
 from browser import document
 from pyfyre.globals import Globals
-from pyfyre import settings
 
 def runApp(app, mount="app-mount"):
     """This is the main entry point of your app. You must call this
@@ -20,4 +19,3 @@ def runApp(app, mount="app-mount"):
     body.appendChild(app.dom())
 
     Globals.__PARENT__ = app
-    Globals.DEBUG = settings.DEBUG

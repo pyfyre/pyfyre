@@ -63,51 +63,25 @@ class Router:
     def __init__(self, routes):
         self.routes: dict = routes
 
-        if not Globals.PATH_INITIALIZED:
-            Globals.__LOC__ = window.location.pathname
-            Globals.PATH_INITIALIZED = True
-
-        if not "change_route" in Globals.__EVENTS__:
-            Events.add("change_route")
-
-            self.listenRoute()
-
-        for routeName, view in self.routes.items():
-            pathname = routeName.split('/')
-
-            try:
-                query = pathname[-1]
-                pathurl = pathname[-2]
-                
-                if query[0] == ":":
-                    queryName = query.replace(":", "")
-                    Globals.DYNAMIC_ROUTES.append([pathurl, queryName, view])
-            except IndexError: ...
+        self.initializeWindowLocation()
+        self.listenRouteEvents()
+        self.subscribeRoutes()
         
     def dom(self):
-        
-        try:
-            dom = self.routes[Globals.__LOC__].dom()
-        except KeyError:
-            try:
-                _, pathurl = self.get_params()
 
-                for route in Globals.DYNAMIC_ROUTES:
-                    if route[0] == pathurl:
-                        dom = route[2].dom()
-            except Exception as e:
-                # TODO: Create a 404.py that allows developers to customize 404 UI.
-                # that can also be modified on the settings so they can
-                # customize the 404.py name for their like.
-                raise Exception("Path 404: Cannot find the path.")
+        if Globals.__LOC__ in self.routes.keys():
+            return self.routes[Globals.__LOC__].dom()
 
-        return dom
+        _, pathurl = self.get_params()
 
-    def listenRoute(self):
-        def changeRoute():
-            runApp(Globals.__PARENT__)
+        for route in Globals.__ROUTES__:
+            if route[0] == pathurl:
+                return route[2].dom()
 
-        Events.addListener("change_route", changeRoute)
+        # TODO: Create a 404.py that allows developers to customize 404 UI.
+        # that can also be modified on the settings so they can
+        # customize the 404.py name for their like.
+        raise Exception("Path 404: Cannot find the path.")
 
     @staticmethod
     def query():
@@ -115,7 +89,7 @@ class Router:
         
         queryNames = {}
 
-        for route in Globals.DYNAMIC_ROUTES:
+        for route in Globals.__ROUTES__:
             if route[0] == pathurl:
                 queryNames[route[1]] = query
 
@@ -142,3 +116,27 @@ class Router:
         pathurl = pathname[-2]
 
         return query, pathurl
+
+    def initializeWindowLocation(self):
+        if not Globals.__LOC__:
+            Globals.__LOC__ = window.location.pathname
+
+    def listenRouteEvents(self):
+        if not "change_route" in Globals.__EVENTS__:
+            Events.add("change_route")
+
+            def changeRoute():
+                runApp(Globals.__PARENT__)
+
+            Events.addListener("change_route", changeRoute)
+
+    def subscribeRoutes(self):
+        for routeName, view in self.routes.items():
+            pathnames = routeName.split('/')
+
+            for pathname in pathnames:
+                if len(pathname) <= 0: return
+                
+                if pathname[0] == ":":
+                    pathname.replace(":", "")
+                    Globals.__ROUTES__.append([pathnames[-2], pathname, view])

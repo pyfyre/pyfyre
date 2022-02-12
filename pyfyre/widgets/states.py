@@ -1,5 +1,6 @@
 """PyFyre States"""
 
+from pyfyre.core.initializeEnvironment import initializeEnvironment
 from pyfyre.globals import Globals
 from pyfyre.core.exceptions import RenderError
 
@@ -21,6 +22,7 @@ class UsesState:
 
     def __init__(self):
         self.domElement = None
+        initializeEnvironment()
     
     def build(self):
         pass
