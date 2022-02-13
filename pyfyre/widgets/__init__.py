@@ -7,11 +7,11 @@ from pyfyre.widgets.text import Text
 from pyfyre.widgets.textinput import TextInput, TextInputController
 from pyfyre.widgets.clickable import Clickable
 
-from pyfyre.widgets.states import UsesState
+from pyfyre.widgets.states import UsesState, State
 
 __all__ = [
     'Button', 'Container', 'Image',
     'Link', 'ListBuilder', 'Clickable',
     'Text', 'TextInput', 'TextInputController',
-    'Clickable', 'UsesState'
+    'Clickable', 'UsesState', 'State'
 ]

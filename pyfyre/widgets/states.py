@@ -62,3 +62,49 @@ class UsesState:
         self.domElement.remove()
         self.domElement = self.dom()
         parentNode.appendChild(self.domElement)
+
+
+class State:
+    """
+    Creates a new state. State objects can store values in Python dictionary
+    you can access these values easily.
+
+    Parameters
+    ----------
+    values : str, int, or dict.
+        Used to initialize a State
+
+    Attributes
+    ----------
+    If you passed a dictionary, you can access the value of a key
+    by just calling it like a property
+
+    For instance:
+    `state = State({ "count": 0 })`
+
+    Then you can call it:
+    `state.count`
+
+    For changing the value of it, just:
+    `state.count = state.count + 1`
+
+    If you didn't passed a dict, string or integer for instance, you can access
+    them by just calling the value property:
+
+    `state = State(0)`
+
+    Call it:
+    
+    `state.value`
+    """
+    def __init__(self, values):
+        self.values = values
+
+        if not isinstance(values, dict):
+            self.setValue("value", values)
+
+        for k, v in self.values.items():
+            self.setValue(k, v)
+
+    def setValue(self, of, to):
+        setattr(self, of, to)
