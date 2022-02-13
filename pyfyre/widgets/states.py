@@ -94,7 +94,7 @@ class State:
     `state = State(0)`
 
     Call it:
-    
+
     `state.value`
     """
     def __init__(self, values):
@@ -102,6 +102,7 @@ class State:
 
         if not isinstance(values, dict):
             self.setValue("value", values)
+            return
 
         for k, v in self.values.items():
             self.setValue(k, v)
