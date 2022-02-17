@@ -244,7 +244,7 @@ class ManagementUtility:
 
                 rmtree(src_css_path)
 
-                src_css_path = os.path.join(build_path, "css")
+                src_css_path = os.path.join(build_path, "styles")
 
                 copytree(css_path, src_css_path)
             except FileNotFoundError:
