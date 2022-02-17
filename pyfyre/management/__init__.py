@@ -400,7 +400,7 @@ class ManagementUtility:
                             name = name.split('.')
                             main_key = name[-1]
 
-        with open(os.path.join(build_path, f"main.{main_key}.js"), "w") as file:
+        with open(os.path.join(build_path, f"main.{main_key}.js"), "w", encoding="utf-8") as file:
             vfs["$timestamp"] = int(1000 * time.time())
 
             brython = [
