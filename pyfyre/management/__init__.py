@@ -130,6 +130,7 @@ class ManagementUtility:
 
         rmtree(os.path.join(path, "pyfyre", "management"))
         rmtree(os.path.join(path, "pyfyre", "user"))
+        rmtree(os.path.join(path, "pyfyre", "shared"))
 
         self.minify_dir(os.path.join(path, "pyfyre"))
 
