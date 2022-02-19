@@ -446,7 +446,7 @@ __pycache__/
 
 # PyFyre
 build/
-serve/
+_pyfyre/
 
 # Environments
 .env
