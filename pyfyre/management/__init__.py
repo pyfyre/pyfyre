@@ -177,6 +177,7 @@ class ManagementUtility:
         # the essential Python js module. This will make the Hot Reload more faster.
         if not reload:
             copytree(directory_path, build_path)
+            copy(os.path.join(build_path, "public", "favicon.ico"), build_path)
 
             for _, __, filenames in os.walk(os.path.join(build_path, "pyf_modules")):
                 for filename in filenames:
@@ -200,8 +201,6 @@ class ManagementUtility:
 
         with open(os.path.join(build_path, "public", "index.html") if not reload else os.path.join(build_path, "index.html")) as file:
             index_content = file.read()
-
-        copy(os.path.join(build_path, "public", "favicon.ico"), build_path)
 
         # Produce the necessary standard library for Brython
         os.chdir(os.path.join(directory_path, "src"))
