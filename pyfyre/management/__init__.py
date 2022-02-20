@@ -94,6 +94,9 @@ class ManagementUtility:
         copy_tree(user_dir, path)
 
         os.mkdir(os.path.join(path, "public"))
+
+        copy(os.path.join(path, "favicon.ico"), os.path.join(path, "public"))
+        os.remove(os.path.join(path, "favicon.ico"))
         
         # edit the `index.html` file
         with open(os.path.join(user_dir, "index.html")) as file:
@@ -197,6 +200,8 @@ class ManagementUtility:
 
         with open(os.path.join(build_path, "public", "index.html") if not reload else os.path.join(build_path, "index.html")) as file:
             index_content = file.read()
+
+        copy(os.path.join(build_path, "public", "favicon.ico"), build_path)
 
         # Produce the necessary standard library for Brython
         os.chdir(os.path.join(directory_path, "src"))
