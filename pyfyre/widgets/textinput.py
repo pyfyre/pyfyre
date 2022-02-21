@@ -17,8 +17,8 @@ class TextInput(Widget):
         Default value of the TextInput
     """
     
-    def __init__(self, controller=None, onInput=None, defaultValue="", className="", props: dict=None):
-        super().__init__("input", className=className, props=props)
+    def __init__(self, controller=None, onInput=None, defaultValue="", className="", multiline=False, props: dict=None):
+        super().__init__("input" if not multiline else "textarea", className=className, props=props)
         self.controller = controller
         self.onInput = onInput
         self.defaultValue = defaultValue
