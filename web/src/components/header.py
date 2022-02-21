@@ -11,14 +11,14 @@ class Header(Container):
 
         def nav_items(i):
             return Link(
-                className="block py-2 pr-4 pl-3 text-base text-black md:bg-transparent md:text-black md:p-0 dark:text-white cursor-pointer",
+                className="block py-2 pr-4 pl-3 text-base text-black md:bg-transparent md:text-black md:p-0 cursor-pointer",
                 textContent=_nav_items[i][0],
                 to=_nav_items[i][1],
                 external=True
             )
 
         super().__init__(
-            className = "bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-800 border-b-2 sticky top-0",
+            className = "bg-white border-gray-200 px-2 sm:px-4 py-2.5 border-b-2 sticky top-0",
             children = [
                 Container(
                     className="flex flex-wrap justify-between items-center mx-auto",
@@ -41,7 +41,7 @@ class Header(Container):
                                     builder=nav_items
                                 ),
                                 Link(
-                                    className="text-white cursor-pointer font-black bg-[#fab327] focus:ring-4 font-medium rounded-3xl text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800",
+                                    className="text-white cursor-pointer font-black bg-[#fab327] focus:ring-4 font-medium rounded-3xl text-sm px-5 py-2.5 text-center mr-3 md:mr-0",
                                     textContent="Get Started",
                                     to="https://pyfyre.gitbook.io/docs/quick-start",
                                     external=True
