@@ -54,6 +54,11 @@ class HomePage(Container):
                                 children=[
                                     Image(
                                         className="object-cover object-center rounded-lg w-52 mx-auto md:w-auto",
+                                        props={
+                                            "loading": "lazy",
+                                            "width": 500,
+                                            "height": 500
+                                        },
                                         src=_features[i][1]
                                     )
                                 ]
@@ -62,15 +67,15 @@ class HomePage(Container):
                                 className=f"flex flex-col {layouts[i][1]} mb-16 text-left lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 md:mb-0",
                                 children=[
                                     Text(
-                                        className="mb-8 text-lg font-semibold tracking-widest text-black uppercase title-font",
+                                        className="mb-8 text-lg font-semibold tracking-widest text-black uppercase title-font text-[#333333]",
                                         textContent=_features[i][0]
                                     ),
                                     Text(
-                                        className="mb-8 text-2xl font-black tracking-tighter text-black md:text-5xl title-font",
+                                        className="mb-8 text-2xl font-black tracking-tighter text-black md:text-5xl title-font text-[#333333]",
                                         textContent=_features[i][2]
                                     ),
                                     Text(
-                                        className="mb-8 text-base leading-relaxed text-left text-blueGray-600",
+                                        className="mb-8 text-base leading-relaxed text-left text-blueGray-600 text-[#333333]",
                                         textContent=_features[i][3]
                                     )
                                 ]
