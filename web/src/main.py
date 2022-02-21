@@ -50,10 +50,10 @@ class HomePage(Container):
                         className=f"flex flex-col items-center px-5 py-16 mx-auto {layouts[i][0]} lg:px-28",
                         children=[
                             Container(
-                                className="w-full lg:w-1/3 lg:w-3/12 md:w-1/2",
+                                className="w-full mb-10 lg:w-1/3 lg:w-3/12 md:w-1/2",
                                 children=[
                                     Image(
-                                        className="object-cover object-center rounded-lg",
+                                        className="object-cover object-center rounded-lg w-52 mx-auto md:w-auto",
                                         src=_features[i][1]
                                     )
                                 ]
@@ -72,16 +72,7 @@ class HomePage(Container):
                                     Text(
                                         className="mb-8 text-base leading-relaxed text-left text-blueGray-600",
                                         textContent=_features[i][3]
-                                    ),
-                                    # Container(
-                                    #     className="flex flex-col justify-center lg:flex-row",
-                                    #     children=[
-                                    #         Text(
-                                    #             className="flex items-center px-6 py-2 mt-auto font-semibold text-white transition duration-500 ease-in-out transform bg-blue-600 rounded-lg hover:bg-blue-700 focus:shadow-outline focus:outline-none focus:ring-2 ring-offset-current ring-offset-2",
-                                    #             textContent=_features[i][4]
-                                    #         ),
-                                    #     ]
-                                    # )
+                                    )
                                 ]
                             )
                         ]
@@ -93,18 +84,27 @@ class HomePage(Container):
             className = "flex flex-col h-screen w-full",
             children = [
                 Container(
-                    className="flex flex-col w-full h-5/6 bg-[#222222]",
+                    className="flex flex-col w-full h-5/6",
                     children=[
                         Container(
                             className="flex flex-col w-full mt-28",
                             children=[
-                                Text(
-                                    className = "text-3xl mx-auto font-bold bg-clip-text h-20 text-transparent bg-gradient-to-r from-cyan-500 to-blue-500 xl:text-6xl",
-                                    textContent = "Build reactive static UI using Python."
+                                Container(
+                                    className="flex flex-col",
+                                    children=[
+                                        Text(
+                                            className = "text-5xl mx-auto font-bold bg-clip-text h-20 text-[#222222] xl:text-7xl",
+                                            textContent = "Build reactive"
+                                        ),
+                                        Text(
+                                            className = "text-5xl mx-auto font-bold bg-clip-text h-20 text-transparent bg-gradient-to-r from-cyan-500 to-blue-500 xl:text-7xl",
+                                            textContent = "UI using Python."
+                                        ),
+                                    ]
                                 ),
                                 Text(
-                                    className = "px-28 text-xl mx-auto mt-5 xl:px-52 text-center text-white",
-                                    textContent = "PyFyre is a fast, declarative, and incrementally adoptable Python web frontend framework for building reactive static single-page web applications easily and efficiently."
+                                    className = "text-lg px-10 xl:text-xl mx-auto mt-5 xl:px-52 text-center text-[#3c3c3c]",
+                                    textContent = "A fast, declarative, and incrementally adoptable Python web frontend framework for building reactive web user interfaces."
                                 )
                             ]
                         ),
@@ -112,14 +112,14 @@ class HomePage(Container):
                             className="flex space-x-3 mx-auto mt-20 mb-44",
                             children=[
                                 Link(
-                                    className="bg-[#444444] w-fit px-5 py-2 text-base rounded-3xl text-white cursor-pointer",
-                                    textContent="Documentation",
+                                    className="bg-[#fab327] w-fit px-5 py-2 text-base rounded-3xl text-white cursor-pointer",
+                                    textContent="Get started",
                                     to="https://pyfyre.gitbook.io/docs/",
                                     external=True
                                 ),
                                 Link(
-                                    className="bg-[#fab327] w-fit px-5 py-2 text-base rounded-3xl text-white cursor-pointer",
-                                    textContent="Get started",
+                                    className="bg-[#f1f1f1] w-fit px-5 py-2 text-base rounded-xl text-[#474747] hover:text-[#333333] cursor-pointer",
+                                    textContent="Install",
                                     to="https://pyfyre.gitbook.io/docs/quick-start",
                                     external=True
                                 )
