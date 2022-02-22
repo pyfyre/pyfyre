@@ -177,7 +177,10 @@ class ManagementUtility:
         # the essential Python js module. This will make the Hot Reload more faster.
         if not reload:
             copytree(directory_path, build_path)
-            copy(os.path.join(build_path, "public", "favicon.ico"), build_path)
+
+            for _, __, filenames in os.walk(os.path.join(build_path, "public")):
+                for filename in filenames:
+                    copy(os.path.join(build_path, "public", filename), build_path)
 
             for _, __, filenames in os.walk(os.path.join(build_path, "pyf_modules")):
                 for filename in filenames:
