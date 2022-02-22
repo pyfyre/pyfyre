@@ -413,6 +413,7 @@ class ManagementUtility:
 
             brython = [
                 "__BRYTHON__.use_VFS = true;\n",
+                "var PyFyreDOM = {isDOMLoaded: false,listeners: [],addListener: (fun) => {PyFyreDOM.listeners.push(fun);},broadcast: () => {for (var i = 0; i < PyFyreDOM.listeners.length; i++) {PyFyreDOM.listeners[i]()}}}\n",
                 f"var scripts = {str(vfs)}",
                 "\n__BRYTHON__.update_VFS(scripts)"
             ]

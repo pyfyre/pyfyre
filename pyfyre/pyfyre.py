@@ -1,4 +1,4 @@
-from browser import document
+from browser import document, window
 from pyfyre.globals import Globals
 
 def runApp(app, mount="app-mount"):
@@ -19,3 +19,4 @@ def runApp(app, mount="app-mount"):
     body.appendChild(app.dom())
 
     Globals.__PARENT__ = app
+    window.PyFyreDOM.broadcast()
