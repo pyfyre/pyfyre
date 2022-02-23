@@ -28,7 +28,7 @@ class PlaygroundPage(UsesState):
     def build(self):
 
         return Container(
-            className="flex flex-row w-full h-screen",
+            className="flex flex-row w-full h-screen overflow-hidden",
             children=[
                 Container(
                     className="flex flex-col w-6/12",

@@ -21,7 +21,7 @@ PyFyreDOM.addListener(() => {
         }
     )
 
-    CodeMirrorAPI.codeMirror.setSize(width="90%", height="100%")
+    CodeMirrorAPI.codeMirror.setSize(width="100%", height="100%")
 
     CodeMirrorAPI.codeMirror.on("change", () => {
         CodeListen.broadcast();
