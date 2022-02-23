@@ -124,9 +124,8 @@ class HomePage(Container):
                                 ),
                                 Link(
                                     className="bg-[#f1f1f1] w-fit px-5 py-2 text-base rounded-xl text-[#474747] hover:text-[#333333] cursor-pointer",
-                                    textContent="Install",
-                                    to="https://pyfyre.gitbook.io/docs/quick-start",
-                                    external=True
+                                    textContent="Playground",
+                                    to="/playground"
                                 )
                             ]
                         )
