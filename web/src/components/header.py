@@ -5,7 +5,7 @@ class Header(Container):
 
         _nav_items = [
             ["Documentation", "https://pyfyre.gitbook.io/docs/"],
-            # ["Examples", "/"],
+            ["Playground", "/playground"],
             # ["Cookbook", "/"]
         ]
 
@@ -14,7 +14,7 @@ class Header(Container):
                 className="block py-2 pr-4 pl-3 text-base text-black md:bg-transparent md:text-black md:p-0 cursor-pointer",
                 textContent=_nav_items[i][0],
                 to=_nav_items[i][1],
-                external=True
+                external=True if "https" in _nav_items[i][1] else False
             )
 
         super().__init__(
