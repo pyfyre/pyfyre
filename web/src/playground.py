@@ -17,7 +17,7 @@ class PlaygroundPage(UsesState):
     def __init__(self):
         self.output = None
         self.controller = TextInputController()
-
+        
         window.CodeListen.listen(self.compile)
 
     def compile(self):
@@ -26,6 +26,9 @@ class PlaygroundPage(UsesState):
         exec(textArea)
 
     def build(self):
+
+        document.body.classList.add("overflow-hidden")
+        document.body.classList.remove("overflow-auto")
 
         return Container(
             className="flex flex-row w-full h-screen overflow-hidden",
@@ -50,7 +53,7 @@ class PlaygroundPage(UsesState):
                     children=[
                         Text("Result:", className="m-2 font-black"),
                         Container(
-                            className="m-2",
+                            className="p-2 h-full w-full overflow-auto",
                             props={"id": "output-id"},
                             children=[]
                         )

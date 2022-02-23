@@ -5,6 +5,8 @@ from src.main import HomePage
 from src.components.header import Header
 from src.playground import PlaygroundPage
 
+from browser import document
+
 class App(UsesState):
     def build(self):
         return Router(

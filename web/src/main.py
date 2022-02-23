@@ -1,10 +1,15 @@
 from pyfyre.widgets import *
 from src.components.cta import CallToAction
 
+from browser import document
+
 # You can make components by inherting a Widget class
 # and initialize it on the `super().__init__()`.
 class HomePage(Container):
     def __init__(self):
+
+        document.body.classList.add("overflow-auto")
+        document.body.classList.remove("overflow-hidden")
         
         _features = [
             [
@@ -124,7 +129,7 @@ class HomePage(Container):
                                 ),
                                 Link(
                                     className="bg-[#f1f1f1] w-fit px-5 py-2 text-base rounded-xl text-[#474747] hover:text-[#333333] cursor-pointer",
-                                    textContent="Playground",
+                                    textContent="Learn",
                                     to="/playground"
                                 )
                             ]
