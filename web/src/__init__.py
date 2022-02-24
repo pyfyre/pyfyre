@@ -11,7 +11,7 @@ class App(UsesState):
     def build(self):
         return Router(
             routes={
-                "/": Playground(),
+                "/": Home(),
                 "/playground": Playground()
             }
         )
