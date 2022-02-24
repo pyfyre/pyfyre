@@ -28,7 +28,7 @@ class Header(Container):
                             children=[
                                 Image(
                                     className="w-10",
-                                    src="https://scontent.fmnl13-1.fna.fbcdn.net/v/t1.6435-9/164540820_110370211141719_22088476788963606_n.jpg?_nc_cat=104&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=Qg8QkUIRCLIAX9ll7Gs&tn=LaPlocOuMCICDrK8&_nc_ht=scontent.fmnl13-1.fna&oh=00_AT8iHOF8SKnb4kNw1oUH24roDJ3w7HQdux72Jdf2850yrg&oe=62169F42"
+                                    src="pyfyre-logo.jpg"
                                 ),
                             ]
                         ),

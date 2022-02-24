@@ -14,21 +14,21 @@ class HomePage(Container):
         _features = [
             [
                 "Developer friendly",
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png",
+                "python-logo.png",
                 "The language you already know.",
                 "PyFyre allows you to develop apps with the language you already know, Python. Create reactive websites fast with ease. Build your apps in minutes, not days.",
                 "Show me"
             ],
             [
                 "Fast",
-                "https://i.imgur.com/yI8tUab.png",
+                "transpiled.png",
                 "Fast transpilation time on the fly.",
                 "PyFyre transpiles your code into small, vanilla JS that works for every browser with the power of Brython that stays fast, and always will be.",
                 "Show me"
             ],
             [
                 "Productive",
-                "https://pbs.twimg.com/profile_images/909757546063323137/-RIWgodF_400x400.jpg",
+                "pypi-logo.jpg",
                 "Use Python Packages on the web.",
                 "Use CPython's existing packages on PyPi.org/, develop sites quickly and efficiently with a large selection of packages.",
                 "Visit pypi.org/"

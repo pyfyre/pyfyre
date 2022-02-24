@@ -2,8 +2,6 @@ from pyfyre.widgets import *
 
 from browser import document, window
 
-codeListen = False
-
 def runApp(app):
     try:
         out = document.getElementById("output-id")
@@ -17,7 +15,7 @@ class PlaygroundPage(UsesState):
     def __init__(self):
         self.output = None
         self.controller = TextInputController()
-        
+
         window.CodeListen.listen(self.compile)
 
     def compile(self):
@@ -53,9 +51,9 @@ class PlaygroundPage(UsesState):
                     children=[
                         Text("Result:", className="m-2 font-black"),
                         Container(
-                            className="p-2 h-full w-full overflow-auto",
+                            children=[],
                             props={"id": "output-id"},
-                            children=[]
+                            className="p-2 h-full w-full overflow-auto"
                         )
                     ]
                 )
