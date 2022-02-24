@@ -143,39 +143,6 @@ class SecondUI(UsesState):
 runApp(App())"""
                 ]
             ],
-            [
-                "Inputs",
-                [
-                    "TextInput",
-                    """class App(UsesState):
-  def __init__(self):
-    # TextInputController allows you to control the TextInput widget where this controller passed
-    # such as setting the TextInput value, getting the value, etc.
-    self.controller = TextInputController()
-    
-    self.name = ""
-  
-  def build(self):
-    
-    def enter(ev):
-      self.name = self.controller.value
-      self.update()
-    
-    return Container(
-    	children=[
-      	Container(
-            	children=[
-                  	TextInput(controller=self.controller, props={"style": "width: 9rem; border: 0.2px solid gray;"}),
-        			Button("Enter", onClick=enter, props={"style": "margin-left: 10px; background-color: #f2f2f2; padding-left: 7px; padding-right: 7px; border-radius: 2px;"})
-                  ]
-            ),
-        	Text(f"Kumusta, {self.name or 'stranger'}!", props={"style": "margin-top: 5px;"})
-      ]
-    )
-    
-runApp(App())"""
-                ]
-            ]
         ]
 
     # Structure
@@ -183,9 +150,11 @@ runApp(App())"""
     #   [
     #       "section",
     #       [
-    #           "content_title",
-    #           "code"
-    #       ],...
+    #           [
+    #               "content_title",
+    #               "code"
+    #           ],...
+    #       ]
     #   ],...
     # ]
     # i 1 0
