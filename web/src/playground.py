@@ -2,6 +2,8 @@ from pyfyre.widgets import *
 
 from browser import document, window
 
+state = State({ "tabIndex": 0, "currentCode": "" })
+
 def runApp(app):
     try:
         out = document.getElementById("output-id")
@@ -31,6 +33,7 @@ class PlaygroundPage(UsesState):
         return Container(
             className="flex flex-row w-full h-screen overflow-hidden",
             children=[
+                Sidebar(self),
                 Container(
                     className="flex flex-col w-6/12",
                     children=[
@@ -57,5 +60,138 @@ class PlaygroundPage(UsesState):
                         )
                     ]
                 )
+            ]
+        )
+
+class Sidebar(UsesState):
+    def __init__(self, this):
+        self.this = this
+        self.tabs = [
+            [
+                "Introduction",
+                [
+                    "Hello, World!",
+                    """class App(UsesState):
+  def build(self):
+    return Text("Hello, World")
+  
+runApp(App())"""
+                ],
+                [
+                    "Nested components",
+                    """class App(UsesState):
+  def build(self):
+    return Container(
+    	children=[
+        	Text("Hi mom!"),
+      	NestedComponent()
+      ]
+    )
+    
+class NestedComponent(UsesState):
+  def build(self):
+    return Text("I'm nested!")
+  
+runApp(App())"""
+                ],
+            ],
+            [
+                "Reactivity",
+                [
+                    "Reactive assignments",
+                    """class App(UsesState):
+  def __init__(self):
+    self.count = 0
+  
+  def build(self):
+    
+    def increment(ev):
+      self.count += 1
+      self.update()
+    
+    return Button(f"Clicked for {self.count} {'time' if self.count == 1 else 'times'}", onClick=increment)
+  
+runApp(App())"""
+                ],
+                [
+                    "State management",
+                    """state = State({ "count": 0 })
+
+class App(UsesState):
+  def build(self):
+    
+    def increment(ev):
+      state.count += 1
+      self.update()
+    
+    return Container(
+    	children=[
+        	FirstUI(),
+        	SecondUI(),
+      	Button(f"Click me", onClick=increment),
+      ]
+    )
+  
+class FirstUI(UsesState):
+  def build(self):
+    return Text(state.count)
+  
+class SecondUI(UsesState):
+  def build(self):
+    return Text(state.count)
+  
+runApp(App())"""
+                ]
+            ]
+        ]
+
+    # Structure
+    # [
+    #   [
+    #       "section",
+    #       [
+    #           [
+    #               "content_title",
+    #               "code"
+    #           ],...
+    #       ]
+    #   ],...
+    # ]
+    # i 1 0
+
+    def build(self):
+
+        def section_builder(i):
+
+            def content_builder(j):
+
+                def change_index(ev):
+                    state.setValue('currentCode', self.tabs[i][j+1][1])
+                    window.CodeMirrorAPI.codeMirror.setValue(state.currentCode)
+
+                return Container(
+                    children=[
+                        Button(self.tabs[i][j+1][0], onClick=change_index, className="font-thin"),
+                    ]
+                )
+            
+            return Container(
+                className="mt-5 ml-3",
+                children=[
+                    Text(self.tabs[i][0], className="text-xl mb-2 font-bold font-mono"),
+                    ListBuilder(
+                        count=len(self.tabs[i][1]),
+                        builder=content_builder
+                    )
+                ]
+            )
+
+        return Container(
+            className="w-2/12 border border-r-3 overflow-auto",
+            children=[
+                ListBuilder(
+                    count=len(self.tabs),
+                    builder=section_builder
+                ) # Section
             ]
         )
