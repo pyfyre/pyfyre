@@ -9,8 +9,8 @@ PyFyreDOM.addListener(() => {
       CodeListen.broadcast();
     });
     CodeMirrorAPI.codeMirror.setValue(`class App(UsesState):
-    def build(self):
-      return Text("Hello, World")
+  def build(self):
+    return Text("Hello, World")
   
 runApp(App())`)
 });

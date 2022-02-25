@@ -67,38 +67,180 @@ class Sidebar(UsesState):
     def __init__(self, this):
         self.this = this
         self.tabs = [
+
+            # Introduction
             [
                 "Introduction",
                 [
-                    "Hello, World!",
-                    """class App(UsesState):
-  def build(self):
-    return Text("Hello, World")
-  
+
+                  ## Hello, World
+                  ["Hello, World!",
+                      """class App(UsesState):
+    def build(self):
+      return Text("Hello, World")
+    
 runApp(App())"""
-                ],
-                [
+                  ],
+
+                  ## Nested components
+                  [
                     "Nested components",
                     """class App(UsesState):
   def build(self):
     return Container(
     	children=[
-        	Text("Hi mom!"),
-      	NestedComponent()
+        Text("Hi mom..."),
+        NestedComponent()
       ]
-    )
-    
+  )
+  
 class NestedComponent(UsesState):
   def build(self):
-    return Text("I'm nested!")
+    return Text("I'm a isolated nested component!")
+                  
+runApp(App())"""
+                  ],
+                ],
+            ],
+
+            # Props & Params
+            [
+              "Props & Params",
+              [
+                [
+                  "Passing params",
+                  """class App(UsesState):
+  def build(self):
+    return Container(
+    	children=[
+      	Nested(42),
+        	Nested()
+      ]
+    )
+  
+class Nested(UsesState):
+  def __init__(self, answer="a mystery"):
+    self.answer = answer
+    
+  def build(self):
+    return Text(f"The answer is {self.answer}")
   
 runApp(App())"""
                 ],
+                [
+                  "Widget HTML props",
+                  """class App(UsesState):
+  def build(self):
+    return Button(
+    	"I am a disabled button",
+      props={
+      	"style": "background-color: #f2f2f2; padding: 5px;",
+        	"id": "btn-id",
+        	"disabled": True
+      }
+    )
+  
+runApp(App())"""
+                ]
+              ]
             ],
+
+            [
+              "Inputs",
+              [
+                [
+                  "Text input",
+                  """class App(UsesState):
+  def __init__(self):
+    
+    # TextInputController allows you to control TextInputs,
+    # control events, and get and set its property.
+    self.controller = TextInputController()
+    
+    self.name = ""
+  
+  def build(self):
+    
+    def enter(ev):
+      self.name = self.controller.value
+      self.update()
+    
+    return Container(
+    	children=[
+      	Text(f"Hello, {self.name}"),
+        	Container(
+            	children=[
+                  	TextInput(controller=self.controller, props={"style": "width: 7rem; border: 0.3px solid gray; margin-right: 7px; padding: 5px;"}),
+                  	Button("Enter", onClick=enter, props={"style": "background-color: #f2f2f2; padding: 3px;"})
+                  ],
+              	props={"style": "margin-top: 10px;"}
+            )
+      ]
+    )
+    
+runApp(App())"""
+                ],
+                [
+                  "Numeric input",
+                  """class App(UsesState):
+  def __init__(self):
+    self.aController = TextInputController()
+    self.bController = TextInputController()
+    
+    self.a = 1
+    self.b = 2
+  
+  def build(self):
+    
+    def enter(ev):
+      self.a = int(self.aController.value)
+      self.b = int(self.bController.value)
+      self.update()
+    
+    return Container(
+    	children=[
+        	Input(self.a, self.aController, enter),
+        	Input(self.b, self.bController, enter),
+        	Text(f"{self.a} + {self.b} = {self.a + self.b}", props={"style": "margin-top: 10px;"})
+      ]
+    )
+    
+class Input(UsesState):
+  def __init__(self, val, controller, enter):
+    self.val = val
+    self.controller = controller
+    self.enter = enter
+  
+  def build(self):
+    return Container(
+      children=[
+        TextInput(
+          controller=self.controller,
+          props={
+            "type": "number",
+            "style": "width: 7rem; border: 0.3px solid gray; margin-right: 7px; padding: 5px;"
+          },
+          defaultValue=self.val
+        ),
+        TextInput(controller=self.controller, props={"type": "range"}, defaultValue=self.val),
+        Button("Enter", onClick=self.enter, props={"style": "background-color: #f2f2f2; padding: 3px;"})
+      ],
+      props={"style": "margin-top: 10px;"}
+    )
+    
+runApp(App())"""
+                ]
+              ]
+            ],
+
+            # Reactivity
             [
                 "Reactivity",
                 [
-                    "Reactive assignments",
+                  
+                  ## Reactive assignments
+                  [
+                      "Reactive assignments",
                     """class App(UsesState):
   def __init__(self):
     self.count = 0
@@ -112,10 +254,13 @@ runApp(App())"""
     return Button(f"Clicked for {self.count} {'time' if self.count == 1 else 'times'}", onClick=increment)
   
 runApp(App())"""
-                ],
-                [
+                    ],
+
+                    ## State management
+                    [
                     "State management",
-                    """state = State({ "count": 0 })
+                    """
+state = State({ "count": 0 }) # I could be a global variable shared across files.
 
 class App(UsesState):
   def build(self):
@@ -141,6 +286,7 @@ class SecondUI(UsesState):
     return Text(state.count)
   
 runApp(App())"""
+                  ]
                 ]
             ],
         ]
@@ -166,12 +312,12 @@ runApp(App())"""
             def content_builder(j):
 
                 def change_index(ev):
-                    state.setValue('currentCode', self.tabs[i][j+1][1])
+                    state.setValue('currentCode', self.tabs[i][1][j][1])
                     window.CodeMirrorAPI.codeMirror.setValue(state.currentCode)
 
                 return Container(
                     children=[
-                        Button(self.tabs[i][j+1][0], onClick=change_index, className="font-thin"),
+                        Button(self.tabs[i][1][j][0], onClick=change_index, className="font-thin"),
                     ]
                 )
             
