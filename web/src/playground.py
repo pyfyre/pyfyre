@@ -96,7 +96,7 @@ runApp(App())"""
   
 class NestedComponent(UsesState):
   def build(self):
-    return Text("I'm a isolated nested component!")
+    return Text("I'm an isolated nested component")
                   
 runApp(App())"""
                   ],
