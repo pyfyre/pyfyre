@@ -1,5 +1,7 @@
 from pyfyre.widgets import *
 
+from browser import window
+
 class Header(Container):
     def __init__(self):
 
@@ -16,6 +18,9 @@ class Header(Container):
                 to=_nav_items[i][1],
                 external=True if "https" in _nav_items[i][1] else False
             )
+
+        def redirect(ev):
+            window.location.href = "https://github.com/pyfyre/pyfyre"
 
         super().__init__(
             className = "bg-white border-gray-200 px-2 sm:px-4 py-2.5 border-b-2 sticky top-0",
@@ -45,6 +50,15 @@ class Header(Container):
                                     textContent="Get Started",
                                     to="https://pyfyre.gitbook.io/docs/quick-start",
                                     external=True
+                                ),
+                                Clickable(
+                                    className="mr-3",
+                                    bind=Image(
+                                        className="w-7 h-auto",
+                                        src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                                    ),
+                                    onClick=redirect,
+                                    props={"style": "cursor: pointer;"}
                                 )
                             ]
                         ),
