@@ -1,4 +1,5 @@
 from browser import document, window
+from pyfyre.core.initializeEnvironment import initializeEnvironment
 from pyfyre.globals import Globals
 
 def runApp(app, mount="app-mount"):
@@ -17,6 +18,8 @@ def runApp(app, mount="app-mount"):
     body = document.getElementById(mount)
     body.innerHTML = ""
     body.appendChild(app.dom())
+
+    initializeEnvironment()
 
     Globals.__PARENT__ = app
     window.PyFyreDOM.broadcast()

@@ -22,20 +22,32 @@ class UsesState:
 
     def __init__(self):
         self.domElement = None
-        initializeEnvironment()
+        self.initializedDom = False
     
     def build(self):
         pass
 
     def dom(self):
         try:
+            if not self.initializedDom: self.initState()
             self.domElement = self.build().dom()
+            self.initializedDom = True
             return self.domElement
         except Exception as e:
             if Globals.DEBUG: raise e
             
             self.domElement = self.onerror(e).dom()
             return self.domElement
+
+    def initState(self):
+        """
+        This method is called when the component first
+        renders on the screen.
+
+        Override this method by declaring another `initState`
+        method into your component.
+        """
+        pass
 
     def onerror(self, e):
         """
