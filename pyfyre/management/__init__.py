@@ -58,7 +58,7 @@ class ManagementUtility:
             pyfyre.py create-app [name] [description]
                 Create a new PyFyre project in your current directory.
 
-            pyfyre.py runserver [port=8080]
+            pyfyre.py runapp
                 Run a live server in your current directory.
 
             pyfyre.py help
