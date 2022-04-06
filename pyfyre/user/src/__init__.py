@@ -8,9 +8,10 @@ from src.components.counterapp import CounterApp
 # UsesState class has a `build` method that
 # should return a Widget.
 class App(UsesState):
-    def initState(self):
+    def __init__(self):
         # If you want to store a variable, you should store it
         # in `self` at the `__init__` method.
+        super().__init__()
         self.greet = "Welcome"
 
     def build(self):
