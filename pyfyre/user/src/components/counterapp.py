@@ -1,14 +1,14 @@
 from pyfyre.widgets import *
 
 class CounterApp(UsesState):
-    def __init__(self):
+    def initState(self):
         self.count = 0
 
-    def increment(self, e):
+    def increment(self, event):
         self.count = self.count + 1
         self.update()
 
-    def decrement(self, e):
+    def decrement(self, event):
         self.count = self.count - 1
         self.update()
 
