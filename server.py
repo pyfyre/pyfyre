@@ -16,20 +16,19 @@ def main():
 
     os.system("title Contrib Server")
 
-    server = Server()
-
     management = ManagementUtility()
 
-    if os.path.exists("__dev__"): rmtree("__dev__")
-    
-    management.create_app("__dev__", "Contributor development environment")
+    if not os.path.exists("__dev__"):
+        management.create_app("__dev__", "Contributor development environment")
 
-    _directory = os.path.join(os.getcwd())
+    _directory = os.path.join(os.getcwd(), "__dev__")
 
     def reload():
         print("Reloading, producing js...")
 
-        os.chdir(os.path.join(os.getcwd(), "..", "pyfyre"))
+        base = os.path.join(os.getcwd(), "..")
+
+        os.chdir(os.path.join(base, "pyfyre"))
         os.system("brython-cli --make_package pyfyre")
 
         with open(os.path.join("pyfyre.brython.js")) as file:
@@ -38,12 +37,14 @@ def main():
             file.write(content)
 
         os.remove("pyfyre.brython.js")
+        os.chdir(base)
 
         print("Success!")
 
     print(f"PyFyre server for contributing development kit")
 
     def run():
+        os.chdir(os.path.join(os.getcwd(), "__dev__"))
         subprocess.call('start /wait pyfyre runapp && title PyFyre Server', shell=True)
 
     app_thread = threading.Thread(target=run)
@@ -54,5 +55,7 @@ def main():
 
         if command.lower() == "s":
             reload()
+        elif command.lower() == "q":
+            exit()
 
 if __name__ == '__main__': main()
