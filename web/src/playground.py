@@ -15,6 +15,9 @@ def runApp(app):
 
 class PlaygroundPage(UsesState):
     def __init__(self):
+
+        super().__init__()
+
         self.output = None
         self.controller = TextInputController()
 
@@ -65,6 +68,9 @@ class PlaygroundPage(UsesState):
 
 class Sidebar(UsesState):
     def __init__(self, this):
+
+        super().__init__()
+
         self.this = this
         self.tabs = [
 
@@ -287,6 +293,44 @@ class SecondUI(UsesState):
   
 runApp(App())"""
                   ]
+                ]
+            ],
+
+            # Events
+            [
+                "Events",
+                [
+                  
+                  ## Reactive assignments
+                  [
+                      "DOM Events",
+                    """class App(UsesState):
+    def __init__(self):
+        super().__init__()
+
+        self.m = {"x": 0, "y": 0}
+        
+    def build(self):
+
+        def emit(e):
+            self.m["x"] = e.clientX
+            self.m["y"] = e.clientY
+            self.update()
+
+        return WidgetEvent(
+        	child=Container(
+              	props={"style": "height: 100%; width: 100%;"},
+            	children=[
+                  	Text(f"The mouse position is {self.m['x']} x {self.m['y']}"),
+                  ]
+            ),
+          	event=Events.MOUSE_OVER,
+          	onEvent=emit
+        )
+
+
+runApp(App())"""
+                    ],
                 ]
             ],
         ]

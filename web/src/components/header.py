@@ -5,6 +5,8 @@ from browser import window
 class Header(Container):
     def __init__(self):
 
+        super().__init__()
+
         _nav_items = [
             ["Documentation", "https://pyfyre.gitbook.io/docs/"],
             ["Playground", "/playground"],
