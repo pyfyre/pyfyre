@@ -8,7 +8,7 @@ from pyfyre.widgets.textinput import TextInput, TextInputController
 from pyfyre.widgets.clickable import Clickable
 from pyfyre.widgets.customelement import CustomElement
 
-from pyfyre.widgets.states import UsesState, State
+from pyfyre.widgets.framework import UsesState, State
 
 __all__ = [
     'Button', 'Container', 'Image',

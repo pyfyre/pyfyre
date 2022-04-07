@@ -1,6 +1,7 @@
 from pyfyre.widgets import *
 from pyfyre.pyfyre import runApp
-from src.main import MyWebpage
+
+from src.components.counterapp import CounterApp
 
 # This class is called at `runApp` method
 # at the bottom. A class that inherits
@@ -10,6 +11,7 @@ class App(UsesState):
     def __init__(self):
         # If you want to store a variable, you should store it
         # in `self` at the `__init__` method.
+        super().__init__()
         self.greet = "Welcome"
 
     def build(self):
@@ -17,7 +19,14 @@ class App(UsesState):
         # You can do some Pythonic things inside
         # the build method.
 
-        return MyWebpage(self.greet)
+        return Container(
+            className = "container",
+            children = [
+                Text(f"{self.greet} to PyFyre!", className="title"),
+                Text("Try to experiment, edit the `src/main.py` and wait for it to reload automatically on a liveserver. Anyways, I'm a component!", className="desc"),
+                CounterApp()
+            ]
+        )
 
 # This is the main entry point of your app.
 # Any class that inherits the UsesState class
