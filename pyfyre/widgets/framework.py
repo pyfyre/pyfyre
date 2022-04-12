@@ -4,8 +4,8 @@ from browser import document
 
 from pyfyre.core.initializeEnvironment import initializeEnvironment
 from pyfyre.globals import Globals
-from pyfyre.core.exceptions import RenderError
-from pyfyre.runtime_dom.diff import Diffing
+from pyfyre.core.exceptions.exceptions import RenderError
+from pyfyre.core.runtime_dom.diff import Diffing
 
 class UsesState:
     """Create a component that is stateful.

@@ -1,4 +1,4 @@
-from pyfyre.core.exceptions import InvalidController
+from pyfyre.core.exceptions.exceptions import InvalidController
 from pyfyre.widgets.widget import Widget
 
 class TextInput(Widget):
