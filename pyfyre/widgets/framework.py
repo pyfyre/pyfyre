@@ -1,10 +1,11 @@
 """PyFyre States"""
 
+from browser import document
+
 from pyfyre.core.initializeEnvironment import initializeEnvironment
 from pyfyre.globals import Globals
 from pyfyre.core.exceptions import RenderError
 from pyfyre.runtimedom.diff import Diffing
-from pyfyre.runtimedom.render import Render
 
 class UsesState:
     """Create a component that is stateful.
@@ -76,7 +77,6 @@ class UsesState:
         patch = Diffing.diff(Globals.__OLDVDOM__, newVDom)
         Globals.__DOM__ = patch(Globals.__DOM__)
         Globals.__OLDVDOM__ = newVDom
-
 
 class State:
     """

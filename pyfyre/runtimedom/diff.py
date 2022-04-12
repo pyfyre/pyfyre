@@ -26,7 +26,7 @@ class Diffing:
 
         additionalPatches = []
 
-        for additionalVChild in newVChildren[slice(len(oldVChildren))]:
+        for additionalVChild in newVChildren[len(oldVChildren):]:
             def wrapper(_node):
                 _node.appendChild(Render.render(additionalVChild))
                 return _node

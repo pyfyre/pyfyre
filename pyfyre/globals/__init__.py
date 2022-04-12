@@ -2,6 +2,8 @@ class Globals:
     
     DEBUG = False
 
+    MOUNT = None
+
     # The Parent of all widgets object stored here
     # from `runApp`'s first parameter.
     __DOM__ = None

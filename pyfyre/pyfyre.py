@@ -15,7 +15,8 @@ def runApp(vApp, mount="app-mount"):
         Where the app will mount on the index.html. This is a provided
         id of a `div` element.
     """
-
+    
+    Globals.MOUNT = mount
     Globals.__OLDVDOM__ = vApp.dom()
 
     _app = Render.render(Globals.__OLDVDOM__)
