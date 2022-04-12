@@ -9,12 +9,3 @@ class WidgetEvent:
         self.child = child
         self.event = event
         self.onEvent = onEvent
-    
-    def dom(self):
-        element = self.child.dom()
-
-        @bind(element, self.event)
-        def bindWrapper(e):
-            self.onEvent(e)
-
-        return element

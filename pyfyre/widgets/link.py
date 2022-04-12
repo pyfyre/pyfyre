@@ -16,22 +16,8 @@ class Link(Widget):
         The link of the route on the Router routes dictionary.
     """
     
-    def __init__(self, textContent: str, to='/', external=False, className="", props: dict=None):
-        super().__init__("a", className=className, props=props)
+    def __init__(self, textContent: str, to='/', external=False, attrs: dict=None):
+        super().__init__("a", attrs=attrs)
         self.textContent = textContent
         self.to = to
         self.external = external
-    
-    def dom(self):
-        element = super().dom()
-        element.textContent = self.textContent
-        element.href = "#" if not self.external else self.to
-        
-        if not self.external:
-            element.bind("click", self.navigate)
-        
-        return element
-
-    def navigate(self, e):
-        e.preventDefault()
-        Router.push(self.to)

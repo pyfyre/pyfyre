@@ -17,36 +17,20 @@ class TextInput(Widget):
         Default value of the TextInput
     """
     
-    def __init__(self, controller=None, onInput=None, defaultValue="", className="", multiline=False, props: dict=None):
-        super().__init__("input" if not multiline else "textarea", className=className, props=props)
+    def __init__(self, controller=None, oninput=None, multiline=False, attrs: dict=None):
+        super().__init__("input" if not multiline else "textarea", attrs=attrs)
         self.controller = controller
-        self.onInput = onInput
-        self.defaultValue = defaultValue
+        self.oninput = oninput
     
     def dom(self):
-        element = super().dom()
-
-        element.value = self.defaultValue
+        el = super().dom()
         
         if self.controller:
             self.controller.callback(self)
-
-            def bindController(event):
-                self.controller.state = element.value
-
-            element.bind('input', bindController)
-
-            if self.controller.state:
-                element.value = self.controller.state
+    
+        el["oninput"] = self.oninput
         
-        if self.onInput:
-            
-            def wrapper(event):
-                self.onInput(element.value)
-                
-            element.bind('input', wrapper)
-        
-        return element
+        return el
 
 class TextInputController:
     """

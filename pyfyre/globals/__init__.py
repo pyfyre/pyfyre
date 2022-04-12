@@ -1,10 +1,11 @@
 class Globals:
     
     DEBUG = False
-
+    
     # The Parent of all widgets object stored here
     # from `runApp`'s first parameter.
-    __PARENT__ = None
+    __DOM__ = None
+    __OLDVDOM__ = None
 
     # The current pathname location used for routing.
     __LOC__ = None
