@@ -3,6 +3,8 @@
 from pyfyre.core.initializeEnvironment import initializeEnvironment
 from pyfyre.globals import Globals
 from pyfyre.core.exceptions import RenderError
+from pyfyre.runtimedom.diff import Diffing
+from pyfyre.runtimedom.render import Render
 
 class UsesState:
     """Create a component that is stateful.
@@ -21,7 +23,6 @@ class UsesState:
     """
 
     def __init__(self):
-        self.domElement = None
         self.initializedDom = False
     
     def build(self):
@@ -70,10 +71,13 @@ class UsesState:
         for state change, only update the DOM where the change happens.
         """
         
-        parentNode = self.domElement.parentNode
-        self.domElement.remove()
-        self.domElement = self.dom()
-        parentNode.appendChild(self.domElement)
+        newVDom = self.dom()
+
+        print(Globals.__OLDVDOM__, newVDom)
+
+        patch = Diffing.diff(Globals.__OLDVDOM__, newVDom)
+        Globals.__DOM__ = patch(Globals.__DOM__)
+        Globals.__OLDVDOM__ = newVDom
 
 
 class State:

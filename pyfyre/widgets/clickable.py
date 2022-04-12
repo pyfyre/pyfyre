@@ -16,16 +16,7 @@ class Clickable(Widget):
         or activate, the [onClick] method will be fired automatically.
     """
     
-    def __init__(self, bind, onClick, className="", props: dict=None):
-        super().__init__("div", className=className, props=props)
+    def __init__(self, bind, onClick, attrs: dict=None):
+        super().__init__("div", attrs=attrs)
         self.bind = bind
         self.onclick = onClick
-    
-    def dom(self):
-        element = super().dom()
-        
-        element.appendChild(self.bind.dom())
-
-        element.bind("click", self.onclick)
-        
-        return element

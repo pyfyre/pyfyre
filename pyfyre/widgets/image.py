@@ -9,12 +9,6 @@ class Image(Widget):
         The link of the image.
     """
 
-    def __init__(self, src, className="", props: dict=None):
-        super().__init__("img", className=className, props=props)
+    def __init__(self, src, attrs: dict=None):
+        super().__init__("img", attrs=attrs)
         self.src = src
-    
-    def dom(self):
-        element = super().dom()
-        element.src = self.src
-        
-        return element

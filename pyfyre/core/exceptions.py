@@ -11,8 +11,8 @@ class UIBaseException:
         return self.TextException(self.msg).dom()
 
     class TextException(Widget):
-        def __init__(self, msg: str, className="", props: dict=None):
-            super().__init__("h1", className=className, props=props)
+        def __init__(self, msg: str, className="", attrs: dict=None):
+            super().__init__("h1", className=className, attrs=attrs)
             self.msg = msg
         
         def dom(self):

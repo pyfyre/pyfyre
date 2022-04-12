@@ -1,8 +1,9 @@
 from browser import document, window
 from pyfyre.core.initializeEnvironment import initializeEnvironment
 from pyfyre.globals import Globals
+from pyfyre.runtimedom.render import Render
 
-def runApp(app, mount="app-mount"):
+def runApp(vApp, mount="app-mount"):
     """This is the main entry point of your app. You must call this
     with an argument object that inherits [UsesState] or just a simple widget.
 
@@ -15,11 +16,16 @@ def runApp(app, mount="app-mount"):
         id of a `div` element.
     """
 
+    Globals.__OLDVDOM__ = vApp.dom()
+
+    _app = Render.render(Globals.__OLDVDOM__)
+
+    Globals.__DOM__ = _app
+
     body = document.getElementById(mount)
-    body.innerHTML = ""
-    body.appendChild(app.dom())
+    body.replaceWith(_app)
 
-    initializeEnvironment()
+    # initializeEnvironment()
 
-    Globals.__PARENT__ = app
-    window.PyFyreDOM.broadcast()
+    # Globals.__PARENT__ = vApp
+    # window.PyFyreDOM.broadcast()

@@ -13,22 +13,6 @@ class CustomElement(Widget):
         The child of the element.
     """
     
-    def __init__(self, el, child, className="", props: dict=None):
-        super().__init__(el, className=className, props=props)
+    def __init__(self, el, child, attrs: dict=None):
+        super().__init__(el, attrs=attrs)
         self.child = child
-    
-    def dom(self):
-        element = super().dom()
-
-        if isinstance(self.child, str):
-            element.textContent(self.child)
-            return element
-
-        if isinstance(self.child, list):
-            for child in self.child:
-                if not isinstance(child, Widget):
-                    raise Exception("CustomElement child is not a widget.")
-
-                element.appendChild(child.dom())
-
-        return element

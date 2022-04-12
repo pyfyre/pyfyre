@@ -12,15 +12,14 @@ class Button(Widget):
         or activate, the [onClick] method will be fired automatically.
     """
     
-    def __init__(self, textContent, onClick=lambda: print(""), className="", props: dict=None):
-        super().__init__("button", className=className, props=props)
+    def __init__(self, textContent, onClick=lambda: print(""), attrs: dict=None):
+        super().__init__("button", children=textContent, attrs=attrs)
         self.textContent = textContent
         self.onClick = onClick
-    
-    def dom(self):
-        element = super().dom()
-        element.textContent = self.textContent
 
-        element.bind("click", self.onClick)
-        
-        return element
+    def dom(self):
+        el = super().dom()
+
+        el["onclick"] = self.onClick
+
+        return el

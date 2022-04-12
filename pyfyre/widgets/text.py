@@ -11,12 +11,6 @@ class Text(Widget):
         The text content of the Text widget
     """
     
-    def __init__(self, textContent: str, className="", props: dict=None):
-        super().__init__("p", className=className, props=props)
+    def __init__(self, textContent: str, attrs: dict=None):
+        super().__init__("p", children=textContent, attrs=attrs)
         self.textContent = textContent
-    
-    def dom(self):
-        element = super().dom()
-        element.textContent = self.textContent
-        
-        return element
