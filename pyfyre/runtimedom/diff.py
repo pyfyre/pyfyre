@@ -9,13 +9,8 @@ class Diffing:
     def zip(xs, ys):
         zipped = []
 
-        print("XS YS")
-        print(len(xs), ys.length)
-
         for i in range(javascript.Math.ceil(len(xs), ys.length)):
             zipped.append([xs[i], ys[i]])
-
-        print("Zipped: ", zipped)
 
         return zipped
 
@@ -25,14 +20,9 @@ class Diffing:
 
         count = 0
 
-        print("OldVChild:", oldVChildren)
-        print("NewVChild:", newVChildren)
-
         for oldVChild in oldVChildren:
             childPatches.append(Diffing.diff(oldVChild, newVChildren[count]))
             count += 1
-
-        print("ChildPatches:", childPatches)
 
         additionalPatches = []
 
@@ -42,8 +32,6 @@ class Diffing:
                 return _node
 
             additionalPatches.append(wrapper)
-
-        print("Additionalpatches:", additionalPatches)
 
         def wrapper(_parent):
             for z in Diffing.zip(childPatches, _parent.childNodes):

@@ -73,8 +73,6 @@ class UsesState:
         
         newVDom = self.dom()
 
-        print(Globals.__OLDVDOM__, newVDom)
-
         patch = Diffing.diff(Globals.__OLDVDOM__, newVDom)
         Globals.__DOM__ = patch(Globals.__DOM__)
         Globals.__OLDVDOM__ = newVDom
