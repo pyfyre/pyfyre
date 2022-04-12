@@ -3,6 +3,14 @@ from browser import document
 class Render:
 
     @staticmethod
+    def checkEvents(vNode, _el):
+        if "onclick" in vNode:
+            _el.bind("click", vNode["onclick"])
+
+        if "oninput" in vNode:
+            _el.bind("input", vNode["oninput"])
+
+    @staticmethod
     def renderElem(vNode):
         _el = document.createElement(vNode["tagName"])
 
@@ -13,8 +21,7 @@ class Render:
             _child = Render.render(child)
             _el.appendChild(_child)
 
-        if "onclick" in vNode:
-            _el.bind("click", vNode["onclick"])
+        Render.checkEvents(vNode, _el)
 
         return _el
 

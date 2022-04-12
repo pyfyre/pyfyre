@@ -10,5 +10,5 @@ class Image(Widget):
     """
 
     def __init__(self, src, attrs: dict=None):
+        attrs["src"] = src
         super().__init__("img", attrs=attrs)
-        self.src = src

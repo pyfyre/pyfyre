@@ -11,17 +11,8 @@ class UIBaseException:
         return self.TextException(self.msg).dom()
 
     class TextException(Widget):
-        def __init__(self, msg: str, className="", attrs: dict=None):
-            super().__init__("h1", className=className, attrs=attrs)
-            self.msg = msg
-        
-        def dom(self):
-            element = super().dom()
-            element.textContent = self.msg
-            
-            element.attrs["style"] = "background-color: #efa3a3; width: fit-content; padding: 10px;"
-            
-            return element
+        def __init__(self, msg: str, attrs: dict=None):
+            super().__init__("h1", children=msg, attrs=attrs)
 
 class RenderError(UIBaseException): ...
 class InvalidController(BaseException): ...

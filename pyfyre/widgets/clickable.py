@@ -17,6 +17,13 @@ class Clickable(Widget):
     """
     
     def __init__(self, bind, onClick, attrs: dict=None):
-        super().__init__("div", attrs=attrs)
+        super().__init__("div", children=[bind], attrs=attrs)
         self.bind = bind
         self.onclick = onClick
+
+    def dom(self):
+        el = super().dom()
+        el["onclick"] = self.onclick
+
+        return el
+

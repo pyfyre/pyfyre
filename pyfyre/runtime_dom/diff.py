@@ -18,11 +18,8 @@ class Diffing:
     def diffChildren(oldVChildren, newVChildren):
         childPatches = []
 
-        count = 0
-
-        for oldVChild in oldVChildren:
-            childPatches.append(Diffing.diff(oldVChild, newVChildren[count]))
-            count += 1
+        for i in range(len(oldVChildren)):
+            childPatches.append(Diffing.diff(oldVChildren[i], newVChildren[i]))
 
         additionalPatches = []
 

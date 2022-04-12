@@ -19,7 +19,6 @@ class Button(Widget):
 
     def dom(self):
         el = super().dom()
-
         el["onclick"] = self.onClick
 
         return el

@@ -20,6 +20,14 @@ class ListBuilder(Widget):
     """
     
     def __init__(self, count=1, builder=None, attrs: dict=None):
-        super().__init__("div", attrs=attrs)
+        super().__init__("div", children=[], attrs=attrs)
         self.count = count
         self.builder = builder
+
+    def dom(self):
+        el = super().dom()
+
+        for i in range(self.count):
+            el["children"].append(self.builder(i).dom())
+
+        return el

@@ -17,11 +17,20 @@ class TextInput(Widget):
         Default value of the TextInput
     """
     
-    def __init__(self, controller=None, onInput=None, defaultValue="", multiline=False, attrs: dict=None):
+    def __init__(self, controller=None, oninput=None, multiline=False, attrs: dict=None):
         super().__init__("input" if not multiline else "textarea", attrs=attrs)
         self.controller = controller
-        self.onInput = onInput
-        self.defaultValue = defaultValue
+        self.oninput = oninput
+    
+    def dom(self):
+        el = super().dom()
+        
+        if self.controller:
+            self.controller.callback(self)
+    
+        el["oninput"] = self.oninput
+        
+        return el
 
 class TextInputController:
     """

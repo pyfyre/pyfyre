@@ -14,5 +14,5 @@ class CustomElement(Widget):
     """
     
     def __init__(self, el, child, attrs: dict=None):
-        super().__init__(el, attrs=attrs)
+        super().__init__(el, child=child, attrs=attrs)
         self.child = child
