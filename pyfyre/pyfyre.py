@@ -1,7 +1,7 @@
 from browser import document, window
 from pyfyre.core.initializeEnvironment import initializeEnvironment
 from pyfyre.globals import Globals
-from pyfyre.runtimedom.render import Render
+from pyfyre.runtime_dom.render import Render
 
 def runApp(vApp, mount="app-mount"):
     """This is the main entry point of your app. You must call this

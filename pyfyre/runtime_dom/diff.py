@@ -1,5 +1,5 @@
 
-from pyfyre.runtimedom.render import Render
+from pyfyre.runtime_dom.render import Render
 import javascript
 
 
