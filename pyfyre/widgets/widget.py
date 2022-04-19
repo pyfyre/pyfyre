@@ -2,29 +2,44 @@ from browser import document
 
 class Widget:
     
-    def __init__ (self, tagName: str, *, children: list = [], attrs: dict=None):
+    def __init__ (self, tagName: str, *, className: str, children=None, props: dict={}):
         self.tagName = tagName
+        self.className = className
         self.children = children
-        self.attrs = attrs if attrs is not None else {}
+        self.props = props
     
     def dom(self):
 
-        children = self.patchChildren()
+        children = self.patch()
 
         return {
             "tagName": self.tagName,
             "children": children,
-            "attrs": self.attrs
+            "props": self.props
         }
 
-    def patchChildren(self):
+    def patch(self):
+        
+        oldProps = self.props
+        self.props = {"class": self.className}
+
+        for k, v in oldProps.items():
+            self.props[k] = v
 
         if isinstance(self.children, str):
             return self.children
 
-        children = []
+        if isinstance(self.children, list):
 
-        for child in self.children:
-            children.append(child.dom())
+            children = []
 
-        return children
+            for child in self.children:
+                children.append(child.dom())
+                
+            return children
+
+        return self.children.dom()
+
+class PropObj:
+    def __init__(self, props):
+        self.props = props

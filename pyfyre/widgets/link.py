@@ -16,8 +16,8 @@ class Link(Widget):
         The link of the route on the Router routes dictionary.
     """
     
-    def __init__(self, textContent: str, to='/', external=False, attrs: dict=None):
-        super().__init__("a", attrs=attrs)
+    def __init__(self, textContent: str, to='/', external=False, props: dict=None):
+        super().__init__("a", props=props)
         self.textContent = textContent
         self.to = to
         self.external = external

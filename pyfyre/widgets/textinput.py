@@ -17,8 +17,8 @@ class TextInput(Widget):
         Default value of the TextInput
     """
     
-    def __init__(self, controller=None, oninput=None, multiline=False, attrs: dict=None):
-        super().__init__("input" if not multiline else "textarea", attrs=attrs)
+    def __init__(self, controller=None, oninput=None, multiline=False, className="", props: dict={}):
+        super().__init__("input" if not multiline else "textarea", className=className, props=props)
         self.controller = controller
         self.oninput = oninput
     
@@ -66,16 +66,16 @@ class TextInputController:
         self.disabled = disabled
 
         if self.readOnly:
-            self.this.element.attrs['readonly'] = None
+            self.this.element.props['readonly'] = None
         else:
-            if 'readonly' in self.this.element.attrs:
-                del self.this.element.attrs['readonly']
+            if 'readonly' in self.this.element.props:
+                del self.this.element.props['readonly']
 
         if self.disabled:
-            self.this.element.attrs['disabled'] = None
+            self.this.element.props['disabled'] = None
         else:
-            if 'disabled' in self.this.element.attrs:
-                del self.this.element.attrs['disabled']
+            if 'disabled' in self.this.element.props:
+                del self.this.element.props['disabled']
 
     def callback(self, this: TextInput):
         """

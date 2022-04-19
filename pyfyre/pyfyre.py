@@ -23,9 +23,9 @@ def runApp(vApp, mount="app-mount"):
     Globals.__DOM__ = _app
 
     body = document.getElementById(mount)
-    body.replaceWith(_app)
+    body.appendChild(_app)
 
-    # initializeEnvironment()
+    initializeEnvironment()
 
     # Globals.__PARENT__ = vApp
     # window.PyFyreDOM.broadcast()

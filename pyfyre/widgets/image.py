@@ -9,6 +9,6 @@ class Image(Widget):
         The link of the image.
     """
 
-    def __init__(self, src, attrs: dict=None):
-        attrs["src"] = src
-        super().__init__("img", attrs=attrs)
+    def __init__(self, src, className="", props: dict={}):
+        props["src"] = src
+        super().__init__("img", className="", props=props)

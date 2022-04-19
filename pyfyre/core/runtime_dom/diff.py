@@ -43,10 +43,10 @@ class Diffing:
 
 
     @staticmethod
-    def diffAttrs(oldAttrs, newAttrs):
+    def diffprops(oldprops, newprops):
         patches = []
 
-        for k, v in newAttrs.items():
+        for k, v in newprops.items():
             
             def wrapper(_node):
                 _node.setAttribute(k, v)
@@ -54,8 +54,8 @@ class Diffing:
 
             patches.append(wrapper)
 
-        for k in oldAttrs:
-            if not k in newAttrs:
+        for k in oldprops:
+            if not k in newprops:
                 def wrapper(_node):
                     _node.removeAttribute(k)
                     return _node
@@ -98,11 +98,11 @@ class Diffing:
 
             return wrapper
 
-        patchAttrs = Diffing.diffAttrs(vOldNode["attrs"], vNewNode["attrs"])
+        patchprops = Diffing.diffprops(vOldNode["props"], vNewNode["props"])
         patchChildren = Diffing.diffChildren(vOldNode["children"], vNewNode["children"])
 
         def wrapper(_node):
-            patchAttrs(_node)
+            patchprops(_node)
             patchChildren(_node)
             return _node
 

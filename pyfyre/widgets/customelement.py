@@ -13,6 +13,6 @@ class CustomElement(Widget):
         The child of the element.
     """
     
-    def __init__(self, el, child, attrs: dict=None):
-        super().__init__(el, child=child, attrs=attrs)
+    def __init__(self, el, child, className="", props: dict={}):
+        super().__init__(el, child=child, className="", props=props)
         self.child = child

@@ -14,12 +14,16 @@ class Render:
     def renderElem(vNode):
         _el = document.createElement(vNode["tagName"])
 
-        for k, v in vNode["attrs"].items():
+        for k, v in vNode["props"].items():
             _el.setAttribute(k, v)
 
-        for child in vNode["children"]:
-            _child = Render.render(child)
+        if isinstance(vNode["children"], str):
+            _child = Render.render(vNode["children"])
             _el.appendChild(_child)
+        else:
+            for child in vNode["children"]:
+                _child = Render.render(child)
+                _el.appendChild(_child)
 
         Render.checkEvents(vNode, _el)
 

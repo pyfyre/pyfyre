@@ -12,6 +12,7 @@ class App(UsesState):
         # If you want to store a variable, you should store it
         # in `self` at the `__init__` method.
         super().__init__()
+        
         self.greet = "Welcome"
 
     def build(self):

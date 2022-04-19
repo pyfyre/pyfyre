@@ -19,8 +19,8 @@ class ListBuilder(Widget):
         The widget that will append in [count] times.
     """
     
-    def __init__(self, count=1, builder=None, attrs: dict=None):
-        super().__init__("div", children=[], attrs=attrs)
+    def __init__(self, count=1, builder=None, className="", props: dict={}):
+        super().__init__("div", children=[], className=className, props=props)
         self.count = count
         self.builder = builder
 

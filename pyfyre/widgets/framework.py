@@ -33,6 +33,7 @@ class UsesState:
         try:
             if not self.initializedDom: self.initState()
             self.domElement = self.build().dom()
+
             self.initializedDom = True
             return self.domElement
         except Exception as e:

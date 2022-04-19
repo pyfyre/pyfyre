@@ -12,8 +12,8 @@ class Button(Widget):
         or activate, the [onClick] method will be fired automatically.
     """
     
-    def __init__(self, textContent, onClick=lambda: print(""), attrs: dict=None):
-        super().__init__("button", children=textContent, attrs=attrs)
+    def __init__(self, textContent, className="", onClick=lambda: print(""), props: dict={}):
+        super().__init__("button", children=textContent, className=className, props=props)
         self.textContent = textContent
         self.onClick = onClick
 

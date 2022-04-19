@@ -11,6 +11,6 @@ class Container(Widget):
         The list of children of the Container widget.
     """
     
-    def __init__(self, children=[], attrs: dict=None):
-        super().__init__("div", attrs=attrs)
+    def __init__(self, children=[], className="", props: dict={}):
+        super().__init__("div", className=className, props=props)
         self.children = children
