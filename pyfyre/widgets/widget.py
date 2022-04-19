@@ -38,7 +38,7 @@ class Widget:
                 
             return children
 
-        return self.children.dom()
+        return str(self.children)
 
 class PropObj:
     def __init__(self, props):

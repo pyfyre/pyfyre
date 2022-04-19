@@ -9,7 +9,7 @@ class Diffing:
     def zip(xs, ys):
         zipped = []
 
-        for i in range(javascript.Math.ceil(len(xs), ys.length)):
+        for i in range(javascript.Math.min(len(xs), ys.length)):
             zipped.append([xs[i], ys[i]])
 
         return zipped
@@ -17,18 +17,7 @@ class Diffing:
     @staticmethod
     def diffChildren(oldVChildren, newVChildren):
         childPatches = []
-
-        for i in range(len(oldVChildren)):
-            childPatches.append(Diffing.diff(oldVChildren[i], newVChildren[i]))
-
         additionalPatches = []
-
-        for additionalVChild in newVChildren[len(oldVChildren):]:
-            def wrapper(_node):
-                _node.appendChild(Render.render(additionalVChild))
-                return _node
-
-            additionalPatches.append(wrapper)
 
         def wrapper(_parent):
             for z in Diffing.zip(childPatches, _parent.childNodes):
@@ -38,6 +27,22 @@ class Diffing:
                 patch(_parent)
 
             return _parent
+
+        if (isinstance(oldVChildren, str) or isinstance(newVChildren, str)):
+            childPatches.append(Diffing.diff(oldVChildren, newVChildren))
+
+            return wrapper
+
+        for i in range(len(oldVChildren)):
+            childPatches.append(Diffing.diff(oldVChildren[i], newVChildren[i]))
+
+        for additionalVChild in newVChildren[len(oldVChildren):]:
+
+            def wrapper(_node):
+                _node.appendChild(Render.render(additionalVChild))
+                return _node
+
+            additionalPatches.append(wrapper)
 
         return wrapper
 
@@ -86,7 +91,7 @@ class Diffing:
 
                 return wrapper
             else:
-                def wrapper(_node): return None
+                def wrapper(_node): return _node
 
                 return wrapper
             
@@ -98,11 +103,11 @@ class Diffing:
 
             return wrapper
 
-        patchprops = Diffing.diffprops(vOldNode["props"], vNewNode["props"])
+        patchProps = Diffing.diffprops(vOldNode["props"], vNewNode["props"])
         patchChildren = Diffing.diffChildren(vOldNode["children"], vNewNode["children"])
 
         def wrapper(_node):
-            patchprops(_node)
+            patchProps(_node)
             patchChildren(_node)
             return _node
 

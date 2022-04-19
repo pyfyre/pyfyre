@@ -410,6 +410,7 @@ class ManagementUtility:
 
         with open(os.path.join(build_path, f"main.{main_key}.js"), "w", encoding="utf-8") as file:
             vfs["$timestamp"] = int(1000 * time.time())
+            vfs["src"] = ['.py', '', vfs['src'][2], 1]
 
             brython = [
                 "__BRYTHON__.use_VFS = true;\n",

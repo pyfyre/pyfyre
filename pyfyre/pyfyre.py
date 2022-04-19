@@ -16,6 +16,7 @@ def runApp(vApp, mount="app-mount"):
         id of a `div` element.
     """
     
+    Globals.__PARENT__ = vApp
     Globals.__OLDVDOM__ = vApp.dom()
 
     _app = Render.render(Globals.__OLDVDOM__)

@@ -32,15 +32,15 @@ class UsesState:
     def dom(self):
         try:
             if not self.initializedDom: self.initState()
-            self.domElement = self.build().dom()
+            vDom = self.build().dom()
 
             self.initializedDom = True
-            return self.domElement
+            return vDom
         except Exception as e:
             if Globals.DEBUG: raise e
             
-            self.domElement = self.onerror(e).dom()
-            return self.domElement
+            vDom = self.onerror(e).dom()
+            return vDom
 
     def initState(self):
         """
@@ -66,18 +66,6 @@ class UsesState:
         """
         
         return RenderError("Oh no! Something went wrong. We're working on fixing it.", e)
-
-    def update(self):
-        """
-        Updates the DOM element. Instead of painting the app again
-        for state change, only update the DOM where the change happens.
-        """
-        
-        newVDom = self.dom()
-
-        patch = Diffing.diff(Globals.__OLDVDOM__, newVDom)
-        Globals.__DOM__ = patch(Globals.__DOM__)
-        Globals.__OLDVDOM__ = newVDom
 
 class State:
     """
@@ -124,3 +112,15 @@ class State:
 
     def setValue(self, of, to):
         setattr(self, of, to)
+
+def update():
+    """
+    Checks for diffs and updates the DOM cherry-picked.
+    """
+    
+    newVDom = Globals.__PARENT__.dom()
+
+    patch = Diffing.diff(Globals.__OLDVDOM__, newVDom)
+
+    Globals.__DOM__ = patch(Globals.__DOM__)
+    Globals.__OLDVDOM__ = newVDom
