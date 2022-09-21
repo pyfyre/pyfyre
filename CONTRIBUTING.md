@@ -4,6 +4,8 @@ When contributing to this repository, please first discuss the change you wish t
 
 Thank you for investing your time in contributing to our project!
 
+> Before starting, please read the module docstring of [dev.py](dev.py).
+
 ## Project Directory
 - [**pyfyre**](pyfyre)  
 Core files of PyFyre.
