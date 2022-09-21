@@ -13,6 +13,12 @@ def build_app(verbose: bool = True) -> None:
 	_print(verbose, "Building app...")
 	scripts_dir = os.path.join("public", "scripts")
 	
+	try:
+		os.makedirs(scripts_dir)
+	except FileExistsError:
+		shutil.rmtree(scripts_dir)
+		os.makedirs(scripts_dir)
+	
 	for f in os.listdir("src"):
 		if f == "pyfyre":
 			continue

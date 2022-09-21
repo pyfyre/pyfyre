@@ -26,7 +26,7 @@ def _copy_project_template(
 	with in_path(os.path.join(cli_path, "..")) as path:
 		shutil.copytree(
 			"pyfyre",
-			os.path.join(project_path, "public", "scripts", "pyfyre")
+			os.path.join(project_path, "public", "pyfyre")
 		)
 		shutil.copytree("pyfyre", os.path.join(project_path, "src", "pyfyre"))
 
