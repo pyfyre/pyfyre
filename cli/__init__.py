@@ -9,20 +9,10 @@ pyfyre create-app hello-world
 
 import os
 import sys
-from contextlib import contextmanager
-from typing import List, Optional, Iterator
-
-
-@contextmanager
-def in_directory(directory: str) -> Iterator[str]:
-	original_directory = os.getcwd()
-	
-	try:
-		abspath = os.path.abspath(directory)
-		os.chdir(abspath)
-		yield abspath
-	finally:
-		os.chdir(original_directory)
+import pathlib
+from cli.utils import in_path
+from typing import List, Optional
+from cli.create_app import create_app
 
 
 def execute(args: Optional[List[str]] = None) -> None:
@@ -38,12 +28,13 @@ def execute(args: Optional[List[str]] = None) -> None:
 	command = args_list[1] or "help"
 	
 	if command == "create-app":
-		print("create-app")
-	elif command == "start":
-		print("start")
-	elif command == "build":
-		print("build")
+		app_name = args_list[2] or "pyfyre-app"
+		app_path = pathlib.Path(os.path.abspath(app_name))
+		create_app(
+			app_path.parts[-1],
+			os.path.join(*app_path.parts[:-1])
+		)
 	else:
-		with in_directory(os.path.dirname(__file__)):
+		with in_path(os.path.dirname(__file__)):
 			with open("outputs/help.txt") as file:
 				print(file.read())

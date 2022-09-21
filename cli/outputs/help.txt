@@ -6,9 +6,3 @@ Manage your PyFyre projects.
 
     pyfyre create-app [name]
       Create a new PyFyre project in your current directory.
-
-    pyfyre start
-      Run your PyFyre project in development mode.
-
-    pyfyre build
-      Build your PyFyre project for production deployment.
