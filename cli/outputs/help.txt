@@ -1,0 +1,14 @@
+Manage your PyFyre projects.
+
+  Common Commands:
+    pyfyre help
+      Show this message.
+
+    pyfyre create-app [name]
+      Create a new PyFyre project in your current directory.
+
+    pyfyre start
+      Run your PyFyre project in development mode.
+
+    pyfyre build
+      Build your PyFyre project for production deployment.

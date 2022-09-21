@@ -1,19 +1,14 @@
 """
-Invokes PyFyre when PyFyre module is run as a script.
+Entry point for pyfyre.
 
-Example: pyfyre create-app hello-world
+Example:
+```bash
+python pyfyre create-app hello-world
+```
 """
 
 import sys
+import cli
 
-if __name__ == '__main__':
-    try:
-        from .pyfyre import management
-    except ImportError:
-        raise ImportError(
-            """
-            ERR! Cannot find PyFyre. Aborting...
-            """
-        )
-
-    management.execute_from_command_line(sys.argv)
+if __name__ == "__main__":
+	cli.execute(sys.argv)
