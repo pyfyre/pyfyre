@@ -4,7 +4,7 @@ import shutil
 from cli.utils import in_path, empty_directory
 
 
-def copy_project_template(
+def _copy_project_template(
 	project_path: str, template_name: str = "default"
 ) -> None:
 	with in_path(os.path.dirname(__file__)) as path:
@@ -17,7 +17,7 @@ def copy_project_template(
 				shutil.copytree(p, os.path.join(project_path, f))
 			except OSError as exc:
 				if exc.errno in (errno.ENOTDIR, errno.EINVAL):
-					shutil.copy(p, project_path)
+					shutil.copy(p, os.path.join(project_path, f))
 				else:
 					raise
 
@@ -39,7 +39,7 @@ def create_app(app_name: str, app_dir: str) -> None:
 			print("Aborting...")
 			return
 	
-	copy_project_template(project_path)
+	_copy_project_template(project_path)
 	
 	
 	# # edit the `index.html` file
