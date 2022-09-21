@@ -13,12 +13,10 @@ def build_app(verbose: bool = True) -> None:
 	_print(verbose, "Building app...")
 	scripts_dir = os.path.join("public", "scripts")
 	
-	if os.path.isdir(scripts_dir):
-		shutil.rmtree(scripts_dir)
-	
-	os.makedirs(scripts_dir)
-	
 	for f in os.listdir("src"):
+		if f == "pyfyre":
+			continue
+		
 		p = os.path.join("src", f)
 		
 		try:
