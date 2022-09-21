@@ -10,5 +10,4 @@ if __name__ == "__main__":
 	build_app()
 	server = Server()
 	server.watch("src/*", build_app)
-	server.watch("public/*", build_app)
 	server.serve(root="public")
