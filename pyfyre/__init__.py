@@ -18,6 +18,10 @@ class _VirtualDOM:
 		for attr_name, attr_value in dom["props"].items():
 			el.setAttribute(attr_name, attr_value)
 		
+		for event_type, listeners in dom["event_listeners"].items():
+			for callback in listeners:
+				el.bind(event_type.value, callback)
+		
 		return el
 	
 	@staticmethod

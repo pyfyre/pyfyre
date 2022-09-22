@@ -1,6 +1,9 @@
 from enum import Enum
+from browser import DOMEvent
+from collections import defaultdict
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from pyfyre.events import EventType
+from typing import Any, Dict, List, Optional, Callable
 
 
 class WidgetType(Enum):
@@ -23,14 +26,22 @@ class Widget(BaseWidget):
 		self.tag_name = tag_name
 		self.props = props or {}
 		self.children = children or []
+		self._event_listeners: Dict[EventType, List[Callable[[DOMEvent], None]]] = \
+			defaultdict(list)
 	
 	def dom(self) -> Dict[str, Any]:
 		return {
 			"_type": WidgetType.Element,
 			"tag_name": self.tag_name,
 			"props": self.props,
-			"children": [c.dom() for c in self.children]
+			"children": [c.dom() for c in self.children],
+			"event_listeners": self._event_listeners
 		}
+	
+	def add_event_listener(
+		self, event_type: EventType, callback: Callable[[DOMEvent], None]
+	) -> None:
+		self._event_listeners[event_type].append(callback)
 
 
 class TextWidget(BaseWidget):
