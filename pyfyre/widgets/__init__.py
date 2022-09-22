@@ -1,6 +1,7 @@
 from .base import WidgetType, BaseWidget, Widget, TextWidget
 from .buttons import Button
 from .containers import Container
+from .images import Image
 
 __all__ = [
 	"WidgetType",
@@ -8,5 +9,6 @@ __all__ = [
 	"Widget",
 	"TextWidget",
 	"Button",
-	"Container"
+	"Container",
+	"Image"
 ]
