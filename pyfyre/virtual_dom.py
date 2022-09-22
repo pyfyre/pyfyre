@@ -29,7 +29,6 @@ class VirtualDOM:
 	
 	@staticmethod
 	def update(widget: StatefulContainer) -> None:
-		widget.children = widget.build()
 		el = document.select(f"[pyfyre-identifier='{widget.identifier}']")[0]
 		el.replaceWith(VirtualDOM.create_element(widget.dom()))
 	
