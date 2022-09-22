@@ -1,5 +1,5 @@
 from browser import DOMEvent
-from pyfyre.events import EventType
+from pyfyre.events import MouseEventType
 from typing import Callable, Optional, Dict, List
 from pyfyre.widgets.base import Widget, BaseWidget
 
@@ -11,4 +11,4 @@ class Button(Widget):
 		children: Optional[List[BaseWidget]] = None
 	):
 		super().__init__("button", props=props, children=children)
-		self.add_event_listener(EventType.Click, onclick)
+		self.add_event_listener(MouseEventType.Click, onclick)
