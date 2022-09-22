@@ -3,6 +3,7 @@ from .buttons import Button
 from .containers import Container
 from .images import Image
 from .links import Link
+from .texts import Span, Paragraph
 
 __all__ = [
 	"WidgetType",
@@ -12,5 +13,7 @@ __all__ = [
 	"Button",
 	"Container",
 	"Image",
-	"Link"
+	"Link",
+	"Span",
+	"Paragraph"
 ]
