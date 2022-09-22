@@ -1,10 +1,10 @@
-from typing import Optional, Dict, List
+from typing import Any, Optional, Dict, List
 from pyfyre.widgets.base import Widget, BaseWidget, TextWidget
 
 
 class Span(Widget):
 	def __init__(
-		self, content: str, *,
+		self, content: Any, *,
 		props: Optional[Dict[str, str]] = None,
 		children: Optional[List[BaseWidget]] = None
 	):
@@ -15,7 +15,7 @@ class Span(Widget):
 
 class Paragraph(Widget):
 	def __init__(
-		self, content: str, *,
+		self, content: Any, *,
 		props: Optional[Dict[str, str]] = None,
 		children: Optional[List[BaseWidget]] = None
 	):

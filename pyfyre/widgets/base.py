@@ -14,7 +14,7 @@ class WidgetType(Enum):
 class BaseWidget(ABC):
 	@abstractmethod
 	def dom(self) -> Dict[str, Any]:
-		pass
+		raise NotImplementedError
 
 
 class Widget(BaseWidget):
@@ -45,8 +45,8 @@ class Widget(BaseWidget):
 
 
 class TextWidget(BaseWidget):
-	def __init__(self, content: str):
-		self.content = content
+	def __init__(self, content: Any):
+		self.content = str(content)
 	
 	def dom(self) -> Dict[str, Any]:
 		return {
