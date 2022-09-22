@@ -17,6 +17,8 @@ def _copy_project_template(
 			
 			try:
 				shutil.copytree(p, os.path.join(project_path, f))
+			except NotADirectoryError:
+				shutil.copy(p, os.path.join(project_path, f))
 			except OSError as exc:
 				if exc.errno in (errno.ENOTDIR, errno.EINVAL):
 					shutil.copy(p, os.path.join(project_path, f))
@@ -47,6 +49,8 @@ def create_app(app_name: str, app_dir: str) -> None:
 		else:
 			print("Aborting...")
 			return
+	else:
+		os.makedirs(project_path)
 	
 	_copy_project_template(project_path)
 	print("Project created successfully.")
