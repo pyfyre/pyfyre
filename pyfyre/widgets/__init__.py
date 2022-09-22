@@ -5,6 +5,7 @@ from .images import Image
 from .links import Link
 from .texts import Span, Paragraph
 from .inputs import TextController, TextInput
+from .misc import LineBreak, HorizontalLine
 
 __all__ = [
 	"WidgetType",
@@ -18,5 +19,7 @@ __all__ = [
 	"Span",
 	"Paragraph",
 	"TextController",
-	"TextInput"
+	"TextInput",
+	"LineBreak",
+	"HorizontalLine"
 ]
