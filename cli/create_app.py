@@ -35,13 +35,14 @@ def _copy_project_template(
 			os.remove("pyfyre.brython.js")
 
 
-def create_app(app_name: str, app_dir: str) -> None:
-	print(f"Creating your PyFyre project '{app_name}'...")
+def create_app(app_name: str, app_dir: str, *, dev_mode: bool = False) -> None:
+	if not dev_mode:
+		print(f"Creating your PyFyre project '{app_name}'...")
 	
 	project_path = os.path.join(app_dir, app_name)
 	
 	if os.path.isdir(project_path):
-		prompt = input(
+		prompt = "y" if dev_mode else input(
 			f"Project '{app_name}' already exists. Want to overwrite "
 			f"the directory? (y or n): "
 		).lower()
@@ -55,4 +56,6 @@ def create_app(app_name: str, app_dir: str) -> None:
 		os.makedirs(project_path)
 	
 	_copy_project_template(project_path)
-	print("Project created successfully.")
+	
+	if not dev_mode:
+		print("Project created successfully.")
