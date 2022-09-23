@@ -31,8 +31,8 @@ if __name__ == "__main__":
 		_create_app()
 		
 		server = Server()
-		server.watch("cli/*", _create_app)
-		server.watch("pyfyre/*", _create_app)
+		server.watch("cli/", _create_app)
+		server.watch("pyfyre/", _create_app)
 		server.serve(root=os.path.join("__dev__", "public"))
 	else:
 		print(
