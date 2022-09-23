@@ -15,6 +15,7 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython_stdlib.min.js"></script>
+		<script src="/pyfyre.brython.js"></script>
 		
 		<link rel="icon" href="/favicon.ico" />
 	</head>
