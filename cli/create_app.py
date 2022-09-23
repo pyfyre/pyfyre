@@ -1,7 +1,6 @@
 import os
 import errno
 import shutil
-import subprocess
 from cli.utils import in_path, empty_directory
 
 
@@ -28,11 +27,6 @@ def _copy_project_template(
 	
 	with in_path(os.path.join(cli_path, "..")) as path:
 		shutil.copytree("pyfyre", os.path.join(project_path, "src", "pyfyre"))
-		
-		with in_path("pyfyre"):
-			subprocess.run(["brython-cli", "make_package", "pyfyre"])
-			shutil.copy("pyfyre.brython.js", os.path.join(project_path, "public"))
-			os.remove("pyfyre.brython.js")
 
 
 def create_app(app_name: str, app_dir: str, *, dev_mode: bool = False) -> None:

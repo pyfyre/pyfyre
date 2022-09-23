@@ -1,5 +1,6 @@
 from typing import List
 from pyfyre import render
+from about import AboutPage
 from pyfyre.widgets import *
 from browser import DOMEvent
 
@@ -22,13 +23,6 @@ class HomePage(StatefulContainer):
 	def increment(self, event: DOMEvent) -> None:
 		self.counter += 1
 		self.update()
-
-
-class AboutPage(Container):
-	def __init__(self) -> None:
-		super().__init__(children=[
-			Paragraph("About Page")
-		])
 
 
 render("body", {

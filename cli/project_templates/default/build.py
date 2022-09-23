@@ -1,9 +1,11 @@
 import os
-import errno
 import shutil
 import pathlib
 import settings
+import subprocess
 from typing import Dict
+from typing import Iterator
+from contextlib import contextmanager
 
 _HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
@@ -13,17 +15,30 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
 		
+		<!-- Start of Brython -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython_stdlib.min.js"></script>
-		<script src="/pyfyre.brython.js"></script>
+		<script src="/src.brython.js"></script>
+		<script type="text/python">import index</script>
+		<!-- End of Brython -->
 		
 		<link rel="icon" href="/favicon.ico" />
 	</head>
-	<body onload="brython()">
-		<script type="text/python" src="/index.py"></script>
-	</body>
+	<body onload="brython()"></body>
 </html>
 """
+
+
+@contextmanager
+def in_path(path: str) -> Iterator[str]:
+	original_path = os.getcwd()
+	
+	try:
+		abspath = os.path.abspath(path)
+		os.chdir(abspath)
+		yield abspath
+	finally:
+		os.chdir(original_path)
 
 
 def _create_page(route: str, data: Dict[str, str]) -> None:
@@ -35,6 +50,13 @@ def _create_page(route: str, data: Dict[str, str]) -> None:
 		file.write(html)
 
 
+def _bundle_scripts() -> None:
+	with in_path("src"):
+		subprocess.run(["brython-cli", "make_package", "src"])
+		shutil.copy("src.brython.js", os.path.join("..", "public"))
+		os.remove("src.brython.js")
+
+
 def build_app(production: bool = False) -> None:
 	if production:
 		print("Building app...")
@@ -42,24 +64,7 @@ def build_app(production: bool = False) -> None:
 	for route, data in settings.ROUTES.items():
 		_create_page(route, data)
 	
-	scripts_dir = os.path.join("public")
-	
-	for f in os.listdir("src"):
-		if f == "pyfyre":
-			continue
-		
-		p = os.path.join("src", f)
-		
-		try:
-			shutil.copytree(p, os.path.join(scripts_dir, f))
-		except FileExistsError:
-			shutil.rmtree(os.path.join(scripts_dir, f))
-			shutil.copytree(p, os.path.join(scripts_dir, f))
-		except OSError as exc:
-			if exc.errno in (errno.ENOTDIR, errno.EINVAL):
-				shutil.copy(p, os.path.join(scripts_dir, f))
-			else:
-				raise
+	_bundle_scripts()
 	
 	if production:
 		print("App successfully built.")
