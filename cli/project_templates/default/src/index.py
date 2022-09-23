@@ -17,7 +17,7 @@ class HomePage(StatefulContainer):
 			Paragraph(self.counter),
 			Button(self.increment, children=[TextWidget("Count")]),
 			HorizontalLine(),
-			Link("about", children=[TextWidget("About this website")])
+			InternalLink("about", children=[TextWidget("About this website")])
 		]
 	
 	def increment(self, event: DOMEvent) -> None:

@@ -4,6 +4,8 @@ from pyfyre.widgets import WidgetType, StatefulContainer
 
 
 class VirtualDOM:
+	root: DOMNode = document.select("body")
+	
 	@staticmethod
 	def create_element(dom: Dict[str, Any]) -> DOMNode:
 		el = document.createElement(dom["tag_name"])
@@ -33,9 +35,10 @@ class VirtualDOM:
 		el.replaceWith(VirtualDOM.create_element(widget.dom()))
 	
 	@staticmethod
-	def render(root: DOMNode, dom: Dict[str, Any]) -> None:
+	def render(dom: Dict[str, Any]) -> None:
 		if dom["_type"] == WidgetType.TextNode:
-			root.textContent += dom["content"]
+			VirtualDOM.root.textContent = dom["content"]
 		elif dom["_type"] == WidgetType.Element:
 			el = VirtualDOM.create_element(dom)
-			root.appendChild(el)
+			VirtualDOM.root.innerHTML = ""
+			VirtualDOM.root.appendChild(el)

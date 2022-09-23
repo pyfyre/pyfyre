@@ -15,7 +15,8 @@ def render(root_selector: str, routes: Dict[str, BaseWidget]) -> None:
 	nodes = document.select(root_selector)
 	
 	if nodes:
+		VirtualDOM.root = nodes[0]
 		widget = RouteManager.get_widget(window.location.pathname)
-		VirtualDOM.render(nodes[0], widget.dom())
+		VirtualDOM.render(widget.dom())
 	else:
 		raise NodeNotFound(root_selector)
