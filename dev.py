@@ -31,7 +31,7 @@ if __name__ == "__main__":
 		server = Server()
 		server.watch("cli/", _create_app)
 		server.watch("pyfyre/", _create_app)
-		server.serve(root=os.path.join("__dev__", "public"))
+		server.serve(port=6000, root=os.path.join("__dev__", "public"))
 	else:
 		print(
 			"You must be in the directory of pyfyre to run the development server."

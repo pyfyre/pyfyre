@@ -1,5 +1,5 @@
 """
-	This module contains the tool for building the app
+	This module contains the tools for building the app
 	for development and production purposes.
 	For instance, this module will build the app for production
 	if it is run directly as a script (not imported).
@@ -16,7 +16,6 @@ import shutil
 import pathlib
 import settings
 import subprocess
-from typing import Dict
 from typing import Iterator
 from contextlib import contextmanager
 
@@ -54,16 +53,17 @@ def in_path(path: str) -> Iterator[str]:
 		os.chdir(original_path)
 
 
-def _create_page(route: str, data: Dict[str, str]) -> None:
-	directory = os.path.join("public", *route.split("/"))
-	pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
-	
-	with open(os.path.join(directory, "index.html"), "w") as file:
-		html = _HTML_TEMPLATE.format(title=data.get("title"))
-		file.write(html)
+def create_pages() -> None:
+	for route, data in settings.ROUTES.items():
+		directory = os.path.join("public", *route.split("/"))
+		pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
+		
+		with open(os.path.join(directory, "index.html"), "w") as file:
+			html = _HTML_TEMPLATE.format(title=data.get("title"))
+			file.write(html)
 
 
-def _bundle_scripts() -> None:
+def bundle_scripts() -> None:
 	with open("settings.py") as fn:
 		settings = fn.read()
 		
@@ -82,10 +82,8 @@ def build_app(production: bool = False) -> None:
 	if production:
 		print("Building app...")
 	
-	for route, data in settings.ROUTES.items():
-		_create_page(route, data)
-	
-	_bundle_scripts()
+	create_pages()
+	bundle_scripts()
 	
 	if production:
 		print("App successfully built.")

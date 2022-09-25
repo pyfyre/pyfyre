@@ -7,15 +7,25 @@
 """
 
 import os
-from build import build_app
 from livereload import Server
+from build import build_app, create_pages, bundle_scripts
+
+
+def build_src() -> None:
+	bundle_scripts()
+
+
+def build_settings() -> None:
+	create_pages()
+	bundle_scripts()
+
 
 if __name__ == "__main__":
 	if os.path.dirname(__file__) == os.getcwd():
 		build_app()
 		server = Server()
-		server.watch("src/", build_app)
-		server.watch("settings.py", build_app)
+		server.watch("src/", build_src)
+		server.watch("settings.py", build_settings)
 		server.serve(root="public")
 	else:
 		print("You must be in the directory of the project to run it.")
