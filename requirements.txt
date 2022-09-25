@@ -1,3 +1,2 @@
--i https://pypi.org/simple
 brython==3.10.7
 livereload==2.6.3
