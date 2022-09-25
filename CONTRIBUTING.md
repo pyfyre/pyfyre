@@ -4,7 +4,12 @@ When contributing to this repository, please first discuss the change you wish t
 
 Thank you for investing your time in contributing to our project!
 
-> Before starting, please read the module docstring of [dev.py](dev.py).
+## Before Starting
+- Read the module docstring of [dev.py](dev.py).
+- Install the required [packages](requirements.txt) for development.
+```bash
+pip install -r requirements.txt
+```
 
 ## Project Directory
 - [**pyfyre**](pyfyre)  

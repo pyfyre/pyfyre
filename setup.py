@@ -42,5 +42,9 @@ setup(
 	},
 	entry_points={
 		"console_scripts": ["pyfyre = cli:execute"]
-	}
+	},
+	install_requires=[
+		"brython==3.10.7",
+		"livereload==2.6.3"
+	]
 )
