@@ -64,10 +64,18 @@ def _create_page(route: str, data: Dict[str, str]) -> None:
 
 
 def _bundle_scripts() -> None:
-	with in_path("src"):
-		subprocess.run(["brython-cli", "make_package", "src"])
-		shutil.copy("src.brython.js", os.path.join("..", "public"))
-		os.remove("src.brython.js")
+	with open("settings.py") as fn:
+		settings = fn.read()
+		
+		with in_path("src"):
+			with open("settings.py", "w") as file:
+				file.write(settings)
+			
+			subprocess.run(["brython-cli", "make_package", "src"])
+			shutil.copy("src.brython.js", os.path.join("..", "public"))
+			
+			os.remove("src.brython.js")
+			os.remove("settings.py")
 
 
 def build_app(production: bool = False) -> None:
