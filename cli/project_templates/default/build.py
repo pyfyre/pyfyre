@@ -15,6 +15,7 @@ import os
 import shutil
 import pathlib
 import settings
+import importlib
 import subprocess
 from typing import Iterator
 from contextlib import contextmanager
@@ -55,6 +56,8 @@ def in_path(path: str) -> Iterator[str]:
 
 
 def create_pages() -> None:
+	importlib.reload(settings)
+	
 	for route, data in settings.ROUTES.items():
 		directory = os.path.join("public", *route.split("/"))
 		pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
@@ -80,6 +83,8 @@ def bundle_scripts() -> None:
 
 
 def add_cpython_packages() -> None:
+	importlib.reload(settings)
+	
 	for package_name in settings.DEPENDENCIES:
 		subprocess.run(["brython-cli", "add_package", package_name])
 	

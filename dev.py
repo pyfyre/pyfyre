@@ -10,6 +10,7 @@
 
 import os
 import sys
+import importlib
 from cli.utils import in_path
 from livereload import Server
 from cli.create_app import create_app
@@ -19,8 +20,9 @@ def _create_app() -> None:
 	create_app("__dev__", os.getcwd(), dev_mode=True)
 	
 	with in_path("__dev__"):
-		from __dev__.build import build_app
-		build_app()
+		from __dev__ import build
+		importlib.reload(build)
+		build.build_app()
 
 
 if __name__ == "__main__":
