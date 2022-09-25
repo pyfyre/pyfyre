@@ -1,7 +1,8 @@
 """
 	This module creates a PyFyre project in the `__dev__` directory.
 	This starts a live server hosting the `__dev__/public` directory.
-	The live server watches for changes in the `pyfyre` and `cli` directories.
+	The live server watches for changes in the `pyfyre` and `cli` directories
+	and `settings.py` file.
 	When the live server detects changes, it will recreate the `__dev__` app.
 	
 	This is useful to quickly test your changes while developing this project
@@ -33,6 +34,7 @@ if __name__ == "__main__":
 		server = Server()
 		server.watch("cli/", _create_app)
 		server.watch("pyfyre/", _create_app)
+		server.watch("settings.py", _create_app)
 		server.serve(root=os.path.join("__dev__", "public"))
 	else:
 		print(
