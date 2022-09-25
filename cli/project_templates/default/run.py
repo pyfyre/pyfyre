@@ -8,7 +8,7 @@
 
 import os
 from livereload import Server
-from build import build_app, create_pages, bundle_scripts
+from build import build_app, create_pages, bundle_scripts, add_cpython_packages
 
 
 def build_src() -> None:
@@ -18,6 +18,7 @@ def build_src() -> None:
 def build_settings() -> None:
 	create_pages()
 	bundle_scripts()
+	add_cpython_packages()
 
 
 if __name__ == "__main__":

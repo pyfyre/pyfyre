@@ -30,6 +30,7 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		<!-- Start of Brython -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython_stdlib.min.js"></script>
+		<script src="/cpython_packages.brython.js"></script>
 		<script src="/src.brython.js"></script>
 		<script type="text/python">import index</script>
 		<!-- End of Brython -->
@@ -78,12 +79,32 @@ def bundle_scripts() -> None:
 			os.remove("settings.py")
 
 
+def add_cpython_packages() -> None:
+	for package_name in settings.DEPENDENCIES:
+		subprocess.run(["brython-cli", "add_package", package_name])
+	
+	packages_dir = os.path.join("Lib", "site-packages")
+	
+	if not os.path.isdir(packages_dir):
+		return
+	
+	with in_path(packages_dir):
+		subprocess.run(["brython-cli", "make_package", "cpython_packages"])
+		shutil.copy(
+			"cpython_packages.brython.js",
+			os.path.join("..", "..", "public")
+		)
+	
+	shutil.rmtree("Lib")
+
+
 def build_app(production: bool = False) -> None:
 	if production:
 		print("Building app...")
 	
 	create_pages()
 	bundle_scripts()
+	add_cpython_packages()
 	
 	if production:
 		print("App successfully built.")
