@@ -5,12 +5,15 @@ Learn PyFyre by reading the [documentation](https://pyfyre.netlify.app/). It is 
 
 ### Scripts
 ```
-python start.py
+python run.py
   Run your PyFyre project in development mode.
 
 python build.py
   Build your PyFyre project for production deployment.
 ```
+
+### Deployment
+All the files required to run your website are stored in the [public](public) directory so you can just serve or deploy the [public](public) directory to the web.
 
 ### Links
 - [Docs](https://pyfyre.netlify.app/)

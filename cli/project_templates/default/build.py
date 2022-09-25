@@ -1,3 +1,16 @@
+"""
+	This module contains the tool for building the app
+	for development and production purposes.
+	For instance, this module will build the app for production
+	if it is run directly as a script (not imported).
+	
+	The build process includes but not limited to bundling of the files
+	inside the `src` directory as a Brython package to make it usable for the web.
+	
+	All the build files are stored in the `public` directory so you can just
+	serve or deploy the `public` directory to the web.
+"""
+
 import os
 import shutil
 import pathlib

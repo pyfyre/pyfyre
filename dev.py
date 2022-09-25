@@ -1,6 +1,6 @@
 """
 	This module creates a PyFyre project in the `__dev__` directory.
-	This creates a live server hosting the `__dev__/public` directory.
+	This starts a live server hosting the `__dev__/public` directory.
 	The live server watches for changes in the `pyfyre` and `cli` directories.
 	When the live server detects changes, it will recreate the `__dev__` app.
 	
