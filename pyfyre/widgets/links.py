@@ -10,6 +10,7 @@ class Link(Widget):
 		props: Optional[Dict[str, str]] = None,
 		children: Optional[List[BaseWidget]] = None
 	):
+		href = href or "/"
 		props = props or {}
 		props["href"] = href
 		super().__init__("a", props=props, children=children)
@@ -20,14 +21,20 @@ class Link(Widget):
 			# Import here due to cicular import problem
 			from pyfyre.router import RouteManager
 			
-			window.history.pushState(None, None, href)
+			window.history.pushState(None, None, self.absolute_href)
 			event.preventDefault()
 			RouteManager.change_route(href)
 		
 		if self.is_internal():
 			self.add_event_listener(MouseEventType.Click, prevent_leaving_page)
 	
+	@property
+	def absolute_href(self) -> str:
+		el = document.createElement("a")
+		el.href = self.href
+		return el.href
+	
 	def is_internal(self) -> bool:
 		el = document.createElement("a")
 		el.href = self.href
-		return el.host == window.location.host
+		return bool(el.host == window.location.host)

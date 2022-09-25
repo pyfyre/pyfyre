@@ -11,7 +11,7 @@ class RouteManager:
 	
 	@staticmethod
 	def parse_route(route: str) -> str:
-		return "/" + str(pathlib.Path(route)).lstrip("/").rstrip(".")
+		return "/" + str(pathlib.Path(route)).lstrip("/")
 	
 	@staticmethod
 	def get_widget(route: str) -> BaseWidget:
