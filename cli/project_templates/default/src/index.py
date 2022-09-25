@@ -12,7 +12,7 @@ class HomePage(Container):
 			Span("This is an example counter app."),
 			Counter(),
 			HorizontalLine(),
-			InternalLink("about", children=[TextWidget("About this website")])
+			Link("about", children=[TextWidget("About this website")])
 		])
 
 

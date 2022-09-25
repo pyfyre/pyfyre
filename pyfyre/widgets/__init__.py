@@ -2,7 +2,7 @@ from .base import WidgetType, BaseWidget, Widget, TextWidget
 from .buttons import Button
 from .containers import Container, StatefulContainer
 from .images import Image
-from .links import Link, InternalLink
+from .links import Link
 from .texts import Span, Paragraph
 from .inputs import TextController, TextInput
 from .misc import LineBreak, HorizontalLine
@@ -17,7 +17,6 @@ __all__ = [
 	"StatefulContainer",
 	"Image",
 	"Link",
-	"InternalLink",
 	"Span",
 	"Paragraph",
 	"TextController",
