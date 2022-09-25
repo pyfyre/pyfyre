@@ -59,7 +59,7 @@ def _create_page(route: str, data: Dict[str, str]) -> None:
 	pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
 	
 	with open(os.path.join(directory, "index.html"), "w") as file:
-		html = _HTML_TEMPLATE.format(title=data["title"])
+		html = _HTML_TEMPLATE.format(title=data.get("title"))
 		file.write(html)
 
 
