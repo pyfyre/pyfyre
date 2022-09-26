@@ -9,8 +9,5 @@ class AboutPage(Division):
 			Paragraph(children=[TextNode(f"Random string: {generate()}")]),
 			Anchor("/", children=[TextNode("Go back")]),
 			HorizontalRule(),
-			ListBuilder(children=[
-				Paragraph(children=[TextNode(num)])
-				for num in range(200)
-			])
+			ListBuilder(lambda index: Paragraph(children=[TextNode(index)]))
 		])

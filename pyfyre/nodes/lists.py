@@ -1,33 +1,35 @@
 from browser import DOMEvent, aio
 from pyfyre.events import EventType
 from pyfyre.nodes import Node, Division
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Callable
 
 
 class ListBuilder(Division):
 	def __init__(
-		self, *,
+		self, children_builder: Callable[[int], Optional[Node]], *,
 		max_height: str = "300px",
 		render_batch: int = 10,
 		render_interval: float = 0.1,
-		attrs: Optional[Dict[str, str]] = None,
-		children: Optional[List[Node]] = None
+		attrs: Optional[Dict[str, str]] = None
 	) -> None:
-		self.unrendered_children = children or []
 		self.rendered_children: List[Node] = []
 		
 		super().__init__(attrs=attrs, children=lambda: self.rendered_children)
-		self.dom.style.overflow = "scroll"
+		self.dom.style.overflowY = "scroll"
+		self.dom.style.overflowWrap = "break-word"
 		self.dom.style.maxHeight = max_height
+		
+		self._index = 0
 		
 		def render_child() -> None:
 			for _ in range(render_batch):
-				try:
-					child = self.unrendered_children.pop(0)
-				except IndexError:
+				child = children_builder(self._index)
+				
+				if child is None:
 					return
 				
 				self.rendered_children.append(child)
+				self._index += 1
 			
 			self.update_dom()
 		
