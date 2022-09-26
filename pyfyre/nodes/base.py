@@ -3,8 +3,8 @@ from typing import Type
 from browser import document
 from types import TracebackType
 from abc import ABC, abstractmethod
-from pyfyre.events import EventType
 from browser import DOMNode, DOMEvent
+from pyfyre.events import BaseEventType
 from typing import Any, Dict, List, Optional, Callable, Union
 
 
@@ -16,10 +16,9 @@ class Node(ABC):
 	def create_dom(self) -> DOMNode:
 		raise NotImplementedError
 	
+	@abstractmethod
 	def update_dom(self) -> None:
-		new_dom = self.create_dom()
-		self.dom.replaceWith(new_dom)
-		self.dom = new_dom
+		raise NotImplementedError
 
 
 class Element(Node):
@@ -69,17 +68,18 @@ class Element(Node):
 		for attr_name, attr_value in self.attrs.items():
 			el.setAttribute(attr_name, attr_value)
 		
-		for child in self.children:
-			el.appendChild(child.dom)
-		
+		el.replaceChildren(*[c.dom for c in self.children])
 		return el
 	
 	def update_dom(self) -> None:
+		for attr_name, attr_value in self.attrs.items():
+			self.dom.setAttribute(attr_name, attr_value)
+		
 		self.children = self._secure_build()
-		super().update_dom()
+		self.dom.replaceChildren(*[c.dom for c in self.children])
 	
 	def add_event_listener(
-		self, event_type: EventType, callback: Callable[[DOMEvent], None]
+		self, event_type: BaseEventType, callback: Callable[[DOMEvent], None]
 	) -> None:
 		self.dom.bind(event_type.value, callback)
 
@@ -91,3 +91,6 @@ class TextNode(Node):
 	
 	def create_dom(self) -> DOMNode:
 		return document.createTextNode(self.content)
+	
+	def update_dom(self) -> None:
+		self.dom.nodeValue = self.content

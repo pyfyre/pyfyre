@@ -7,5 +7,10 @@ class AboutPage(Division):
 		super().__init__(children=[
 			Paragraph(children=[TextNode("About Page")]),
 			Paragraph(children=[TextNode(f"Random string: {generate()}")]),
-			Anchor("/", children=[TextNode("Go back")])
+			Anchor("/", children=[TextNode("Go back")]),
+			HorizontalRule(),
+			ListBuilder(children=[
+				Paragraph(children=[TextNode(num)])
+				for num in range(200)
+			])
 		])
