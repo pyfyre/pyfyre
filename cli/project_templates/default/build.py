@@ -28,15 +28,16 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
 		
-		<!-- Start of Brython -->
-		<script src="/brython.js"></script>
-		<script src="/brython_stdlib.js"></script>
-		<script src="/cpython_packages.brython.js"></script>
-		<script src="/src.brython.js"></script>
-		<script type="text/python">import index</script>
-		<!-- End of Brython -->
-		
 		<link rel="icon" href="{icon}" />
+		<script src="/pyfyre/preloader.js"></script>
+		
+		<!-- Start of Brython -->
+		<script src="/pyfyre/brython.js"></script>
+		<script src="/pyfyre/brython_stdlib.js"></script>
+		<script src="/pyfyre/cpython_packages.brython.js"></script>
+		<script src="/pyfyre/src.brython.js"></script>
+		<script type="text/python" src="/pyfyre/render_pyfyre.py"></script>
+		<!-- End of Brython -->
 		
 		{head}
 	</head>
@@ -82,7 +83,7 @@ def bundle_scripts() -> None:
 				file.write(settings)
 			
 			subprocess.run(["brython-cli", "make_package", "src"])
-			shutil.copy("src.brython.js", os.path.join("..", "public"))
+			shutil.copy("src.brython.js", os.path.join("..", "public", "pyfyre"))
 			
 			os.remove("src.brython.js")
 			os.remove("settings.py")
@@ -103,7 +104,7 @@ def add_cpython_packages() -> None:
 		subprocess.run(["brython-cli", "make_package", "cpython_packages"])
 		shutil.copy(
 			"cpython_packages.brython.js",
-			os.path.join("..", "..", "public")
+			os.path.join("..", "..", "public", "pyfyre")
 		)
 	
 	shutil.rmtree("Lib")
