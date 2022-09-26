@@ -1,4 +1,7 @@
+import sys
+from typing import Type
 from browser import document
+from types import TracebackType
 from abc import ABC, abstractmethod
 from pyfyre.events import EventType
 from browser import DOMNode, DOMEvent
@@ -32,9 +35,33 @@ class Element(Node):
 		self.attrs = attrs or {}
 		
 		self._children_builder = children if callable(children) else None
-		self.children = (children() if callable(children) else children) or []
+		self.children = (
+			self._secure_build() if callable(children) else children
+		) or []
 		
 		super().__init__()
+	
+	def _secure_build(self) -> List[Node]:
+		if self._children_builder is None:
+			return self.children
+		
+		try:
+			return self._children_builder()
+		except BaseException:
+			return self.on_build_error(*sys.exc_info())
+	
+	def on_build_error(
+		self, exc_type: Type[BaseException],
+		exc_value: BaseException, exc_traceback: TracebackType
+	) -> List[Node]:
+		# Importing inside this method due to circular import problem
+		from pyfyre.nodes.texts import Paragraph
+		
+		return [
+			Paragraph(children=[TextNode(exc_type)]),
+			Paragraph(children=[TextNode(exc_value)]),
+			Paragraph(children=[TextNode(exc_traceback)])
+		]
 	
 	def create_dom(self) -> DOMNode:
 		el = document.createElement(self.tag_name)
@@ -48,9 +75,7 @@ class Element(Node):
 		return el
 	
 	def update_dom(self) -> None:
-		if self._children_builder is not None:
-			self.children = self._children_builder()
-		
+		self.children = self._secure_build()
 		super().update_dom()
 	
 	def add_event_listener(

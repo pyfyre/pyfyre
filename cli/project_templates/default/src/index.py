@@ -1,3 +1,4 @@
+from typing import List
 from pyfyre import render
 from pyfyre.nodes import *
 from about import AboutPage
@@ -7,7 +8,13 @@ from browser import DOMEvent
 class HomePage(Division):
 	def __init__(self) -> None:
 		self.counter = 0
-		self.count = Paragraph(children=lambda: [TextNode(self.counter)])
+		
+		def pc() -> List[Node]:
+			if self.counter == 3:
+				raise Exception("Intentional raise condition when count is 3")
+			return [TextNode(self.counter)]
+		
+		self.count = Paragraph(children=pc)
 		
 		super().__init__(children=[
 			Element("h1", children=[TextNode("Welcome to PyFyre ✨")]),
