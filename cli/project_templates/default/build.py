@@ -29,8 +29,8 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
 		
 		<!-- Start of Brython -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython_stdlib.min.js"></script>
+		<script src="/brython.js"></script>
+		<script src="/brython_stdlib.js"></script>
 		<script src="/cpython_packages.brython.js"></script>
 		<script src="/src.brython.js"></script>
 		<script type="text/python">import index</script>
