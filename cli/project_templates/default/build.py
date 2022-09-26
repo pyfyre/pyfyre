@@ -37,6 +37,8 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		<!-- End of Brython -->
 		
 		<link rel="icon" href="{icon}" />
+		
+		{head}
 	</head>
 	<body onload="brython()"></body>
 </html>
@@ -65,7 +67,8 @@ def create_pages() -> None:
 		with open(os.path.join(directory, "index.html"), "w") as file:
 			html = _HTML_TEMPLATE.format(
 				title=data.get("title", "A PyFyre App"),
-				icon=data.get("icon", "")
+				icon=data.get("icon", ""),
+				head="\n\t\t".join(data.get("head", []))
 			)
 			file.write(html)
 
