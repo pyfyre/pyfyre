@@ -36,7 +36,7 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		<script type="text/python">import index</script>
 		<!-- End of Brython -->
 		
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="icon" href="{icon}" />
 	</head>
 	<body onload="brython()"></body>
 </html>
@@ -63,7 +63,10 @@ def create_pages() -> None:
 		pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
 		
 		with open(os.path.join(directory, "index.html"), "w") as file:
-			html = _HTML_TEMPLATE.format(title=data.get("title"))
+			html = _HTML_TEMPLATE.format(
+				title=data.get("title", "A PyFyre App"),
+				icon=data.get("icon", "")
+			)
 			file.write(html)
 
 

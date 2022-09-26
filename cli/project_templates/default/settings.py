@@ -22,10 +22,12 @@ from typing import Dict, List
 # }
 ROUTES: Dict[str, Dict[str, str]] = {
 	"/": {
-		"title": "A PyFyre App"
+		"title": "A PyFyre App",
+		"icon": "/favicon.ico"
 	},
 	"/about": {
-		"title": "About Page"
+		"title": "About Page",
+		"icon": "/favicon.ico"
 	}
 }
 
