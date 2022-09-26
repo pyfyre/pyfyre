@@ -1,5 +1,8 @@
 ![image](https://user-images.githubusercontent.com/64759159/151080177-2b2ab45a-86e5-4746-b92f-6c4edd1aaa8f.png)
 
+# 🚧 PyFyre is currently under maintainance and being rewritten 🚧
+*Please refer to the `stable` branch. `master` branch is currently buggy and might not work.*
+
 # PyFyre - The Python Web Frontend Framework
 [![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
 
