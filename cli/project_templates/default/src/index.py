@@ -5,7 +5,7 @@ from about import AboutPage
 from browser import DOMEvent
 
 
-class HomePage(Division):
+class HomePage(Element):
 	def __init__(self) -> None:
 		self.counter = 0
 		
@@ -14,14 +14,14 @@ class HomePage(Division):
 				raise Exception("Intentional raise condition when count is 3")
 			return [TextNode(self.counter)]
 		
-		self.count = Paragraph(children=pc)
+		self.count = Element("p", children=pc)
 		
-		super().__init__(children=[
+		super().__init__("div", children=[
 			Element("h1", children=[TextNode("Welcome to PyFyre ✨")]),
-			Span(children=[TextNode("This is an example counter app.")]),
+			Element("span", children=[TextNode("This is an example counter app.")]),
 			self.count,
 			Button(self.increment, children=[TextNode("Count")]),
-			HorizontalRule(),
+			Element("hr"),
 			Anchor("about", children=[TextNode("About this website")])
 		])
 	

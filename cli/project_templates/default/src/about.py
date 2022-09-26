@@ -2,12 +2,12 @@ from pyfyre.nodes import *
 from text_generator import generate
 
 
-class AboutPage(Division):
+class AboutPage(Element):
 	def __init__(self) -> None:
-		super().__init__(children=[
-			Paragraph(children=[TextNode("About Page")]),
-			Paragraph(children=[TextNode(f"Random string: {generate()}")]),
+		super().__init__("div", children=[
+			Element("p", children=[TextNode("About Page")]),
+			Element("p", children=[TextNode(f"Random string: {generate()}")]),
 			Anchor("/", children=[TextNode("Go back")]),
-			HorizontalRule(),
-			ListBuilder(lambda index: Paragraph(children=[TextNode(index)]))
+			Element("hr"),
+			ListBuilder(lambda index: Element("p", children=[TextNode(index)]))
 		])

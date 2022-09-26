@@ -53,13 +53,10 @@ class Element(Node):
 		self, exc_type: Type[BaseException],
 		exc_value: BaseException, exc_traceback: TracebackType
 	) -> List[Node]:
-		# Importing inside this method due to circular import problem
-		from pyfyre.nodes.texts import Paragraph
-		
 		return [
-			Paragraph(children=[TextNode(exc_type)]),
-			Paragraph(children=[TextNode(exc_value)]),
-			Paragraph(children=[TextNode(exc_traceback)])
+			Element("p", children=[TextNode(exc_type)]),
+			Element("p", children=[TextNode(exc_value)]),
+			Element("p", children=[TextNode(exc_traceback)])
 		]
 	
 	def create_dom(self) -> DOMNode:

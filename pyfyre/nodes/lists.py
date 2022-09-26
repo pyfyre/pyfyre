@@ -1,10 +1,10 @@
 from browser import DOMEvent, aio
 from pyfyre.events import EventType
-from pyfyre.nodes import Node, Division
+from pyfyre.nodes import Node, Element
 from typing import Optional, Dict, List, Callable
 
 
-class ListBuilder(Division):
+class ListBuilder(Element):
 	def __init__(
 		self, children_builder: Callable[[int], Optional[Node]], *,
 		max_height: str = "300px",
@@ -14,7 +14,7 @@ class ListBuilder(Division):
 	) -> None:
 		self.rendered_children: List[Node] = []
 		
-		super().__init__(attrs=attrs, children=lambda: self.rendered_children)
+		super().__init__("div", attrs=attrs, children=lambda: self.rendered_children)
 		self.dom.style.overflowY = "scroll"
 		self.dom.style.overflowWrap = "break-word"
 		self.dom.style.maxHeight = max_height

@@ -1,7 +1,7 @@
 from typing import Dict
 from settings import ROUTES
 from browser import document
-from pyfyre.nodes import Node, Paragraph, TextNode
+from pyfyre.nodes import Node, Element, TextNode
 
 
 class RouteManager:
@@ -22,8 +22,8 @@ class RouteManager:
 	@staticmethod
 	def get_node(route: str) -> Node:
 		route = RouteManager.parse_route(route)
-		return RouteManager.routes.get(route) or Paragraph(
-			children=[TextNode("404: Page Not Found :(")]
+		return RouteManager.routes.get(route) or Element(
+			"p", children=[TextNode("404: Page Not Found :(")]
 		)
 	
 	@staticmethod
