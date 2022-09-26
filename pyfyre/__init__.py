@@ -1,8 +1,7 @@
 from typing import Dict
+from pyfyre.nodes import Node
 from browser import document, window
-from pyfyre.widgets import BaseWidget
 from pyfyre.router import RouteManager
-from pyfyre.virtual_dom import VirtualDOM
 from pyfyre.exceptions import NodeNotFound
 
 __all__ = [
@@ -10,13 +9,12 @@ __all__ = [
 ]
 
 
-def render(root_selector: str, routes: Dict[str, BaseWidget]) -> None:
+def render(root_selector: str, routes: Dict[str, Node]) -> None:
 	RouteManager.routes = routes
 	nodes = document.select(root_selector)
 	
 	if nodes:
-		VirtualDOM.root = nodes[0]
-		widget = RouteManager.get_widget(window.location.pathname)
-		VirtualDOM.render(widget.dom())
+		RouteManager.root_node = nodes[0]
+		RouteManager.render_route(window.location.pathname)
 	else:
 		raise NodeNotFound(root_selector)

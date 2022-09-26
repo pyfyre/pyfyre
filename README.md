@@ -26,7 +26,7 @@ We have examples in the [examples](examples) folder. But here is the super simpl
 See how easy it is to create a simple Hello World web app that shows Hello, World text:
 
 ```py
-from pyfyre.widgets import *
+from pyfyre.nodes import *
 from pyfyre.pyfyre import runApp
 
 class MyWebpage(UsesState):

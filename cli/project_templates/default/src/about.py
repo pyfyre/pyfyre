@@ -1,12 +1,11 @@
-from pyfyre.widgets import *
+from pyfyre.nodes import *
 from text_generator import generate
 
 
-class AboutPage(Container):
+class AboutPage(Division):
 	def __init__(self) -> None:
 		super().__init__(children=[
-			Paragraph("About Page"),
-			Paragraph(f"Random string: {generate()}"),
-			LineBreak(),
-			Link("", children=[TextWidget("Go back")])
+			Paragraph(children=[TextNode("About Page")]),
+			Paragraph(children=[TextNode(f"Random string: {generate()}")]),
+			Anchor("", children=[TextNode("Go back")])
 		])

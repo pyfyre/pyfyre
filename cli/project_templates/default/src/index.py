@@ -1,46 +1,26 @@
-from typing import List
 from pyfyre import render
+from pyfyre.nodes import *
 from about import AboutPage
-from pyfyre.widgets import *
 from browser import DOMEvent
 
 
-class HomePage(Container):
-	def __init__(self) -> None:
-		super().__init__(children=[
-			Widget("h1", children=[TextWidget("Welcome to PyFyre ✨")]),
-			Span("This is an example counter app."),
-			Counter(),
-			HorizontalLine(),
-			Link("about", children=[TextWidget("About this website")])
-		])
-
-
-class Counter(StatefulContainer):
+class HomePage(Division):
 	def __init__(self) -> None:
 		self.counter = 0
-		super().__init__()
-	
-	def build(self) -> List[BaseWidget]:
-		if self.counter == 3:
-			raise Exception("Intentional raise condition when count is 3")
+		self.count = Paragraph(children=lambda: [TextNode(self.counter)])
 		
-		return [
-			Paragraph(self.counter),
-			Button(self.increment, children=[TextWidget("Count")])
-		]
-	
-	def on_build_error(
-		self, exc_type, exc_value, exc_traceback
-	) -> List[BaseWidget]:
-		return [
-			Paragraph(exc_value),
-			Button(self.increment, children=[TextWidget("Count")])
-		]
+		super().__init__(children=[
+			Element("h1", children=[TextNode("Welcome to PyFyre ✨")]),
+			Span(children=[TextNode("This is an example counter app.")]),
+			self.count,
+			Button(self.increment, children=[TextNode("Count")]),
+			HorizontalRule(),
+			Anchor("about", children=[TextNode("About this website")])
+		])
 	
 	def increment(self, event: DOMEvent) -> None:
 		self.counter += 1
-		self.update()
+		self.count.update_dom()
 
 
 render("body", {
