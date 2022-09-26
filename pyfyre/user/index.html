@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+        <meta name="description" content="A new app created with PyFyre">
+
+        <title>A PyFyre App</title>
+        
+        <!-- Brython -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.4/brython.min.js"></script>
+        <script src="main.{main_key}.js"></script>
+        <script type="text/python" src="__init__.py"></script>
+        
+        <link rel="stylesheet" href="styles/app.css">
+    </head>
+    <body onload="brython()">
+        <div id="app-mount">
+        </div>
+    </body>
+</html>

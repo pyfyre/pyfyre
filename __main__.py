@@ -8,7 +8,7 @@ import sys
 
 if __name__ == '__main__':
     try:
-        from . import bin
+        from .pyfyre import management
     except ImportError:
         raise ImportError(
             """
@@ -16,4 +16,4 @@ if __name__ == '__main__':
             """
         )
 
-    bin.main(sys.argv)
+    management.execute_from_command_line(sys.argv)
