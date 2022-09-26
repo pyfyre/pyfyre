@@ -82,12 +82,19 @@ class Element(Node):
 
 
 class TextNode(Node):
-	def __init__(self, content: Any) -> None:
-		self.content = str(content)
+	def __init__(self, value: Any) -> None:
+		self._value = str(value)
 		super().__init__()
 	
+	@property
+	def value(self) -> str:
+		return self._value
+	
+	def set_value(self, value: Any) -> None:
+		self._value = str(value)
+	
 	def create_dom(self) -> DOMNode:
-		return document.createTextNode(self.content)
+		return document.createTextNode(self.value)
 	
 	def update_dom(self) -> None:
-		self.dom.nodeValue = self.content
+		self.dom.nodeValue = self.value
