@@ -24,10 +24,6 @@ ROUTES: Dict[str, Dict[str, str]] = {
 	"/": {
 		"title": "A PyFyre App",
 		"icon": "/favicon.ico"
-	},
-	"/about": {
-		"title": "About Page",
-		"icon": "/favicon.ico"
 	}
 }
 
@@ -44,8 +40,4 @@ ROUTES: Dict[str, Dict[str, str]] = {
 # 	"random_string",
 # 	"url64"
 # ]
-DEPENDENCIES: List[str] = [
-	"text_generator",
-	"random_string",
-	"url64"
-]
+DEPENDENCIES: List[str] = []
