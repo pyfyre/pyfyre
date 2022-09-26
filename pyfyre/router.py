@@ -1,4 +1,3 @@
-import pathlib
 from typing import Dict
 from settings import ROUTES
 from browser import document
@@ -11,7 +10,14 @@ class RouteManager:
 	
 	@staticmethod
 	def parse_route(route: str) -> str:
-		return "/" + str(pathlib.Path(route)).lstrip("/")
+		el = document.createElement("a")
+		el.href = route
+		route = str(el.pathname)
+		
+		if route == "/":
+			return route
+		
+		return str(el.pathname).rstrip("/")
 	
 	@staticmethod
 	def get_node(route: str) -> Node:

@@ -13,9 +13,7 @@ class Anchor(Element):
 			Callable[[], List[Node]]
 		]] = None
 	) -> None:
-		href = href or "/"
 		self.href = href
-		
 		attrs = attrs or {}
 		attrs["href"] = href
 		
