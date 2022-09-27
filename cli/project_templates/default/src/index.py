@@ -19,4 +19,4 @@ class App(Element):
 		])
 
 
-render("body", {"/": App()})
+render("body", {"/": lambda: App()})
