@@ -7,66 +7,58 @@
 [![Github Star](https://img.shields.io/github/stars/pyfyre/pyfyre.svg?style=for-the-badge)](https://github.com/pyfyre/pyfyre/stargazers) 
 [![License](https://img.shields.io/github/license/pyfyre/pyfyre.svg?style=for-the-badge)](https://github.com/pyfyre/pyfyre/blob/main/LICENSE)
 
-PyFyre is a web frontend framework for building reactive static user interfaces on the web using Python.
-- [x] Component-based framework. Developers who have experience of using other frontend frameworks should feel quite at home when using PyFyre, especially Flutter developers.
-- [x] Truly reactive. PyFyre uses the Vue's implementation-like Virtual DOM.
-- [ ] Supports JavaScript interoperability, allowing developers to leverage NPM packages and integrate with existing JavaScript applications (working on)
-- [ ] Supports CPython interoperability, allowing developers to use existing PyPi packages on the client-side web (planning stage)
-
-PyFyre is at the top of Brython (Browser Python), a Python 3 implementation for client-side web programming.
-
-**Note: PyFyre is not 1.0 yet. Be prepared to do major refactoring due to breaking API changes.**
+A fast, declarative, and incrementally adoptable Python web frontend framework for building reactive web user interfaces.  
+PyFyre offers the following:
+- [x] **Pythonic code with static typing**. Developing with PyFyre is much easier with its type hinting and Pythonic style of coding. 
+- [x] **Component-based framework**. Developers who have experience of using other frontend frameworks should feel quite at home when using PyFyre.
+- [x] **Truly reactive**. PyFyre's virtual DOM allows for simple and efficient state management.
+- [x] **Great user experience**. Navigation between pages is fast with PyFyre's single-page application design.
+- [x] **Supports CPython interoperability**. Developers can limitedly use existing PyPi packages on the client-side web.
+- [ ] **Supports JavaScript interoperability**. Allowing developers to leverage NPM packages and integrate with existing JavaScript applications.
+- [ ] **Pure Python**. Build web apps without ever touching other languages like HTML and JavaScript.
+- [x] **And more!**
 
 ## Documentation
-The documentation can be found in PyFyre website:
-https://pyfyre.netlify.app/
+Learn PyFyre by reading the [documentation](https://pyfyre.netlify.app/).
+It is also advisable to learn [Brython](https://www.brython.info/) alongside PyFyre as it is built on top of Brython.
 
 ## Examples
-We have examples in the [examples](examples) folder. But here is the super simple example.
-See how easy it is to create a simple Hello World web app that shows Hello, World text:
-
+See the [demo](demo) folder for more examples. But here is a super simple example.  
+See how easy it is to create a simple Hello World web app with PyFyre:
 ```py
+from pyfyre import render
 from pyfyre.nodes import *
-from pyfyre.pyfyre import runApp
 
-class MyWebpage(UsesState):
-    def build(self):
-        return Container(
-            children=[
-                Text("Hello, World!")
-            ]
-        )
 
-runApp(MyWebpage())
+class HelloWorld(Element):
+	def __init__(self) -> None:
+		super().__init__("p", children=[TextNode("Hello, World!")])
+
+
+render("body", {"/": lambda: HelloWorld()})
 ```
-
-Rendered PyFyre:
 ![image](https://user-images.githubusercontent.com/64759159/111881940-d80e4380-89ed-11eb-9ffc-d607d80896fb.png)
 
 ## Installation
-See how easy it is to setup a working environment with PyFyre.
+```bash
+pip install pyfyre
+```
 
-### Prerequisites
-* python3.x
-
-### Setting Up a Project
-Install the PyFyre CLI:
+## Create and Run a PyFyre Project
+```bash
+pyfyre create-app [name]
+cd [project_directory]
+python run.py
 ```
-py -m pip install PyFyre
-```
-Create a new application:
-```
-pyfyre create-app <app_name>
-```
-Run the application:
-```
-cd <project-name>
-pyfyre runapp
-```
-PyFyre has a built-in hot reload to enhance your productivity tremendously. Try it out by editing the `src/__init__.py` and see the magic works.
 
 ## Contributing
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for contributing.
+Please read the [contributing guide](CONTRIBUTING.md).
 
 ## Stay Updated
-If you would like to get updates about the PyFyre framework, we created a [Facebook Page](https://www.facebook.com/PyFyreframework) where we are going to post all the updates like newly created widgets, adjustments, core updates, and more!
+Stay updated about the PyFyre framework by following our [Facebook page](https://www.facebook.com/pyfyreframework/).
+
+## Links
+- [PyPI](https://pypi.org/project/pyfyre/)
+- [Repository](https://github.com/pyfyre/pyfyre)
+- [Documentation](https://pyfyre.netlify.app/)
+- [Facebook Page](https://www.facebook.com/pyfyreframework/)
