@@ -55,7 +55,7 @@ further defined and clarified by project maintainers.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported by contacting the project team at stackspace.ph@gmail.com or on [Facebook](https://www.facebook.com/stackspace.ph). All
+reported by contacting the project team at stackspace.ph@gmail.com or on [Facebook](https://www.facebook.com/pyfyreframework/). All
 complaints will be reviewed and investigated and will result in a response that
 is deemed necessary and appropriate to the circumstances. The project team is
 obligated to maintain confidentiality concerning the reporter of an incident.

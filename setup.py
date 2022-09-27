@@ -37,8 +37,9 @@ setup(
 	},
 	license="MIT",
 	project_urls={
-		"Documentation": "https://pyfyre.netlify.app/docs/",
-		"Source": "https://github.com/pyfyre/pyfyre"
+		"Source": "https://github.com/pyfyre/pyfyre",
+		"Updates": "https://www.facebook.com/pyfyreframework/",
+		"Documentation": "https://pyfyre.netlify.app/docs/"
 	},
 	entry_points={
 		"console_scripts": ["pyfyre = cli:execute"]
