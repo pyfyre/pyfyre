@@ -37,7 +37,7 @@ def create_app(app_name: str, app_dir: str, *, dev_mode: bool = False) -> None:
 	
 	if os.path.isdir(project_path):
 		prompt = "y" if dev_mode else input(
-			f"Project '{app_name}' already exists. Want to overwrite "
+			f"Project '{app_name}' already exists.\nWant to overwrite "
 			f"the directory? (y or n): "
 		).lower()
 		

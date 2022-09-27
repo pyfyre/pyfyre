@@ -89,7 +89,7 @@ def bundle_scripts() -> None:
 	])
 	
 	subprocess.run([
-		"autoflake", "__temp__", "-r", "--in-place",
+		"autoflake", "__temp__", "-r", "--in-place", "--quiet",
 		"--remove-unused-variables", "--remove-all-unused-imports",
 		"--remove-duplicate-keys"
 	])
