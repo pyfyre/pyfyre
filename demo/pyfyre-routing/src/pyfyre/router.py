@@ -1,12 +1,17 @@
-from typing import Dict
 from settings import ROUTES
 from browser import document
+from typing import Dict, Callable, Optional
 from pyfyre.nodes import Node, Element, TextNode
 
 
 class RouteManager:
-	routes: Dict[str, Node] = {}
+	_routes_builder: Dict[str, Callable[[], Node]] = {}
+	_routes: Dict[str, Optional[Node]] = {}
 	root_node = document.select("body")
+	
+	@staticmethod
+	def set_routes(routes: Dict[str, Callable[[], Node]]) -> None:
+		RouteManager._routes_builder = routes
 	
 	@staticmethod
 	def parse_route(route: str) -> str:
@@ -22,9 +27,14 @@ class RouteManager:
 	@staticmethod
 	def get_node(route: str) -> Node:
 		route = RouteManager.parse_route(route)
-		return RouteManager.routes.get(route) or Element(
-			"p", children=[TextNode("404: Page Not Found :(")]
-		)
+		node = RouteManager._routes.get(route)
+		
+		if node is None:
+			route_builder = RouteManager._routes_builder.get(route)
+			node = route_builder() if route_builder else None
+			RouteManager._routes[route] = node
+		
+		return node or Element("p", children=[TextNode("404: Page Not Found :(")])
 	
 	@staticmethod
 	def render_route(route: str) -> None:

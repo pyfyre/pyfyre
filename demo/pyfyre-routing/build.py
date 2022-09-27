@@ -75,18 +75,30 @@ def create_pages() -> None:
 
 
 def bundle_scripts() -> None:
+	shutil.copytree("src", "__temp__")
+	
 	with open("settings.py") as fn:
 		settings = fn.read()
 		
-		with in_path("src"):
-			with open("settings.py", "w") as file:
-				file.write(settings)
-			
-			subprocess.run(["brython-cli", "make_package", "src"])
-			shutil.copy("src.brython.js", os.path.join("..", "public", "pyfyre"))
-			
-			os.remove("src.brython.js")
-			os.remove("settings.py")
+		with open(os.path.join("__temp__", "settings.py"), "w") as file:
+			file.write(settings)
+	
+	subprocess.run([
+		"pyminify", "__temp__",
+		"--in-place", "--remove-literal-statements"
+	])
+	
+	subprocess.run([
+		"autoflake", "__temp__", "-r", "--in-place", "--quiet",
+		"--remove-unused-variables", "--remove-all-unused-imports",
+		"--remove-duplicate-keys"
+	])
+	
+	with in_path("__temp__"):
+		subprocess.run(["brython-cli", "make_package", "src"])
+		shutil.copy("src.brython.js", os.path.join("..", "public", "pyfyre"))
+	
+	shutil.rmtree("__temp__")
 
 
 def add_cpython_packages() -> None:

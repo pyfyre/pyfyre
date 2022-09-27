@@ -57,6 +57,6 @@ class AboutPage(Element):
 
 
 render("body", {
-	"/": HomePage(),
-	"/about": AboutPage()
+	"/": lambda: HomePage(),
+	"/about": lambda: AboutPage()
 })
