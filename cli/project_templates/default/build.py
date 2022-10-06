@@ -84,15 +84,13 @@ def bundle_scripts() -> None:
 	with open("settings.py") as fn:
 		settings = fn.read()
 		
-		with open(
-			os.path.join("__temp__", "settings.py"), "w", encoding="utf-8"
-		) as file:
+		with open(os.path.join("__temp__", "settings.py"), "w") as file:
 			file.write(settings)
 	
-	subprocess.run([
-		"pyminify", "__temp__",
-		"--in-place", "--remove-literal-statements"
-	])
+	# subprocess.run([
+	# 	"pyminify", "__temp__",
+	# 	"--in-place", "--remove-literal-statements"
+	# ])
 	
 	subprocess.run([
 		"autoflake", "__temp__", "-r", "--in-place", "--quiet",
