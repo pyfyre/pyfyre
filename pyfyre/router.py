@@ -39,7 +39,6 @@ class RouteManager:
 	@staticmethod
 	def render_route(route: str) -> None:
 		node = RouteManager.get_node(route)
-		RouteManager.root_node.innerHTML = ""
 		RouteManager.root_node.appendChild(node.dom)
 		
 		if isinstance(node, Element):
@@ -53,4 +52,7 @@ class RouteManager:
 		}
 		
 		document.title = route_data.get("title")
-		RouteManager.render_route(route)
+		RouteManager.root_node.innerHTML = ""
+		
+		node = RouteManager.get_node(route)
+		RouteManager.root_node.appendChild(node.dom)

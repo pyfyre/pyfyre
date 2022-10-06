@@ -15,19 +15,7 @@ class Anchor(Element):
 		self.href = href
 		attrs = attrs or {}
 		attrs["href"] = href
-		
 		super().__init__("a", children, attrs=attrs)
-		
-		if self.is_internal():
-			def change_route(event: DOMEvent) -> None:
-				# Import here due to cicular import problem
-				from pyfyre.router import RouteManager
-				
-				window.history.pushState(None, None, self.absolute_href)
-				event.preventDefault()
-				RouteManager.change_route(href)
-			
-			self.add_event_listener(MouseEventType.Click, change_route)
 	
 	@property
 	def absolute_href(self) -> str:
@@ -39,3 +27,24 @@ class Anchor(Element):
 		el = document.createElement("a")
 		el.href = self.href
 		return bool(el.host == window.location.host)
+
+
+class RouterLink(Anchor):
+	def __init__(
+		self,
+		href: str,
+		children: Optional[Callable[[], List[Node]]] = None,
+		*,
+		attrs: Optional[Dict[str, str]] = None
+	) -> None:
+		super().__init__(href, children, attrs=attrs)
+		
+		def change_route(event: DOMEvent) -> None:
+			# Import here due to cicular import problem
+			from pyfyre.router import RouteManager
+			
+			window.history.pushState(None, None, self.absolute_href)
+			event.preventDefault()
+			RouteManager.change_route(href)
+		
+		self.add_event_listener(MouseEventType.Click, change_route)
