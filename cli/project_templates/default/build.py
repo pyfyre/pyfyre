@@ -84,7 +84,9 @@ def bundle_scripts() -> None:
 	with open("settings.py") as fn:
 		settings = fn.read()
 		
-		with open(os.path.join("__temp__", "settings.py"), "w") as file:
+		with open(
+			os.path.join("__temp__", "settings.py"), "w", encoding="utf-8"
+		) as file:
 			file.write(settings)
 	
 	subprocess.run([
