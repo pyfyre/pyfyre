@@ -8,11 +8,11 @@ class App(Element):
 		self.count = 0
 		self.text = TextNode(self.count)
 		
-		super().__init__("main", children=[
-			Element("h1", children=[TextNode("Counter App")]),
-			Element("p", children=[self.text]),
-			Button(self.decrement, children=[TextNode("-")]),
-			Button(self.increment, children=[TextNode("+")])
+		super().__init__("main", lambda: [
+			Element("h1", lambda: [TextNode("Counter App")]),
+			Element("p", lambda: [self.text]),
+			Button(self.decrement, lambda: [TextNode("-")]),
+			Button(self.increment, lambda: [TextNode("+")])
 		])
 	
 	def increment(self, event: DOMEvent) -> None:
@@ -26,4 +26,4 @@ class App(Element):
 		self.text.update_dom()
 
 
-render("body", {"/": App()})
+render("body", {"/": lambda: App()})

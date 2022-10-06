@@ -8,10 +8,10 @@ class App(Element):
 	def __init__(self) -> None:
 		self.text = TextNode(generate() or "Try again.")
 		
-		super().__init__("main", children=[
-			Element("h1", children=[TextNode("Random String Generator")]),
-			Element("p", children=[self.text]),
-			Button(self.generate, children=[TextNode("Generate")])
+		super().__init__("main", lambda: [
+			Element("h1", lambda: [TextNode("Random String Generator")]),
+			Element("p", lambda: [self.text]),
+			Button(self.generate, lambda: [TextNode("Generate")])
 		])
 	
 	def generate(self, event: DOMEvent) -> None:
@@ -19,4 +19,4 @@ class App(Element):
 		self.text.update_dom()
 
 
-render("body", {"/": App()})
+render("body", {"/": lambda: App()})

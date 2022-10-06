@@ -16,6 +16,7 @@ python build.py
 All the files required to run your website are stored in the [public](public) directory so you can just serve or deploy the [public](public) directory to the web.
 
 ### Links
-- [Docs](https://pyfyre.netlify.app/)
 - [PyPI](https://pypi.org/project/pyfyre/)
 - [Repository](https://github.com/pyfyre/pyfyre)
+- [Documentation](https://pyfyre.netlify.app/)
+- [Facebook Page](https://www.facebook.com/pyfyreframework/)

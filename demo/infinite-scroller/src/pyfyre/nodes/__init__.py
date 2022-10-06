@@ -1,6 +1,6 @@
 from .base import Node, Element, TextNode
 from .buttons import Button
-from .links import Anchor
+from .links import Anchor, RouterLink
 from .lists import ListBuilder
 
 __all__ = [
@@ -9,5 +9,6 @@ __all__ = [
 	"TextNode",
 	"Button",
 	"Anchor",
+	"RouterLink",
 	"ListBuilder"
 ]

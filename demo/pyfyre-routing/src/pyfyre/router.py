@@ -1,5 +1,5 @@
 from settings import ROUTES
-from browser import document
+from browser import document, aio
 from typing import Dict, Callable, Optional
 from pyfyre.nodes import Node, Element, TextNode
 
@@ -33,13 +33,15 @@ class RouteManager:
 			route_builder = RouteManager._routes_builder.get(route)
 			node = route_builder() if route_builder else None
 			RouteManager._routes[route] = node
+			
+			if isinstance(node, Element):
+				aio.run(node.build_children())
 		
-		return node or Element("p", children=[TextNode("404: Page Not Found :(")])
+		return node or Element("p", lambda: [TextNode("404: Page Not Found :(")])
 	
 	@staticmethod
 	def render_route(route: str) -> None:
 		node = RouteManager.get_node(route)
-		RouteManager.root_node.innerHTML = ""
 		RouteManager.root_node.appendChild(node.dom)
 	
 	@staticmethod
@@ -50,4 +52,5 @@ class RouteManager:
 		}
 		
 		document.title = route_data.get("title")
+		RouteManager.root_node.innerHTML = ""
 		RouteManager.render_route(route)

@@ -75,7 +75,11 @@ def create_pages() -> None:
 
 
 def bundle_scripts() -> None:
-	shutil.copytree("src", "__temp__")
+	try:
+		shutil.copytree("src", "__temp__")
+	except FileExistsError:
+		shutil.rmtree("__temp__")
+		shutil.copytree("src", "__temp__")
 	
 	with open("settings.py") as fn:
 		settings = fn.read()

@@ -10,7 +10,7 @@
 A fast, declarative, and incrementally adoptable Python web frontend framework for building reactive web user interfaces.  
 PyFyre offers the following:
 - [x] **Pythonic code with static typing**. Developing with PyFyre is much easier with its type hinting and Pythonic style of coding. 
-- [x] **Component-based framework**. Developers who have experience of using other frontend frameworks should feel quite at home when using PyFyre.
+- [x] **Component-based framework**. Developers who have experience in using other frontend frameworks should feel quite at home when using PyFyre.
 - [x] **Truly reactive**. PyFyre's virtual DOM allows for simple and efficient state management.
 - [x] **Great user experience**. Navigation between pages is fast with PyFyre's single-page application design.
 - [x] **Supports CPython interoperability**. Developers can limitedly use existing PyPi packages on the client-side web.
@@ -32,7 +32,7 @@ from pyfyre.nodes import *
 
 class HelloWorld(Element):
 	def __init__(self) -> None:
-		super().__init__("p", children=[TextNode("Hello, World!")])
+		super().__init__("p", lambda: [TextNode("Hello, World!")])
 
 
 render("body", {"/": lambda: HelloWorld()})
