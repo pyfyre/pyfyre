@@ -79,6 +79,9 @@ class Element(Node):
 		
 		self.children = self._secure_build()
 		self.dom.replaceChildren(*[c.dom for c in self.children])
+		
+		for child in self.children:
+			child.update_dom()
 	
 	def add_event_listener(
 		self, event_type: BaseEventType, callback: Callable[[DOMEvent], None]
