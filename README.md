@@ -12,9 +12,9 @@ PyFyre offers the following:
 - [x] **Pythonic code with static typing**. Developing with PyFyre is much easier with its type hinting and Pythonic style of coding. 
 - [x] **Component-based framework**. Developers who have experience in using other frontend frameworks should feel quite at home when using PyFyre.
 - [x] **Truly reactive**. PyFyre's virtual DOM allows for simple and efficient state management.
-- [x] **Great user experience**. Navigation between pages is fast with PyFyre's single-page application design.
-- [x] **Supports CPython interoperability**. Developers can limitedly use existing PyPi packages on the client-side web.
-- [ ] **Supports JavaScript interoperability**. Allowing developers to leverage NPM packages and integrate with existing JavaScript applications.
+- [x] **Quick navigation**. Navigation between pages is quick with PyFyre's single-page application design.
+- [x] **CPython interoperability**. Developers can limitedly use existing PyPi packages on the client-side web.
+- [ ] **JavaScript interoperability**. Allowing developers to leverage NPM packages and integrate with existing JavaScript applications.
 - [ ] **Pure Python**. Build web apps without ever touching other languages like HTML and JavaScript.
 - [x] **And more!**
 
