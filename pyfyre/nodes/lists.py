@@ -14,7 +14,7 @@ class ListBuilder(Element):
 	) -> None:
 		self.rendered_children: List[Node] = []
 		
-		super().__init__("div", attrs=attrs, children=lambda: self.rendered_children)
+		super().__init__("div", lambda: self.rendered_children, attrs=attrs)
 		self.dom.style.overflowY = "scroll"
 		self.dom.style.overflowWrap = "break-word"
 		self.dom.style.maxHeight = max_height
@@ -26,7 +26,7 @@ class ListBuilder(Element):
 				child = children_builder(self._index)
 				
 				if child is None:
-					return
+					break
 				
 				self.rendered_children.append(child)
 				self._index += 1

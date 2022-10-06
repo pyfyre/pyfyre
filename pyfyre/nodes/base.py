@@ -1,11 +1,11 @@
 import sys
 from typing import Type
-from browser import document
 from types import TracebackType
+from browser import document, aio
 from abc import ABC, abstractmethod
 from browser import DOMNode, DOMEvent
 from pyfyre.events import BaseEventType
-from typing import Any, Dict, List, Optional, Callable, Union
+from typing import Any, Dict, List, Optional, Callable
 
 
 class Node(ABC):
@@ -23,21 +23,16 @@ class Node(ABC):
 
 class Element(Node):
 	def __init__(
-		self, tag_name: str, *,
-		attrs: Optional[Dict[str, str]] = None,
-		children: Optional[Union[
-			List[Node],
-			Callable[[], List[Node]]
-		]] = None
+		self,
+		tag_name: str,
+		children: Optional[Callable[[], List[Node]]] = None,
+		*,
+		attrs: Optional[Dict[str, str]] = None
 	) -> None:
 		self.tag_name = tag_name
+		self.children: List[Node] = []
 		self.attrs = attrs or {}
-		
-		self._children_builder = children if callable(children) else None
-		self.children = (
-			self._secure_build() if callable(children) else children
-		) or []
-		
+		self._children_builder = children
 		super().__init__()
 	
 	def _secure_build(self) -> List[Node]:
@@ -54,10 +49,21 @@ class Element(Node):
 		exc_value: BaseException, exc_traceback: TracebackType
 	) -> List[Node]:
 		return [
-			Element("p", children=[TextNode(exc_type)]),
-			Element("p", children=[TextNode(exc_value)]),
-			Element("p", children=[TextNode(exc_traceback)])
+			Element("p", lambda: [TextNode(exc_type)]),
+			Element("p", lambda: [TextNode(exc_value)]),
+			Element("p", lambda: [TextNode(exc_traceback)])
 		]
+	
+	async def build_children(self) -> None:
+		self.children = self._secure_build()
+		
+		for child in self.children:
+			self.dom.appendChild(child.dom)
+			await aio.sleep(0)
+		
+		for child in self.children:
+			if isinstance(child, Element):
+				await child.build_children()
 	
 	def create_dom(self) -> DOMNode:
 		el = document.createElement(self.tag_name)
@@ -65,7 +71,6 @@ class Element(Node):
 		for attr_name, attr_value in self.attrs.items():
 			el.setAttribute(attr_name, attr_value)
 		
-		el.replaceChildren(*[c.dom for c in self.children])
 		return el
 	
 	def update_dom(self) -> None:

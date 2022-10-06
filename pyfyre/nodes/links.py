@@ -1,23 +1,22 @@
 from pyfyre.events import MouseEventType
 from pyfyre.nodes.base import Node, Element
 from browser import DOMEvent, window, document
-from typing import Optional, Dict, List, Union, Callable
+from typing import Optional, Dict, List, Callable
 
 
 class Anchor(Element):
 	def __init__(
-		self, href: str, *,
-		attrs: Optional[Dict[str, str]] = None,
-		children: Optional[Union[
-			List[Node],
-			Callable[[], List[Node]]
-		]] = None
+		self,
+		href: str,
+		children: Optional[Callable[[], List[Node]]] = None,
+		*,
+		attrs: Optional[Dict[str, str]] = None
 	) -> None:
 		self.href = href
 		attrs = attrs or {}
 		attrs["href"] = href
 		
-		super().__init__("a", attrs=attrs, children=children)
+		super().__init__("a", children, attrs=attrs)
 		
 		if self.is_internal():
 			def change_route(event: DOMEvent) -> None:
