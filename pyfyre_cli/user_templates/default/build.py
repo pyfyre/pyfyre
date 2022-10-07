@@ -36,7 +36,13 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		<script src="/pyfyre/brython_stdlib.js"></script>
 		<script src="/pyfyre/cpython_packages.brython.js"></script>
 		<script src="/pyfyre/src.brython.js"></script>
-		<script type="text/python" src="/pyfyre/render_pyfyre.py"></script>
+		<script type="text/python">
+			from browser import window
+			import pyfyre
+			pyfyre.PRODUCTION = {prod_env}
+			import index
+			window.preloader.remove()
+		</script>
 		<!-- End of Brython -->
 		
 		{head}
@@ -58,7 +64,7 @@ def in_path(path: str) -> Iterator[str]:
 		os.chdir(original_path)
 
 
-def create_pages() -> None:
+def create_pages(*, production: bool) -> None:
 	importlib.reload(settings)
 	
 	for route, data in settings.ROUTES.items():
@@ -67,6 +73,7 @@ def create_pages() -> None:
 		
 		with open(os.path.join(directory, "index.html"), "w") as file:
 			html = _HTML_TEMPLATE.format(
+				prod_env=production,
 				title=data.get("title", "A PyFyre App"),
 				icon=data.get("icon", ""),
 				head="\n\t\t".join(data.get("head", []))
@@ -131,7 +138,7 @@ def build_app(production: bool = False) -> None:
 	if production:
 		print("Building app...")
 	
-	create_pages()
+	create_pages(production=production)
 	bundle_scripts(production=production)
 	add_cpython_packages()
 	

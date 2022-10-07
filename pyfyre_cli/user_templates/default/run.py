@@ -16,7 +16,7 @@ def _build_src() -> None:
 
 
 def _build_settings() -> None:
-	create_pages()
+	create_pages(production=False)
 	bundle_scripts(production=False)
 	add_cpython_packages()
 
