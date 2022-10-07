@@ -14,7 +14,7 @@ pip install -r requirements.txt
 ## Project Directory
 - [**pyfyre**](pyfyre)  
 Core files of PyFyre.
-- [**cli**](cli)  
+- [**pyfyre_cli**](pyfyre_cli)  
 Command-line interface for using PyFyre.
 - [**demo**](demo)  
 Example projects using PyFyre.

@@ -11,7 +11,7 @@ import os
 import sys
 import pathlib
 from typing import List, Optional
-from cli.create_app import create_app
+from pyfyre_cli.create_app import create_app
 
 _HELP_MESSAGE = (
 	"Manage your PyFyre projects.\n"

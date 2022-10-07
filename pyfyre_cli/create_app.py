@@ -1,7 +1,7 @@
 import os
 import errno
 import shutil
-from cli.utils import in_path, empty_directory
+from pyfyre_cli.utils import in_path, empty_directory
 
 
 def _copy_project_template(
