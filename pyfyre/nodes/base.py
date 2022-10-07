@@ -1,4 +1,5 @@
 import sys
+import pyfyre
 import traceback
 from typing import Type
 from types import TracebackType
@@ -49,6 +50,28 @@ class Element(Node):
 		self, exc_type: Type[BaseException],
 		exc_value: BaseException, exc_traceback: TracebackType
 	) -> List[Node]:
+		if pyfyre.PRODUCTION:
+			return [
+				Element(
+					"div",
+					lambda: [
+						Element(
+							"p",
+							lambda: [TextNode("An error occurred while loading this element")],
+							attrs={
+								"style": "color: black; font-size: 1rem; "
+								"margin: 0; font-weight: bold;"
+							}
+						)
+					],
+					attrs={
+						"style": "padding: 15px; background-color: white; "
+						"box-shadow: 0 0 10px #888888; border-top: 5px solid #ff726f; "
+						"border-radius: 5px; font-family: Arial; display: inline-block;"
+					}
+				)
+			]
+		
 		tr = traceback.format_exc()
 		return [
 			Element(
@@ -81,7 +104,7 @@ class Element(Node):
 				attrs={
 					"style": "padding: 15px; background-color: white; "
 					"box-shadow: 0 0 10px #888888; border-top: 5px solid #ff726f; "
-					"border-radius: 5px; font-family: Arial;"
+					"border-radius: 5px; font-family: Arial; display: inline-block;"
 				}
 			)
 		]
