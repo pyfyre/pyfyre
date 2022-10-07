@@ -32,8 +32,8 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		<script src="/pyfyre/preloader.js"></script>
 		
 		<!-- Start of Brython -->
-		<script src="/pyfyre/brython.js"></script>
-		<script src="/pyfyre/brython_stdlib.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython_stdlib.min.js"></script>
 		<script src="/pyfyre/src.brython.js"></script>
 		<script type="text/python">
 			from browser import window
