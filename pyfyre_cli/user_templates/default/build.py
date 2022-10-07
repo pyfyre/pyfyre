@@ -74,7 +74,7 @@ def create_pages() -> None:
 			file.write(html)
 
 
-def bundle_scripts() -> None:
+def bundle_scripts(*, production: bool) -> None:
 	try:
 		shutil.copytree("src", "__temp__")
 	except FileExistsError:
@@ -87,16 +87,17 @@ def bundle_scripts() -> None:
 		with open(os.path.join("__temp__", "settings.py"), "w") as file:
 			file.write(settings)
 	
-	# subprocess.run([
-	# 	"pyminify", "__temp__",
-	# 	"--in-place", "--remove-literal-statements"
-	# ])
-	
-	subprocess.run([
-		"autoflake", "__temp__", "-r", "--in-place", "--quiet",
-		"--remove-unused-variables", "--remove-all-unused-imports",
-		"--remove-duplicate-keys"
-	])
+	if production:
+		subprocess.run([
+			"pyminify", "__temp__",
+			"--in-place", "--remove-literal-statements"
+		])
+		
+		subprocess.run([
+			"autoflake", "__temp__", "-r", "--in-place", "--quiet",
+			"--remove-unused-variables", "--remove-all-unused-imports",
+			"--remove-duplicate-keys"
+		])
 	
 	with in_path("__temp__"):
 		subprocess.run(["brython-cli", "make_package", "src"])
@@ -131,7 +132,7 @@ def build_app(production: bool = False) -> None:
 		print("Building app...")
 	
 	create_pages()
-	bundle_scripts()
+	bundle_scripts(production=production)
 	add_cpython_packages()
 	
 	if production:

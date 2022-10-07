@@ -12,12 +12,12 @@ from build import build_app, create_pages, bundle_scripts, add_cpython_packages
 
 
 def _build_src() -> None:
-	bundle_scripts()
+	bundle_scripts(production=False)
 
 
 def _build_settings() -> None:
 	create_pages()
-	bundle_scripts()
+	bundle_scripts(production=False)
 	add_cpython_packages()
 
 

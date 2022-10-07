@@ -14,7 +14,7 @@ class App(Element):
 				),
 				TextNode(". It is also advisable to learn "),
 				Anchor("https://www.brython.info/", lambda: [TextNode("Brython")]),
-				TextNode(" alongside PyFyre as it is built on top of Brython."),
+				TextNode(" alongside PyFyre as it is built on top of Brython.")
 			])
 		])
 
