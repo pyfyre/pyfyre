@@ -1,4 +1,5 @@
 import sys
+import traceback
 from typing import Type
 from types import TracebackType
 from browser import document, aio
@@ -48,10 +49,41 @@ class Element(Node):
 		self, exc_type: Type[BaseException],
 		exc_value: BaseException, exc_traceback: TracebackType
 	) -> List[Node]:
+		tr = traceback.format_exc()
 		return [
-			Element("p", lambda: [TextNode(exc_type)]),
-			Element("p", lambda: [TextNode(exc_value)]),
-			Element("p", lambda: [TextNode(exc_traceback)])
+			Element(
+				"div",
+				lambda: [
+					Element("p", lambda: [TextNode("Unhandled Runtime Error")], attrs={
+						"style": "color: black; font-size: 1.5rem; font-weight: bold; "
+						"margin-top: 0; margin-bottom: 7px;"
+					}),
+					Element(
+						"span", lambda: [TextNode(f"{exc_type.__name__}: {exc_value}")],
+						attrs={
+							"style": "color: #ff3131; font-weight: bold; "
+							"font-family: monospace; font-size: 0.91rem;"
+						}
+					),
+					Element("p", lambda: [TextNode("Traceback")], attrs={
+						"style": "color: black; font-size: 1.3rem; font-weight: bold; "
+						"margin-bottom: 7px;"
+					}),
+					Element(
+						"p",
+						lambda: [Element("pre", lambda: [TextNode(tr)])],
+						attrs={
+							"style": "background-color: black; color: white; "
+							"padding: 1px 15px"
+						}
+					)
+				],
+				attrs={
+					"style": "padding: 15px; background-color: white; "
+					"box-shadow: 0 0 10px #888888; border-top: 5px solid #ff726f; "
+					"border-radius: 5px; font-family: Arial;"
+				}
+			)
 		]
 	
 	async def build_children(self) -> None:
