@@ -17,7 +17,7 @@ import pathlib
 import settings
 import importlib
 import subprocess
-from typing import Iterator
+from typing import Iterator, List
 from contextlib import contextmanager
 
 _HTML_TEMPLATE = """<!DOCTYPE html>
@@ -34,7 +34,6 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		<!-- Start of Brython -->
 		<script src="/pyfyre/brython.js"></script>
 		<script src="/pyfyre/brython_stdlib.js"></script>
-		<script src="/pyfyre/cpython_packages.brython.js"></script>
 		<script src="/pyfyre/src.brython.js"></script>
 		<script type="text/python">
 			from browser import window
@@ -72,11 +71,16 @@ def create_pages(*, production: bool) -> None:
 		pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
 		
 		with open(os.path.join(directory, "index.html"), "w") as file:
+			head: List[str] = []
+			
+			if settings.DEPENDENCIES:
+				head.append('<script src="/pyfyre/cpython_packages.brython.js"></script>')
+			
 			html = _HTML_TEMPLATE.format(
 				prod_env=production,
 				title=data.get("title", "A PyFyre App"),
 				icon=data.get("icon", ""),
-				head="\n\t\t".join(data.get("head", []))
+				head="\n\t\t".join(head + data.get("head", []))
 			)
 			file.write(html)
 
