@@ -10,7 +10,7 @@ def _copy_project_template(
 	cli_path = os.path.dirname(__file__)
 	
 	with in_path(cli_path) as path:
-		template_source = os.path.join(path, "project_templates", template_name)
+		template_source = os.path.join(path, "user_templates", template_name)
 		
 		for f in os.listdir(template_source):
 			p = os.path.join(template_source, f)

@@ -10,9 +10,19 @@ pyfyre create-app hello-world
 import os
 import sys
 import pathlib
-from cli.utils import in_path
 from typing import List, Optional
 from cli.create_app import create_app
+
+_HELP_MESSAGE = (
+	"Manage your PyFyre projects.\n"
+	"\n"
+	"  Common Commands:\n"
+	"    pyfyre help\n"
+	"      Show this message.\n"
+	"\n"
+	"    pyfyre create-app [name]\n"
+	"      Create a new PyFyre project in your current directory.\n"
+)
 
 
 def execute(args: Optional[List[str]] = None) -> None:
@@ -35,6 +45,4 @@ def execute(args: Optional[List[str]] = None) -> None:
 			os.path.join(*app_path.parts[:-1])
 		)
 	else:
-		with in_path(os.path.dirname(__file__)):
-			with open("outputs/help.txt") as file:
-				print(file.read())
+		print(_HELP_MESSAGE)

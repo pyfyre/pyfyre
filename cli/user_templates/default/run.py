@@ -11,11 +11,11 @@ from livereload import Server
 from build import build_app, create_pages, bundle_scripts, add_cpython_packages
 
 
-def build_src() -> None:
+def _build_src() -> None:
 	bundle_scripts()
 
 
-def build_settings() -> None:
+def _build_settings() -> None:
 	create_pages()
 	bundle_scripts()
 	add_cpython_packages()
@@ -25,8 +25,8 @@ if __name__ == "__main__":
 	if os.path.dirname(__file__) == os.getcwd():
 		build_app()
 		server = Server()
-		server.watch("src/", build_src)
-		server.watch("settings.py", build_settings)
+		server.watch("src/", _build_src)
+		server.watch("settings.py", _build_settings)
 		server.serve(root="public")
 	else:
 		print("You must be in the directory of the project to run it.")
