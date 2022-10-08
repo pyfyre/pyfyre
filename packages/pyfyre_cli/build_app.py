@@ -123,7 +123,7 @@ def add_cpython_packages() -> None:
         subprocess.run(["brython-cli", "make_package", "cpython_packages"])
         shutil.copy(
             "cpython_packages.brython.js",
-            os.path.join("..", "..", "public", "pyfyre")
+            os.path.join("..", "..", "public", "_pyfyre")
         )
 
         shutil.rmtree("Lib")

@@ -18,7 +18,7 @@ def get_package_files(directory: str) -> List[str]:
 	return paths
 
 
-packages = ["pyfyre", "pyfyre_cli"]
+packages = ["packages.pyfyre", "packages.pyfyre_cli"]
 
 setup(
 	name="pyfyre",
@@ -42,7 +42,7 @@ setup(
 		"Documentation": "https://pyfyre.netlify.app/docs/"
 	},
 	entry_points={
-		"console_scripts": ["pyfyre = pyfyre_cli:execute"]
+		"console_scripts": ["pyfyre = packages.pyfyre_cli:execute"]
 	},
 	install_requires=[i.strip() for i in open("requirements.txt").readlines()]
 )
