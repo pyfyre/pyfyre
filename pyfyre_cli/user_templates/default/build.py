@@ -29,6 +29,7 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
 		
 		<link rel="icon" href="{icon}" />
+		<link rel="stylesheet" href="/pyfyre/style.css" />
 		<script src="/pyfyre/preloader.js"></script>
 		
 		<!-- Start of Brython -->
