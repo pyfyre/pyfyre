@@ -115,10 +115,9 @@ class Element(Node):
 		for child in self.children:
 			self.dom.appendChild(child.dom)
 			await aio.sleep(0)
-		
-		for child in self.children:
+			
 			if isinstance(child, Element):
-				await child.build_children()
+				aio.run(child.build_children())
 	
 	def create_dom(self) -> DOMNode:
 		el = document.createElement(self.tag_name)
