@@ -30,18 +30,15 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		
 		<link rel="icon" href="{icon}" />
 		<link rel="stylesheet" href="/pyfyre/style.css" />
-		<script src="/pyfyre/preloader.js"></script>
 		
 		<!-- Start of Brython -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython_stdlib.min.js"></script>
 		<script src="/pyfyre/src.brython.js"></script>
 		<script type="text/python">
-			from browser import window
 			import pyfyre
 			pyfyre.PRODUCTION = {prod_env}
 			import index
-			window.preloader.remove()
 		</script>
 		<!-- End of Brython -->
 		
