@@ -12,6 +12,7 @@ import sys
 import pathlib
 from typing import List, Optional
 from pyfyre_cli.create_app import create_app
+from pyfyre_cli.run_app import run_app
 
 _HELP_MESSAGE = (
 	"Manage your PyFyre projects.\n"
@@ -44,5 +45,7 @@ def execute(args: Optional[List[str]] = None) -> None:
 			app_path.parts[-1],
 			os.path.join(*app_path.parts[:-1])
 		)
+	elif command == "run-app":
+		run_app()
 	else:
 		print(_HELP_MESSAGE)
