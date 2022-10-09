@@ -32,7 +32,7 @@ ROUTES: Dict[str, Dict[str, Any]] = {
 # When building your app, PyFyre makes your CPython packages installed by pip
 # usable for the web. Just add the name of the pip package in the list.
 #
-# !!! Note that it is not possible to import any CPython packages
+# !!! Note that it is not possible to import every CPython package
 # due to Brython limitations. Read the Brython documentation:
 # https://www.brython.info/static_doc/en/faq.html#:~:text=Q%20%3A%20can%20I%20import%20all%20the%20modules%20/%20packages%20that%20run%20with%20CPython%20%3F
 #
