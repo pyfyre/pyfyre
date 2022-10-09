@@ -34,6 +34,33 @@ try:
     import settings
 except: ...
 
+_HTML_TEMPLATE = """<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>{title}</title>
+		
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+		
+		<link rel="icon" href="{icon}" />
+		<link rel="stylesheet" href="/style.css" />
+		
+		<!-- Start of Brython -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython_stdlib.min.js"></script>
+		<script src="/_pyfyre/src.brython.js"></script>
+		<script type="text/python">
+			import pyfyre
+			pyfyre.PRODUCTION = {prod_env}
+			import index
+		</script>
+		<!-- End of Brython -->
+		
+		{head}
+	</head>
+	<body onload="brython()"></body>
+</html>"""
+
 @contextmanager
 def in_path(path: str) -> Iterator[str]:
 	original_path = os.getcwd()
@@ -47,12 +74,6 @@ def in_path(path: str) -> Iterator[str]:
 
 
 def create_pages(*, production: bool) -> None:	
-
-    _HTML_TEMPLATE = None
-
-    with open(os.path.join(os.getcwd(), "public", "index.html"), 'r') as file:
-        _HTML_TEMPLATE = file.read()
-
     for route, data in settings.ROUTES.items():
         directory = os.path.join("public", *route.split("/"))
 
