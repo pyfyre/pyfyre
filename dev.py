@@ -21,9 +21,9 @@ def _create_app() -> None:
 	create_app("__dev__", os.getcwd(), dev_mode=True)
 	
 	with in_path("__dev__"):
-		from __dev__ import build
-		importlib.reload(build)
-		build.build_app()
+		from pyfyre_cli import build_app
+		importlib.reload(build_app)
+		build_app.build_app()
 
 
 if __name__ == "__main__":

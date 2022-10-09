@@ -3,7 +3,7 @@ Entry point for pyfyre installed via pip or setuptools.
 
 Example:
 ```bash
-pyfyre create-app hello-world
+pyfyre create hello-world
 ```
 """
 
@@ -11,7 +11,6 @@ import os
 import sys
 import pathlib
 from typing import List, Optional
-from pyfyre_cli.create_app import create_app
 
 _HELP_MESSAGE = (
 	"Manage your PyFyre projects.\n"
@@ -20,8 +19,15 @@ _HELP_MESSAGE = (
 	"    pyfyre help\n"
 	"      Show this message.\n"
 	"\n"
-	"    pyfyre create-app [name]\n"
-	"      Create a new PyFyre project in your current directory.\n"
+	"    pyfyre create [path]\n"
+	"      Create a new PyFyre project in the specified path.\n"
+	"      The directory of the path will be your project's name.\n"
+	"\n"
+	"    pyfyre run\n"
+	"      Run the PyFyre project in the current directory in development mode.\n"
+	"\n"
+	"    pyfyre build\n"
+	"      Build the PyFyre project in the current directory for production.\n"
 )
 
 
@@ -37,12 +43,19 @@ def execute(args: Optional[List[str]] = None) -> None:
 	
 	command = args_list[1] or "help"
 	
-	if command == "create-app":
+	if command == "create":
+		from pyfyre_cli.create_app import create_app
 		app_name = args_list[2] or "pyfyre-app"
 		app_path = pathlib.Path(os.path.abspath(app_name))
 		create_app(
 			app_path.parts[-1],
 			os.path.join(*app_path.parts[:-1])
 		)
+	elif command == "run":
+		from pyfyre_cli.run_app import run_app
+		run_app()
+	elif command == "build":
+		from pyfyre_cli.build_app import build_app
+		build_app(production=True)
 	else:
 		print(_HELP_MESSAGE)

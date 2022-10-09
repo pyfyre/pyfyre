@@ -1,8 +1,6 @@
 """
 	This module contains the tools for building the app
 	for development and production purposes.
-	For instance, this module will build the app for production
-	if it is run directly as a script (not imported).
 	
 	The build process includes but not limited to bundling of the files
 	inside the `src` directory as a Brython package to make it usable for the web.
@@ -12,13 +10,19 @@
 """
 
 import os
+import sys
 import shutil
 import pathlib
-import settings
 import importlib
 import subprocess
 from typing import Iterator, List
 from contextlib import contextmanager
+try:
+	sys.path.append(os.getcwd())
+	import settings
+except ModuleNotFoundError:
+	print("This directory is not a PyFyre project.")
+	exit()
 
 _HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
@@ -29,12 +33,12 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
 		
 		<link rel="icon" href="{icon}" />
-		<link rel="stylesheet" href="/pyfyre/style.css" />
+		<link rel="stylesheet" href="/_pyfyre/style.css" />
 		
 		<!-- Start of Brython -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython_stdlib.min.js"></script>
-		<script src="/pyfyre/src.brython.js"></script>
+		<script src="/_pyfyre/src.brython.js"></script>
 		<script type="text/python">
 			import pyfyre
 			pyfyre.PRODUCTION = {prod_env}
@@ -72,7 +76,7 @@ def create_pages(*, production: bool) -> None:
 			head: List[str] = []
 			
 			if settings.DEPENDENCIES:
-				head.append('<script src="/pyfyre/cpython_packages.brython.js"></script>')
+				head.append('<script src="/_pyfyre/cpython_packages.brython.js"></script>')
 			
 			html = _HTML_TEMPLATE.format(
 				prod_env=production,
@@ -110,7 +114,7 @@ def bundle_scripts(*, production: bool) -> None:
 	
 	with in_path("__temp__"):
 		subprocess.run(["brython-cli", "make_package", "src"])
-		shutil.copy("src.brython.js", os.path.join("..", "public", "pyfyre"))
+		shutil.copy("src.brython.js", os.path.join("..", "public", "_pyfyre"))
 	
 	shutil.rmtree("__temp__")
 
@@ -130,13 +134,13 @@ def add_cpython_packages() -> None:
 		subprocess.run(["brython-cli", "make_package", "cpython_packages"])
 		shutil.copy(
 			"cpython_packages.brython.js",
-			os.path.join("..", "..", "public", "pyfyre")
+			os.path.join("..", "..", "public", "_pyfyre")
 		)
 	
 	shutil.rmtree("Lib")
 
 
-def build_app(production: bool = False) -> None:
+def build_app(*, production: bool = False) -> None:
 	if production:
 		print("Building app...")
 	
@@ -146,10 +150,3 @@ def build_app(production: bool = False) -> None:
 	
 	if production:
 		print("App successfully built.")
-
-
-if __name__ == "__main__":
-	if os.path.dirname(__file__) == os.getcwd():
-		build_app(production=True)
-	else:
-		print("You must be in the directory of the project to build it.")

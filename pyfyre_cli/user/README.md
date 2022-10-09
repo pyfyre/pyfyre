@@ -5,10 +5,10 @@ Learn PyFyre by reading the [documentation](https://pyfyre.netlify.app/). It is 
 
 ### Scripts
 ```
-python run.py
+pyfyre run
   Run your PyFyre project in development mode.
 
-python build.py
+pyfyre build
   Build your PyFyre project for production deployment.
 ```
 

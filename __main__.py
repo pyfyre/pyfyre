@@ -3,7 +3,7 @@ Entry point for pyfyre.
 
 Example:
 ```bash
-python pyfyre create-app hello-world
+python pyfyre create hello-world
 ```
 """
 
