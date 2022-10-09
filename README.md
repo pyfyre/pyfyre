@@ -47,9 +47,9 @@ pip install pyfyre
 
 ## Create and Run a PyFyre Project
 ```bash
-pyfyre create-app [name]
+pyfyre create [name]
 cd [project_directory]
-python run.py
+pyfyre run
 ```
 
 ## Contributing
