@@ -27,4 +27,4 @@ def run_app() -> None:
 	server = Server()
 	server.watch("src/", _build_src)
 	server.watch("settings.py", _build_settings)
-	server.serve(root="public")
+	server.serve(root="_pyfyre")

@@ -23,8 +23,8 @@ def _copy_project_template(project_path: str) -> None:
 				else:
 					raise
 	
-	with in_path(os.path.join(cli_path, "..")) as path:
-		shutil.copytree("pyfyre", os.path.join(project_path, "src", "pyfyre"))
+	# with in_path(os.path.join(cli_path, "..")) as path:
+	# 	shutil.copytree("pyfyre", os.path.join(project_path, "src", "pyfyre"))
 
 
 def create_app(app_name: str, app_dir: str, *, dev_mode: bool = False) -> None:

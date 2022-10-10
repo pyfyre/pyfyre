@@ -17,6 +17,8 @@ import importlib
 import subprocess
 from typing import Iterator, List
 from contextlib import contextmanager
+
+from pyfyre_cli.utils import empty_directory
 try:
 	sys.path.append(os.getcwd())
 	import settings
@@ -33,12 +35,13 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
 		
 		<link rel="icon" href="{icon}" />
-		<link rel="stylesheet" href="/_pyfyre/style.css" />
+		<link rel="stylesheet" href="style.css" />
 		
 		<!-- Start of Brython -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython_stdlib.min.js"></script>
-		<script src="/_pyfyre/src.brython.js"></script>
+		<script src="modules.js"></script>
+		<script src="pyfyre.js"></script>
+		<script src="src.brython.js"></script>
 		<script type="text/python">
 			import pyfyre
 			pyfyre.PRODUCTION = {prod_env}
@@ -67,16 +70,22 @@ def in_path(path: str) -> Iterator[str]:
 
 def create_pages(*, production: bool) -> None:
 	importlib.reload(settings)
+
+	if os.path.isdir("_pyfyre"):
+		empty_directory("_pyfyre")
+		os.rmdir("_pyfyre")
+
+	os.mkdir("_pyfyre")
 	
 	for route, data in settings.ROUTES.items():
-		directory = os.path.join("public", *route.split("/"))
+		directory = os.path.join("_pyfyre", *route.split("/"))
 		pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
 		
 		with open(os.path.join(directory, "index.html"), "w") as file:
 			head: List[str] = []
 			
 			if settings.DEPENDENCIES:
-				head.append('<script src="/_pyfyre/cpython_packages.brython.js"></script>')
+				head.append('<script src="/cpython_packages.brython.js"></script>')
 			
 			html = _HTML_TEMPLATE.format(
 				prod_env=production,
@@ -88,6 +97,35 @@ def create_pages(*, production: bool) -> None:
 
 
 def bundle_scripts(*, production: bool) -> None:
+
+	exec_path = os.getcwd()
+	pyfyre_path = os.path.join(exec_path, "_pyfyre", "pyfyre")
+
+	with in_path(os.path.join(os.path.dirname(__file__), "..")) as path:
+		shutil.copytree(os.path.join(path, "pyfyre"), os.path.join(exec_path, "_pyfyre", "pyfyre"))
+
+	with in_path(pyfyre_path):
+
+		# Install Brython for stdlib
+		subprocess.run(["brython-cli", "install"])
+
+		"""
+		This command will detect the only Python modules that are used
+		in the project and will generate a cherry-picked standard libraries
+		for the project to run instead of using bloated `brython_stdlib.js`
+		"""
+		subprocess.run(["brython-cli", "make_modules"])
+
+		subprocess.run(["brython-cli", "make_package", "pyfyre"])
+		
+		os.rename("brython_modules.js", "modules.js")
+		os.rename("pyfyre.brython.js", "pyfyre.js")
+		shutil.copy("modules.js", os.path.join(exec_path, "_pyfyre"))
+		shutil.copy("pyfyre.js", os.path.join(exec_path, "_pyfyre"))
+
+	empty_directory(pyfyre_path)
+	os.rmdir(pyfyre_path)
+	
 	try:
 		shutil.copytree("src", "__temp__")
 	except FileExistsError:
@@ -114,7 +152,7 @@ def bundle_scripts(*, production: bool) -> None:
 	
 	with in_path("__temp__"):
 		subprocess.run(["brython-cli", "make_package", "src"])
-		shutil.copy("src.brython.js", os.path.join("..", "public", "_pyfyre"))
+		shutil.copy("src.brython.js", os.path.join("..", "_pyfyre"))
 	
 	shutil.rmtree("__temp__")
 
@@ -134,7 +172,7 @@ def add_cpython_packages() -> None:
 		subprocess.run(["brython-cli", "make_package", "cpython_packages"])
 		shutil.copy(
 			"cpython_packages.brython.js",
-			os.path.join("..", "..", "public", "_pyfyre")
+			os.path.join("..", "..", "_pyfyre")
 		)
 	
 	shutil.rmtree("Lib")
