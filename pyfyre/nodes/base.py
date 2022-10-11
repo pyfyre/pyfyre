@@ -1,24 +1,16 @@
-import sys
 import pyfyre
-import traceback
-from typing import Type
-from types import TracebackType
-from browser import document, aio
-from abc import ABC, abstractmethod
-from browser import DOMNode, DOMEvent
+from browser import document
+from browser import DOMNode
 from pyfyre.events import BaseEventType
-from typing import Any, Dict, List, Optional, Callable
 
 
-class Node(ABC):
+class Node:
 	def __init__(self) -> None:
 		self.dom = self.create_dom()
 	
-	@abstractmethod
 	def create_dom(self) -> DOMNode:
 		raise NotImplementedError
 	
-	@abstractmethod
 	def update_dom(self) -> None:
 		raise NotImplementedError
 
@@ -27,29 +19,29 @@ class Element(Node):
 	def __init__(
 		self,
 		tag_name: str,
-		children: Optional[Callable[[], List[Node]]] = None,
+		children = None,
 		*,
-		attrs: Optional[Dict[str, str]] = None
+		attrs = None
 	) -> None:
 		self.tag_name = tag_name
-		self.children: List[Node] = []
+		self.children = []
 		self.attrs = attrs or {}
 		self._children_builder = children
 		super().__init__()
 	
-	def _secure_build(self) -> List[Node]:
+	def _secure_build(self):
 		if self._children_builder is None:
 			return self.children
 		
 		try:
 			return self._children_builder()
 		except BaseException:
-			return self.on_build_error(*sys.exc_info())
+			return self.on_build_error("")
 	
 	def on_build_error(
-		self, exc_type: Type[BaseException],
-		exc_value: BaseException, exc_traceback: TracebackType
-	) -> List[Node]:
+		self, exc_type,
+		exc_value: BaseException, exc_traceback
+	):
 		if pyfyre.PRODUCTION:
 			return [
 				Element(
@@ -72,7 +64,7 @@ class Element(Node):
 				)
 			]
 		
-		tr = traceback.format_exc()
+		tr = ""
 		return [
 			Element(
 				"div",
@@ -109,15 +101,14 @@ class Element(Node):
 			)
 		]
 	
-	async def build_children(self) -> None:
+	def build_children(self) -> None:
 		self.children = self._secure_build()
 		
 		for child in self.children:
 			self.dom.appendChild(child.dom)
-			await aio.sleep(0)
 			
 			if isinstance(child, Element):
-				aio.run(child.build_children())
+				child.build_children()
 	
 	def create_dom(self) -> DOMNode:
 		el = document.createElement(self.tag_name)
@@ -138,13 +129,13 @@ class Element(Node):
 			child.update_dom()
 	
 	def add_event_listener(
-		self, event_type: BaseEventType, callback: Callable[[DOMEvent], None]
+		self, event_type: BaseEventType, callback
 	) -> None:
 		self.dom.bind(event_type.value, callback)
 
 
 class TextNode(Node):
-	def __init__(self, value: Any) -> None:
+	def __init__(self, value) -> None:
 		self._value = str(value)
 		super().__init__()
 	
@@ -152,7 +143,7 @@ class TextNode(Node):
 	def value(self) -> str:
 		return self._value
 	
-	def set_value(self, value: Any) -> None:
+	def set_value(self, value) -> None:
 		self._value = str(value)
 	
 	def create_dom(self) -> DOMNode:

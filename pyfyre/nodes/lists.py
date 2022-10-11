@@ -1,30 +1,28 @@
-from browser import DOMEvent, aio
 from pyfyre.events import EventType
-from pyfyre.nodes import Node, Element
-from typing import Optional, Dict, List, Callable
+from pyfyre.nodes import Element
 
 
 class ListBuilder(Element):
 	def __init__(
-		self, children_builder: Callable[[int], Optional[Node]], *,
+		self, children_builder, *,
 		max_height: str = "300px",
 		render_batch: int = 10,
 		render_interval: float = 0,
-		attrs: Optional[Dict[str, str]] = None
+		attrs = None
 	) -> None:
 		self.children_builder = children_builder
 		self.render_batch = render_batch
 		self.render_interval = render_interval
 		
 		self.index = 0
-		self.rendered_children: List[Node] = []
+		self.rendered_children = []
 		
 		super().__init__("div", lambda: self.rendered_children, attrs=attrs)
 		self.dom.style.overflowY = "scroll"
 		self.dom.style.overflowWrap = "break-word"
 		self.dom.style.maxHeight = max_height
 		
-		def render_nodes(event: DOMEvent) -> None:
+		def render_nodes(event) -> None:
 			el = event.target
 			if el.scrollHeight - el.scrollTop - el.clientHeight < 1:
 				self.render_next_children()
@@ -43,8 +41,7 @@ class ListBuilder(Element):
 		
 		self.update_dom()
 	
-	async def build_children(self) -> None:
+	def build_children(self) -> None:
 		if self.dom.scrollHeight == self.dom.clientHeight:
 			self.render_next_children()
-			await aio.sleep(self.render_interval)
-			await self.build_children()
+			self.build_children()

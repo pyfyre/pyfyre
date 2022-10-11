@@ -1,16 +1,15 @@
 from settings import ROUTES
-from browser import document, aio
-from typing import Dict, Callable, Optional
+from browser import document
 from pyfyre.nodes import Node, Element, TextNode
 
 
 class RouteManager:
-	_routes_builder: Dict[str, Callable[[], Node]] = {}
-	_routes: Dict[str, Optional[Node]] = {}
+	_routes_builder = {}
+	_routes = {}
 	root_node = document.select("body")
 	
 	@staticmethod
-	def set_routes(routes: Dict[str, Callable[[], Node]]) -> None:
+	def set_routes(routes) -> None:
 		RouteManager._routes_builder = routes
 	
 	@staticmethod
@@ -35,7 +34,7 @@ class RouteManager:
 			RouteManager._routes[route] = node
 			
 			if isinstance(node, Element):
-				aio.run(node.build_children())
+				node.build_children()
 		
 		return node or Element("p", lambda: [TextNode("404: Page Not Found :(")])
 	

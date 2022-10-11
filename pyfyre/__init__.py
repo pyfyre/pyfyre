@@ -1,5 +1,3 @@
-from pyfyre.nodes import Node
-from typing import Dict, Callable
 from browser import document, window
 from pyfyre.router import RouteManager
 from pyfyre.exceptions import NodeNotFound
@@ -12,7 +10,7 @@ __all__ = [
 PRODUCTION: bool = False
 
 
-def render(root_selector: str, routes: Dict[str, Callable[[], Node]]) -> None:
+def render(root_selector: str, routes) -> None:
 	nodes = document.select(root_selector)
 	
 	if nodes:
