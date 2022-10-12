@@ -1,6 +1,6 @@
 """
-	This script builds the app and starts a
-	live server hosting the `public` directory.
+	This script builds the app in the `_pyfyre` directory and starts a
+	live server hosting that directory.
 	The live server watches for changes in the `src` directory
 	and `settings.py` file.
 	When the live server detects changes, it will rebuild the app.
@@ -19,7 +19,7 @@ def _build_src() -> None:
 def _build_settings() -> None:
 	create_pages(production=False)
 	bundle_scripts(production=False)
-	add_cpython_packages()
+	add_cpython_packages(production=False)
 
 
 def run_app() -> None:
@@ -27,4 +27,4 @@ def run_app() -> None:
 	server = Server()
 	server.watch("src/", _build_src)
 	server.watch("settings.py", _build_settings)
-	server.serve(root="public")
+	server.serve(root="_pyfyre")

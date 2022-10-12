@@ -5,7 +5,7 @@
 	The build process includes but not limited to bundling of the files
 	inside the `src` directory as a Brython package to make it usable for the web.
 	
-	All the build files are stored in the `public` directory so you can just
+	All the build files are saved in the `public` directory so you can just
 	serve or deploy the `public` directory to the web.
 """
 
@@ -69,7 +69,10 @@ def create_pages(*, production: bool) -> None:
 	importlib.reload(settings)
 	
 	for route, data in settings.ROUTES.items():
-		directory = os.path.join("public", *route.split("/"))
+		directory = os.path.join(
+			"public" if production else "_pyfyre",
+			*route.split("/")
+		)
 		pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
 		
 		with open(os.path.join(directory, "index.html"), "w") as file:
@@ -113,13 +116,18 @@ def bundle_scripts(*, production: bool) -> None:
 		])
 	
 	with in_path("__temp__"):
+		if production:
+			copy_to = os.path.join("..", "public", "_pyfyre")
+		else:
+			copy_to = os.path.join("..", "_pyfyre", "_pyfyre")
+		
 		subprocess.run(["brython-cli", "make_package", "src"])
-		shutil.copy("src.brython.js", os.path.join("..", "public", "_pyfyre"))
+		shutil.copy("src.brython.js", copy_to)
 	
 	shutil.rmtree("__temp__")
 
 
-def add_cpython_packages() -> None:
+def add_cpython_packages(*, production: bool) -> None:
 	importlib.reload(settings)
 	
 	for package_name in settings.DEPENDENCIES:
@@ -131,11 +139,13 @@ def add_cpython_packages() -> None:
 		return
 	
 	with in_path(packages_dir):
+		if production:
+			copy_to = os.path.join("..", "..", "public", "_pyfyre")
+		else:
+			copy_to = os.path.join("..", "..", "_pyfyre", "_pyfyre")
+		
 		subprocess.run(["brython-cli", "make_package", "cpython_packages"])
-		shutil.copy(
-			"cpython_packages.brython.js",
-			os.path.join("..", "..", "public", "_pyfyre")
-		)
+		shutil.copy("cpython_packages.brython.js", copy_to)
 	
 	shutil.rmtree("Lib")
 
@@ -143,10 +153,16 @@ def add_cpython_packages() -> None:
 def build_app(*, production: bool = False) -> None:
 	if production:
 		print("Building app...")
+	else:
+		try:
+			shutil.copytree("public", "_pyfyre")
+		except FileExistsError:
+			shutil.rmtree("_pyfyre")
+			shutil.copytree("public", "_pyfyre")
 	
 	create_pages(production=production)
 	bundle_scripts(production=production)
-	add_cpython_packages()
+	add_cpython_packages(production=production)
 	
 	if production:
 		print("App successfully built.")
