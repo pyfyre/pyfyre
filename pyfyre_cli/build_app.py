@@ -5,8 +5,8 @@
 	The build process includes but not limited to bundling of the files
 	inside the `src` directory as a Brython package to make it usable for the web.
 	
-	All the build files are saved in the `public` directory so you can just
-	serve or deploy the `public` directory to the web.
+	All the build files are saved in the `build` directory so you can just
+	serve or deploy the `build` directory to the web.
 """
 
 import os
@@ -33,12 +33,11 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
 		
 		<link rel="icon" href="{icon}" />
-		<link rel="stylesheet" href="/_pyfyre/style.css" />
 		
 		<!-- Start of Brython -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython_stdlib.min.js"></script>
-		<script src="/_pyfyre/src.brython.js"></script>
+		<script src="/src.brython.js"></script>
 		<script type="text/python">
 			import pyfyre
 			pyfyre.PRODUCTION = {prod_env}
@@ -70,7 +69,7 @@ def create_pages(*, production: bool) -> None:
 	
 	for route, data in settings.ROUTES.items():
 		directory = os.path.join(
-			"public" if production else "_pyfyre",
+			"build" if production else "_pyfyre",
 			*route.split("/")
 		)
 		pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
@@ -79,7 +78,7 @@ def create_pages(*, production: bool) -> None:
 			head: List[str] = []
 			
 			if settings.DEPENDENCIES:
-				head.append('<script src="/_pyfyre/cpython_packages.brython.js"></script>')
+				head.append('<script src="/cpython_packages.brython.js"></script>')
 			
 			html = _HTML_TEMPLATE.format(
 				prod_env=production,
@@ -117,9 +116,9 @@ def bundle_scripts(*, production: bool) -> None:
 	
 	with in_path("__temp__"):
 		if production:
-			copy_to = os.path.join("..", "public", "_pyfyre")
+			copy_to = os.path.join("..", "build")
 		else:
-			copy_to = os.path.join("..", "_pyfyre", "_pyfyre")
+			copy_to = os.path.join("..", "_pyfyre")
 		
 		subprocess.run(["brython-cli", "make_package", "src"])
 		shutil.copy("src.brython.js", copy_to)
@@ -140,9 +139,9 @@ def add_cpython_packages(*, production: bool) -> None:
 	
 	with in_path(packages_dir):
 		if production:
-			copy_to = os.path.join("..", "..", "public", "_pyfyre")
+			copy_to = os.path.join("..", "..", "build")
 		else:
-			copy_to = os.path.join("..", "..", "_pyfyre", "_pyfyre")
+			copy_to = os.path.join("..", "..", "_pyfyre")
 		
 		subprocess.run(["brython-cli", "make_package", "cpython_packages"])
 		shutil.copy("cpython_packages.brython.js", copy_to)
@@ -150,16 +149,26 @@ def add_cpython_packages(*, production: bool) -> None:
 	shutil.rmtree("Lib")
 
 
+def copy_public_folder(*, production: bool) -> None:
+	try:
+		if production:
+			shutil.copytree("public", "build")
+		else:
+			shutil.copytree("public", "_pyfyre")
+	except FileExistsError:
+		if production:
+			shutil.rmtree("build")
+		else:
+			shutil.rmtree("_pyfyre")
+		
+		copy_public_folder(production=production)
+
+
 def build_app(*, production: bool = False) -> None:
 	if production:
 		print("Building app...")
-	else:
-		try:
-			shutil.copytree("public", "_pyfyre")
-		except FileExistsError:
-			shutil.rmtree("_pyfyre")
-			shutil.copytree("public", "_pyfyre")
 	
+	copy_public_folder(production=production)
 	create_pages(production=production)
 	bundle_scripts(production=production)
 	add_cpython_packages(production=production)

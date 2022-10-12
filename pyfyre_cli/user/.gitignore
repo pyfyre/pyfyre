@@ -1,5 +1,6 @@
 # PyFyre generated
 /Lib
+/build
 /_pyfyre
 /__temp__
 
