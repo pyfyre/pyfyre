@@ -106,17 +106,8 @@ def bundle_scripts(*, production: bool) -> None:
 
 	with in_path(pyfyre_path):
 
-		subprocess.run(["brython-cli", "make_package", "pyfyre"])
-
 		# Install Brython for stdlib
 		subprocess.run(["brython-cli", "install"])
-
-		# Remove unused files produced by Brython
-		os.remove("demo.html")
-		os.remove("unicode.txt")
-		os.remove("README.txt")
-		os.remove("brython.js")
-		os.remove("index.html")
 
 		"""
 		This command will detect the only Python modules that are used
@@ -124,6 +115,8 @@ def bundle_scripts(*, production: bool) -> None:
 		for the project to run instead of using bloated `brython_stdlib.js`
 		"""
 		subprocess.run(["brython-cli", "make_modules"])
+
+		subprocess.run(["brython-cli", "make_package", "pyfyre"])
 		
 		os.rename("brython_modules.js", "modules.js")
 		os.rename("pyfyre.brython.js", "pyfyre.js")

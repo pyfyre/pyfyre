@@ -1,3 +1,4 @@
+from typing import Dict, List, Any
 
 # When building your app, PyFyre creates HTML files based on these routes,
 # so that when a user visits your website,
@@ -21,7 +22,7 @@
 # 		"head": ['<link rel="stylesheet" href="/style.css">']
 # 	}
 # }
-ROUTES = {
+ROUTES: Dict[str, Dict[str, Any]] = {
 	"/": {
 		"title": "A PyFyre App",
 		"icon": "/favicon.ico"
@@ -41,4 +42,4 @@ ROUTES = {
 # 	"random_string",
 # 	"url64"
 # ]
-DEPENDENCIES = []
+DEPENDENCIES: List[str] = []

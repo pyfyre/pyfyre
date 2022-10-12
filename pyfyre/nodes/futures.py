@@ -1,4 +1,6 @@
-from pyfyre.nodes import Element
+from browser import aio
+from pyfyre.nodes import Node, Element
+from typing import Dict, List, Optional, Callable, Awaitable
 from pyfyre.exceptions import (
 	FutureNoResult, FutureCancelled, FutureAlreadyDone
 )
@@ -8,40 +10,40 @@ class FutureElement(Element):
 	def __init__(
 		self,
 		tag_name: str,
-		children,
+		children: Awaitable[List[Node]],
 		*,
-		attrs = None,
+		attrs: Optional[Dict[str, str]] = None,
 	) -> None:
 		self._is_done = False
 		self._is_cancelled = False
-		self._result = None
-		self._exception = None
-		self._done_callbacks = []
+		self._result: Optional[List[Node]] = None
+		self._exception: Optional[BaseException] = None
+		self._done_callbacks: List[Callable[["FutureElement"], None]] = []
 		super().__init__(tag_name, lambda: self._process_result(), attrs=attrs)
 		
-		def build_children(children) -> None:
-			res = children
+		async def build_children(children: Awaitable[List[Node]]) -> None:
+			res = await children
 			successful = self.set_result(res, ignore_done=True)
 			
 			if successful:
 				self.update_dom()
 		
-		build_children(children)
+		aio.run(build_children(children))
 	
-	def _process_result(self):
+	def _process_result(self) -> List[Node]:
 		try:
 			return self.result()
 		except FutureNoResult:
 			return self.while_no_result()
 	
-	def while_no_result(self):
+	def while_no_result(self) -> List[Node]:
 		return [Element(
 			"div",
 			lambda: [Element("div") for _ in range(12)],
 			attrs={"class": "lds"}
 		)]
 	
-	def result(self):
+	def result(self) -> List[Node]:
 		if self.is_done():
 			if self._result is not None:
 				return self._result
@@ -61,7 +63,7 @@ class FutureElement(Element):
 			callback(self)
 	
 	def set_result(
-		self, result, *, ignore_done: bool = False
+		self, result: List[Node], *, ignore_done: bool = False
 	) -> bool:
 		if self.is_done():
 			if ignore_done:
@@ -87,7 +89,7 @@ class FutureElement(Element):
 		return self._is_cancelled
 	
 	def add_done_callback(
-		self, callback
+		self, callback: Callable[["FutureElement"], None]
 	) -> None:
 		self._done_callbacks.append(callback)
 		
@@ -95,7 +97,7 @@ class FutureElement(Element):
 			callback(self)
 	
 	def remove_done_callback(
-		self, callback
+		self, callback: Callable[["FutureElement"], None]
 	) -> int:
 		remaining_callbacks = []
 		removed = 0
@@ -120,5 +122,5 @@ class FutureElement(Element):
 		
 		return True
 	
-	def exception(self):
+	def exception(self) -> Optional[BaseException]:
 		return self._exception

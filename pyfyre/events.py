@@ -1,5 +1,7 @@
+from enum import Enum
 
-class BaseEventType:
+
+class BaseEventType(Enum):
 	pass
 
 

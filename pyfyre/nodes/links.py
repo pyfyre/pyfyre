@@ -1,15 +1,16 @@
 from pyfyre.events import MouseEventType
-from pyfyre.nodes.base import Element
-from browser import window, document
+from pyfyre.nodes.base import Node, Element
+from browser import DOMEvent, window, document
+from typing import Optional, Dict, List, Callable
 
 
 class Anchor(Element):
 	def __init__(
 		self,
 		href: str,
-		children = None,
+		children: Optional[Callable[[], List[Node]]] = None,
 		*,
-		attrs = None
+		attrs: Optional[Dict[str, str]] = None
 	) -> None:
 		self.href = href
 		attrs = attrs or {}
@@ -32,13 +33,13 @@ class RouterLink(Anchor):
 	def __init__(
 		self,
 		href: str,
-		children = None,
+		children: Optional[Callable[[], List[Node]]] = None,
 		*,
-		attrs = None
+		attrs: Optional[Dict[str, str]] = None
 	) -> None:
 		super().__init__(href, children, attrs=attrs)
 		
-		def change_route(event) -> None:
+		def change_route(event: DOMEvent) -> None:
 			# Import here due to cicular import problem
 			from pyfyre.router import RouteManager
 			
