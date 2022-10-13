@@ -34,7 +34,6 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		
 		<link rel="icon" href="{icon}" />
 		
-		<!-- Start of Brython -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython.min.js"></script>
 		<script src="/src.brython.js"></script>
 		<script type="text/python">
@@ -42,7 +41,6 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 			pyfyre.PRODUCTION = {prod_env}
 			import index
 		</script>
-		<!-- End of Brython -->
 		
 		{head}
 	</head>
@@ -61,6 +59,21 @@ def in_path(path: str) -> Iterator[str]:
 		yield abspath
 	finally:
 		os.chdir(original_path)
+
+
+def copy_public_folder(*, production: bool) -> None:
+	try:
+		if production:
+			shutil.copytree("public", "build")
+		else:
+			shutil.copytree("public", "_pyfyre")
+	except FileExistsError:
+		if production:
+			shutil.rmtree("build")
+		else:
+			shutil.rmtree("_pyfyre")
+		
+		copy_public_folder(production=production)
 
 
 def _generate_page_head(*, production: bool) -> List[str]:
@@ -103,7 +116,7 @@ def create_pages(*, production: bool) -> None:
 
 def _cherry_pick_modules(*, production: bool) -> None:
 	shutil.copy(
-		os.path.join(os.path.dirname(__file__), "brython", "brython_stdlib.js"),
+		os.path.join(os.path.dirname(__file__), "js", "brython_stdlib.js"),
 		"__temp__"
 	)
 	
@@ -191,21 +204,6 @@ def add_cpython_packages(*, production: bool) -> None:
 		shutil.copy("cpython_packages.brython.js", copy_to)
 	
 	shutil.rmtree("Lib")
-
-
-def copy_public_folder(*, production: bool) -> None:
-	try:
-		if production:
-			shutil.copytree("public", "build")
-		else:
-			shutil.copytree("public", "_pyfyre")
-	except FileExistsError:
-		if production:
-			shutil.rmtree("build")
-		else:
-			shutil.rmtree("_pyfyre")
-		
-		copy_public_folder(production=production)
 
 
 def build_app(*, production: bool = False) -> None:
