@@ -36,7 +36,6 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		
 		<!-- Start of Brython -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython_stdlib.min.js"></script>
 		<script src="/src.brython.js"></script>
 		<script type="text/python">
 			import pyfyre
@@ -64,6 +63,23 @@ def in_path(path: str) -> Iterator[str]:
 		os.chdir(original_path)
 
 
+def _generate_page_head(*, production: bool) -> List[str]:
+	head: List[str] = []
+	
+	if production:
+		head.append('<script src="/modules.brython.js"></script>')
+	else:
+		head.append(
+			'<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/'
+			'3.10.7/brython_stdlib.min.js"></script>'
+		)
+	
+	if settings.DEPENDENCIES:
+		head.append('<script src="/cpython_packages.brython.js"></script>')
+	
+	return head
+
+
 def create_pages(*, production: bool) -> None:
 	importlib.reload(settings)
 	
@@ -75,11 +91,7 @@ def create_pages(*, production: bool) -> None:
 		pathlib.Path(directory).mkdir(parents=True, exist_ok=True)
 		
 		with open(os.path.join(directory, "index.html"), "w") as file:
-			head: List[str] = []
-			
-			if settings.DEPENDENCIES:
-				head.append('<script src="/cpython_packages.brython.js"></script>')
-			
+			head = _generate_page_head(production=production)
 			html = _HTML_TEMPLATE.format(
 				prod_env=production,
 				title=data.get("title", "A PyFyre App"),
@@ -87,6 +99,36 @@ def create_pages(*, production: bool) -> None:
 				head="\n\t\t".join(head + data.get("head", []))
 			)
 			file.write(html)
+
+
+def _cherry_pick_modules(*, production: bool) -> None:
+	shutil.copy(
+		os.path.join(os.path.dirname(__file__), "brython", "brython_stdlib.js"),
+		"__temp__"
+	)
+	
+	with in_path("__temp__"):
+		if production:
+			copy_to = os.path.join("..", "build")
+		else:
+			copy_to = os.path.join("..", "_pyfyre")
+		
+		# This command will detect the only Python modules that are used
+		# in the project and will generate a cherry-picked standard libraries
+		# for the project to run instead of using bloated `brython_stdlib.js`
+		subprocess.run(["brython-cli", "make_modules"])
+		os.rename("brython_modules.js", "modules.brython.js")
+		shutil.copy("modules.brython.js", copy_to)
+		
+		# Remove all files and folders except `index.py` to avoid duplicate VFS
+		for file in os.listdir():
+			if file == "index.py":
+				continue
+			
+			try:
+				os.remove(file)
+			except IsADirectoryError:
+				shutil.rmtree(file)
 
 
 def bundle_scripts(*, production: bool) -> None:
@@ -113,6 +155,8 @@ def bundle_scripts(*, production: bool) -> None:
 			"--remove-unused-variables", "--remove-all-unused-imports",
 			"--remove-duplicate-keys"
 		])
+		
+		_cherry_pick_modules(production=production)
 	
 	with in_path("__temp__"):
 		if production:
