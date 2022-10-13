@@ -19,13 +19,14 @@ from typing import Dict, List, Any
 # 	"/": {
 # 		"title": "A PyFyre App",
 # 		"icon": "/favicon.ico",
-# 		"head": ['<link rel="stylesheet" href="/style.css">']
+# 		"head": ['<link rel="stylesheet" href="/style.css" />']
 # 	}
 # }
 ROUTES: Dict[str, Dict[str, Any]] = {
 	"/": {
 		"title": "A PyFyre App",
-		"icon": "/favicon.ico"
+		"icon": "/favicon.ico",
+		"head": ['<link rel="stylesheet" href="/style.css" />']
 	}
 }
 

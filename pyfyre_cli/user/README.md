@@ -13,7 +13,7 @@ pyfyre build
 ```
 
 ### Deployment
-All the files required to run your website are stored in the [public](public) directory so you can just serve or deploy the [public](public) directory to the web.
+Run `pyfyre build`. The build files are saved in the [build](build) directory so you can just serve or deploy that directory to the web.
 
 ### Links
 - [PyPI](https://pypi.org/project/pyfyre/)
