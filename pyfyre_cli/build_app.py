@@ -207,6 +207,8 @@ def add_cpython_packages(*, production: bool) -> None:
 
 
 def build_app(*, production: bool = False) -> None:
+	os.environ["PYTHONUTF8"] = "1"
+	
 	if production:
 		print("Building app...")
 	
