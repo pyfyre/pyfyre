@@ -138,9 +138,9 @@ def _cherry_pick_modules(*, production: bool) -> None:
 			if file == "index.py":
 				continue
 			
-			try:
+			if os.path.isfile(file):
 				os.remove(file)
-			except IsADirectoryError:
+			else:
 				shutil.rmtree(file)
 
 
