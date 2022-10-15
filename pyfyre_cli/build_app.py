@@ -15,8 +15,8 @@ import shutil
 import pathlib
 import importlib
 import subprocess
-from typing import Iterator, List
-from contextlib import contextmanager
+from typing import List
+from pyfyre_cli.utils import in_path
 try:
 	sys.path.append(os.getcwd())
 	import settings
@@ -47,33 +47,6 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 	<body onload="brython()"></body>
 </html>
 """
-
-
-@contextmanager
-def in_path(path: str) -> Iterator[str]:
-	original_path = os.getcwd()
-	
-	try:
-		abspath = os.path.abspath(path)
-		os.chdir(abspath)
-		yield abspath
-	finally:
-		os.chdir(original_path)
-
-
-def copy_public_folder(*, production: bool) -> None:
-	try:
-		if production:
-			shutil.copytree("public", "build")
-		else:
-			shutil.copytree("public", "_pyfyre")
-	except FileExistsError:
-		if production:
-			shutil.rmtree("build")
-		else:
-			shutil.rmtree("_pyfyre")
-		
-		copy_public_folder(production=production)
 
 
 def _generate_page_head(*, production: bool) -> List[str]:
@@ -114,24 +87,19 @@ def create_pages(*, production: bool) -> None:
 			file.write(html)
 
 
-def _cherry_pick_modules(*, production: bool) -> None:
+def _cherry_pick_modules() -> None:
 	shutil.copy(
 		os.path.join(os.path.dirname(__file__), "js", "brython_stdlib.js"),
 		"__temp__"
 	)
 	
 	with in_path("__temp__"):
-		if production:
-			copy_to = os.path.join("..", "build")
-		else:
-			copy_to = os.path.join("..", "_pyfyre")
-		
 		# This command will detect the only Python modules that are used
 		# in the project and will generate a cherry-picked standard libraries
 		# for the project to run instead of using bloated `brython_stdlib.js`
 		subprocess.run(["brython-cli", "make_modules"])
 		os.rename("brython_modules.js", "modules.brython.js")
-		shutil.copy("modules.brython.js", copy_to)
+		shutil.copy("modules.brython.js", os.path.join("..", "build"))
 		
 		# Remove all files and folders except `index.py` to avoid duplicate VFS
 		for file in os.listdir():
@@ -145,11 +113,7 @@ def _cherry_pick_modules(*, production: bool) -> None:
 
 
 def bundle_scripts(*, production: bool) -> None:
-	try:
-		shutil.copytree("src", "__temp__")
-	except FileExistsError:
-		shutil.rmtree("__temp__")
-		shutil.copytree("src", "__temp__")
+	shutil.copytree("src", "__temp__", dirs_exist_ok=True)
 	
 	with open("settings.py") as fn:
 		settings = fn.read()
@@ -169,16 +133,14 @@ def bundle_scripts(*, production: bool) -> None:
 			"--remove-duplicate-keys"
 		])
 		
-		_cherry_pick_modules(production=production)
+		_cherry_pick_modules()
 	
 	with in_path("__temp__"):
-		if production:
-			copy_to = os.path.join("..", "build")
-		else:
-			copy_to = os.path.join("..", "_pyfyre")
-		
 		subprocess.run(["brython-cli", "make_package", "src"])
-		shutil.copy("src.brython.js", copy_to)
+		shutil.copy(
+			"src.brython.js",
+			os.path.join("..", "build" if production else "_pyfyre")
+		)
 	
 	shutil.rmtree("__temp__")
 
@@ -195,13 +157,11 @@ def add_cpython_packages(*, production: bool) -> None:
 		return
 	
 	with in_path(packages_dir):
-		if production:
-			copy_to = os.path.join("..", "..", "build")
-		else:
-			copy_to = os.path.join("..", "..", "_pyfyre")
-		
 		subprocess.run(["brython-cli", "make_package", "cpython_packages"])
-		shutil.copy("cpython_packages.brython.js", copy_to)
+		shutil.copy(
+			"cpython_packages.brython.js",
+			os.path.join("..", "..", "build" if production else "_pyfyre")
+		)
 	
 	shutil.rmtree("Lib")
 
@@ -212,7 +172,13 @@ def build_app(*, production: bool = False) -> None:
 	if production:
 		print("Building app...")
 	
-	copy_public_folder(production=production)
+	# Mirror the public files of the user to the build files
+	shutil.copytree(
+		"public",
+		"build" if production else "_pyfyre",
+		dirs_exist_ok=True
+	)
+	
 	create_pages(production=production)
 	bundle_scripts(production=production)
 	add_cpython_packages(production=production)
