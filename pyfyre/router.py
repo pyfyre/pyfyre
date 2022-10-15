@@ -1,7 +1,8 @@
 from settings import ROUTES
-from browser import document, aio
 from typing import Dict, Callable, Optional
 from pyfyre.nodes import Node, Element, TextNode
+from browser import document, aio, window, DOMEvent
+from pyfyre.events import window_event_listener, WindowEventType
 
 
 class RouteManager:
@@ -10,7 +11,11 @@ class RouteManager:
 	root_node = document.select("body")
 	
 	@staticmethod
-	def set_routes(routes: Dict[str, Callable[[], Node]]) -> None:
+	def initialize(routes: Dict[str, Callable[[], Node]]) -> None:
+		@window_event_listener(WindowEventType.popstate)
+		def onpopstate(event: DOMEvent) -> None:
+			RouteManager.change_route(window.location.pathname)
+		
 		RouteManager._routes_builder = routes
 	
 	@staticmethod
