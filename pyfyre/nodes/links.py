@@ -47,4 +47,4 @@ class RouterLink(Anchor):
 			event.preventDefault()
 			RouteManager.change_route(href)
 		
-		self.add_event_listener(MouseEventType.Click, change_route)
+		self.add_event_listener(MouseEventType.click, change_route)

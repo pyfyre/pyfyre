@@ -13,4 +13,4 @@ class Button(Element):
 		attrs: Optional[Dict[str, str]] = None
 	) -> None:
 		super().__init__("button", children, attrs=attrs)
-		self.add_event_listener(MouseEventType.Click, onclick)
+		self.add_event_listener(MouseEventType.click, onclick)

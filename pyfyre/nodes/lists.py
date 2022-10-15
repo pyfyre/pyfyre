@@ -29,7 +29,7 @@ class ListBuilder(Element):
 			if el.scrollHeight - el.scrollTop - el.clientHeight < 1:
 				self.render_next_children()
 		
-		self.add_event_listener(EventType.Scroll, render_nodes)
+		self.add_event_listener(EventType.scroll, render_nodes)
 	
 	def render_next_children(self) -> None:
 		for _ in range(self.render_batch):
