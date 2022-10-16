@@ -2,8 +2,8 @@ import sys
 import pyfyre
 import traceback
 from typing import Type
+from browser import document
 from types import TracebackType
-from browser import document, aio
 from abc import ABC, abstractmethod
 from browser import DOMNode, DOMEvent
 from pyfyre.events import BaseEventType
@@ -109,15 +109,14 @@ class Element(Node):
 			)
 		]
 	
-	async def build_children(self) -> None:
+	def build_children(self) -> None:
 		self.children = self._secure_build()
 		
 		for child in self.children:
 			self.dom.appendChild(child.dom)
-			await aio.sleep(0)
 			
 			if isinstance(child, Element):
-				aio.run(child.build_children())
+				child.build_children()
 	
 	def create_dom(self) -> DOMNode:
 		el = document.createElement(self.tag_name)

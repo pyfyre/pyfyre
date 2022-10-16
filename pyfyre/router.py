@@ -1,7 +1,7 @@
 from settings import ROUTES
 from typing import Dict, Callable, Optional
 from pyfyre.nodes import Node, Element, TextNode
-from browser import document, aio, window, DOMEvent, DOMNode
+from browser import document, window, DOMEvent, DOMNode
 from pyfyre.events import window_event_listener, WindowEventType
 
 
@@ -43,7 +43,7 @@ class RouteManager:
 			RouteManager._routes[route] = node
 			
 			if isinstance(node, Element):
-				aio.run(node.build_children())
+				node.build_children()
 		
 		return node or Element("p", lambda: [TextNode("404: Page Not Found :(")])
 	

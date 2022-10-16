@@ -30,6 +30,14 @@ class ListBuilder(Element):
 				self.render_next_children()
 		
 		self.add_event_listener(EventType.scroll, render_nodes)
+		
+		async def build_initial_children() -> None:
+			if self.dom.scrollHeight == self.dom.clientHeight:
+				self.render_next_children()
+				await aio.sleep(self.render_interval)
+				await build_initial_children()
+		
+		aio.run(build_initial_children())
 	
 	def render_next_children(self) -> None:
 		for _ in range(self.render_batch):
@@ -42,9 +50,3 @@ class ListBuilder(Element):
 			self.index += 1
 		
 		self.update_dom()
-	
-	async def build_children(self) -> None:
-		if self.dom.scrollHeight == self.dom.clientHeight:
-			self.render_next_children()
-			await aio.sleep(self.render_interval)
-			await self.build_children()
