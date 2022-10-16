@@ -10,17 +10,20 @@
 """
 
 import os
-import sys
 import importlib
 from livereload import Server
-from pyfyre_cli.utils import in_path
-from pyfyre_cli.create_app import create_app
+from pyfyre_cli import utils
+from pyfyre_cli import create_app
 
 
 def _create_app() -> None:
-	create_app("__dev__", os.getcwd(), dev_mode=True)
+	# Reload modules for possible changes
+	importlib.reload(utils)
+	importlib.reload(create_app)
 	
-	with in_path("__dev__"):
+	create_app.create_app("__dev__", os.getcwd(), dev_mode=True)
+	
+	with utils.in_path("__dev__"):
 		from pyfyre_cli import build_app
 		importlib.reload(build_app)
 		build_app.build_app()
@@ -28,7 +31,6 @@ def _create_app() -> None:
 
 if __name__ == "__main__":
 	if os.path.dirname(__file__) == os.getcwd():
-		sys.path.append(os.path.join(os.getcwd(), "__dev__"))
 		_create_app()
 		
 		server = Server()
