@@ -1,4 +1,4 @@
-from pyfyre.events import MouseEventType
+from pyfyre.events import ElementEventType
 from pyfyre.nodes.base import Node, Element
 from browser import DOMEvent, window, document
 from typing import Optional, Dict, List, Callable
@@ -47,4 +47,4 @@ class RouterLink(Anchor):
 			event.preventDefault()
 			RouteManager.change_route(href)
 		
-		self.add_event_listener(MouseEventType.click, change_route)
+		self.add_event_listener(ElementEventType.click, change_route)

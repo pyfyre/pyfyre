@@ -7,13 +7,28 @@ class BaseEventType(Enum):
 	pass
 
 
-class EventType(BaseEventType):
+class PyFyreEventType(BaseEventType):
+	pyfyreload = "pyfyreload"
+
+
+class ElementEventType(BaseEventType):
 	"""https://developer.mozilla.org/en-US/docs/Web/API/Element#events"""
 	cancel = "cancel"
 	error = "error"
 	scroll = "scroll"
 	select = "select"
 	wheel = "wheel"
+	auxclick = "auxclick"
+	click = "click"
+	contextmenu = "contextmenu"
+	dblclick = "dblclick"
+	mousedown = "mousedown"
+	mouseenter = "mouseenter"
+	mouseleave = "mouseleave"
+	mousemove = "mousemove"
+	mouseout = "mouseout"
+	mouseover = "mouseover"
+	mouseup = "mouseup"
 
 
 class WindowEventType(BaseEventType):
@@ -64,21 +79,6 @@ class WindowEventType(BaseEventType):
 	vrdisplaydisconnect = "vrdisplaydisconnect"
 	vrdisplayfocus = "vrdisplayfocus"
 	vrdisplaypresentchange = "vrdisplaypresentchange"
-
-
-class MouseEventType(BaseEventType):
-	"""https://developer.mozilla.org/en-US/docs/Web/API/Element#mouse_events"""
-	auxclick = "auxclick"
-	click = "click"
-	contextmenu = "contextmenu"
-	dblclick = "dblclick"
-	mousedown = "mousedown"
-	mouseenter = "mouseenter"
-	mouseleave = "mouseleave"
-	mousemove = "mousemove"
-	mouseout = "mouseout"
-	mouseover = "mouseover"
-	mouseup = "mouseup"
 
 
 def window_event_listener(

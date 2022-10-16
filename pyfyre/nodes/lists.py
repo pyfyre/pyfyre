@@ -1,6 +1,6 @@
 from browser import DOMEvent, aio
-from pyfyre.events import EventType
 from pyfyre.nodes import Node, Element
+from pyfyre.events import ElementEventType
 from typing import Optional, Dict, List, Callable
 
 
@@ -29,7 +29,7 @@ class ListBuilder(Element):
 			if el.scrollHeight - el.scrollTop - el.clientHeight < 1:
 				self.render_next_children()
 		
-		self.add_event_listener(EventType.scroll, render_nodes)
+		self.add_event_listener(ElementEventType.scroll, render_nodes)
 		
 		async def build_initial_children() -> None:
 			if self.dom.scrollHeight == self.dom.clientHeight:
