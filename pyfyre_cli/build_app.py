@@ -116,10 +116,10 @@ def bundle_scripts(*, production: bool) -> None:
 	shutil.copytree("src", "__temp__", dirs_exist_ok=True)
 	
 	with open("settings.py") as fn:
-		settings = fn.read()
+		settings_ = fn.read()
 		
 		with open(os.path.join("__temp__", "settings.py"), "w") as file:
-			file.write(settings)
+			file.write(settings_)
 	
 	if production:
 		subprocess.run([

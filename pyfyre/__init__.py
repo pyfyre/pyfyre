@@ -21,8 +21,7 @@ def render(root_selector: str, routes: Dict[str, Callable[[], Node]]) -> None:
 	
 	nodes = document.select(root_selector)
 	if nodes:
-		RouteManager.initialize(routes)
-		RouteManager.root_node = nodes[0]
+		RouteManager.initialize(nodes[0], routes)
 		RouteManager.render_route(window.location.pathname)
 	else:
 		raise NodeNotFound(root_selector)

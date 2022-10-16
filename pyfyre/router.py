@@ -1,22 +1,25 @@
 from settings import ROUTES
 from typing import Dict, Callable, Optional
 from pyfyre.nodes import Node, Element, TextNode
-from browser import document, aio, window, DOMEvent
+from browser import document, aio, window, DOMEvent, DOMNode
 from pyfyre.events import window_event_listener, WindowEventType
 
 
 class RouteManager:
 	_routes_builder: Dict[str, Callable[[], Node]] = {}
 	_routes: Dict[str, Optional[Node]] = {}
-	root_node = document.select("body")
+	_root_node = document.select("body")
 	
 	@staticmethod
-	def initialize(routes: Dict[str, Callable[[], Node]]) -> None:
+	def initialize(
+		root_node: DOMNode, routes: Dict[str, Callable[[], Node]]
+	) -> None:
+		RouteManager._root_node = root_node
+		RouteManager._routes_builder = routes
+		
 		@window_event_listener(WindowEventType.popstate)
 		def onpopstate(event: DOMEvent) -> None:
 			RouteManager.change_route(window.location.pathname)
-		
-		RouteManager._routes_builder = routes
 	
 	@staticmethod
 	def parse_route(route: str) -> str:
@@ -47,7 +50,7 @@ class RouteManager:
 	@staticmethod
 	def render_route(route: str) -> None:
 		node = RouteManager.get_node(route)
-		RouteManager.root_node.appendChild(node.dom)
+		RouteManager._root_node.appendChild(node.dom)
 	
 	@staticmethod
 	def change_route(route: str) -> None:
@@ -57,5 +60,5 @@ class RouteManager:
 		}
 		
 		document.title = route_data.get("title")
-		RouteManager.root_node.innerHTML = ""
+		RouteManager._root_node.innerHTML = ""
 		RouteManager.render_route(route)
