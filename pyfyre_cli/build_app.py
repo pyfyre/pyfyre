@@ -89,7 +89,7 @@ def create_pages(*, production: bool) -> None:
 
 def _cherry_pick_modules() -> None:
 	shutil.copy(
-		os.path.join(os.path.dirname(__file__), "js", "brython_stdlib.js"),
+		os.path.join(os.path.dirname(__file__), "copybin", "brython_stdlib.js"),
 		"__temp__"
 	)
 	
