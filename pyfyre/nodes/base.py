@@ -21,6 +21,10 @@ class Node(ABC):
 	@abstractmethod
 	def update_dom(self) -> None:
 		raise NotImplementedError
+	
+	@abstractmethod
+	def html(self) -> str:
+		raise NotImplementedError
 
 
 class Element(Node):
@@ -136,6 +140,14 @@ class Element(Node):
 		for child in self.children:
 			child.update_dom()
 	
+	def html(self) -> str:
+		result = f"<{self.tag_name}>"
+		
+		for child in self.children:
+			result += child.html()
+		
+		return result + f"</{self.tag_name}>"
+	
 	def add_event_listener(
 		self, event_type: BaseEventType, callback: Callable[[DOMEvent], None]
 	) -> None:
@@ -159,3 +171,6 @@ class TextNode(Node):
 	
 	def update_dom(self) -> None:
 		self.dom.nodeValue = self.value
+	
+	def html(self) -> str:
+		return self.value

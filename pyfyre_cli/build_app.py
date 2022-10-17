@@ -44,7 +44,7 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		
 		{head}
 	</head>
-	<body onload="brython()"></body>
+	<body onload="brython()">{body}</body>
 </html>
 """
 
@@ -66,6 +66,29 @@ def _generate_page_head(*, production: bool) -> List[str]:
 	return head
 
 
+def _generate_page_body(route_name: str) -> str:
+	shutil.copytree("src", "__temp__", dirs_exist_ok=True)
+	shutil.copy("settings.py", "__temp__")
+	shutil.copy(
+		os.path.join(os.path.dirname(__file__), "copybin", "browser.py"),
+		"__temp__"
+	)
+	
+	with in_path("__temp__", append_to_sys_path=True):
+		import index
+		from pyfyre.nodes import Element
+		from pyfyre.router import RouteManager
+		
+		node = RouteManager._routes_builder[route_name]()
+		if isinstance(node, Element):
+			node.build_children()
+		
+		html = node.html()
+	
+	shutil.rmtree("__temp__")
+	return html
+
+
 def create_pages(*, production: bool) -> None:
 	importlib.reload(settings)
 	
@@ -82,7 +105,8 @@ def create_pages(*, production: bool) -> None:
 				prod_env=production,
 				title=data.get("title", "A PyFyre App"),
 				icon=data.get("icon", ""),
-				head="\n\t\t".join(head + data.get("head", []))
+				head="\n\t\t".join(head + data.get("head", [])),
+				body=_generate_page_body(route) if production else ""
 			)
 			file.write(html)
 
@@ -114,12 +138,7 @@ def _cherry_pick_modules() -> None:
 
 def bundle_scripts(*, production: bool) -> None:
 	shutil.copytree("src", "__temp__", dirs_exist_ok=True)
-	
-	with open("settings.py") as fn:
-		settings_ = fn.read()
-		
-		with open(os.path.join("__temp__", "settings.py"), "w") as file:
-			file.write(settings_)
+	shutil.copy("settings.py", "__temp__")
 	
 	if production:
 		subprocess.run([
