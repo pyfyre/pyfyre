@@ -76,14 +76,8 @@ def _generate_page_body(route_name: str) -> str:
 	
 	with in_path("__temp__", append_to_sys_path=True):
 		import index
-		from pyfyre.nodes import Element
 		from pyfyre.router import RouteManager
-		
-		node = RouteManager._routes_builder[route_name]()
-		if isinstance(node, Element):
-			node.build_children()
-		
-		html = node.html()
+		html = RouteManager.get_node(route_name).html()
 	
 	shutil.rmtree("__temp__")
 	return html

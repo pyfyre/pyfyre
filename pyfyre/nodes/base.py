@@ -141,7 +141,14 @@ class Element(Node):
 			child.update_dom()
 	
 	def html(self) -> str:
-		result = f"<{self.tag_name}>"
+		def attributes() -> str:
+			attrs = [
+				f'{name}="{value}"'
+				for name, value in self.attrs.items()
+			]
+			return " " + " ".join(attrs) if attrs else ""
+		
+		result = f"<{self.tag_name}{attributes()}>"
 		
 		for child in self.children:
 			result += child.html()
