@@ -12,6 +12,7 @@ class ListBuilder(Element):
 		render_interval: float = 0,
 		attrs: Optional[Dict[str, str]] = None
 	) -> None:
+		self.attrs = attrs or {}
 		self.children_builder = children_builder
 		self.render_batch = render_batch
 		self.render_interval = render_interval
@@ -19,16 +20,23 @@ class ListBuilder(Element):
 		self.index = 0
 		self.rendered_children: List[Node] = []
 		
-		super().__init__("div", lambda: self.rendered_children, attrs=attrs)
-		self.dom.style.overflowY = "scroll"
-		self.dom.style.overflowWrap = "break-word"
-		self.dom.style.maxHeight = max_height
+		if "style" in self.attrs:
+			self.attrs["style"] += "; overflow-y: scroll; " +\
+				f"overflow-wrap: break-word; max-height: {max_height};"
+		else:
+			self.attrs["style"] = "overflow-y: scroll; " +\
+				f"overflow-wrap: break-word; max-height: {max_height};"
+		
+		super().__init__("div", lambda: self.rendered_children, attrs=self.attrs)
 		
 		def render_nodes(event: DOMEvent) -> None:
 			el = event.target
 			if el.scrollHeight - el.scrollTop - el.clientHeight < 1:
+				prev_index = self.index
 				self.render_next_children()
-				render_nodes(event)
+				
+				if self.index > prev_index:
+					render_nodes(event)
 		
 		self.add_event_listener(ElementEventType.scroll, render_nodes)
 	
@@ -37,7 +45,7 @@ class ListBuilder(Element):
 			child = self.children_builder(self.index)
 			
 			if child is None:
-				continue
+				break
 			
 			self.rendered_children.append(child)
 			self.index += 1
