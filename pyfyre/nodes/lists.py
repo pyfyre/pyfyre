@@ -28,25 +28,27 @@ class ListBuilder(Element):
 			el = event.target
 			if el.scrollHeight - el.scrollTop - el.clientHeight < 1:
 				self.render_next_children()
+				render_nodes(event)
 		
 		self.add_event_listener(ElementEventType.scroll, render_nodes)
-		
-		async def build_initial_children() -> None:
-			if self.dom.scrollHeight == self.dom.clientHeight:
-				self.render_next_children()
-				await aio.sleep(self.render_interval)
-				await build_initial_children()
-		
-		aio.run(build_initial_children())
 	
 	def render_next_children(self) -> None:
 		for _ in range(self.render_batch):
 			child = self.children_builder(self.index)
 			
 			if child is None:
-				break
+				continue
 			
 			self.rendered_children.append(child)
 			self.index += 1
 		
 		self.update_dom()
+	
+	def build_children(self) -> None:
+		async def async_wrapper() -> None:
+			while self.dom.scrollHeight == self.dom.clientHeight:
+				self.render_next_children()
+				await aio.sleep(self.render_interval)
+		
+		super().build_children()
+		aio.run(async_wrapper())
