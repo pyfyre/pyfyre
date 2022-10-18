@@ -33,8 +33,10 @@ class RouteManager:
 		return str(el.pathname).rstrip("/")
 	
 	@staticmethod
-	def get_node(route: str) -> Node:
-		route = RouteManager.parse_route(route)
+	def get_node(route: str, *, parse_route: bool = True) -> Node:
+		if parse_route:
+			route = RouteManager.parse_route(route)
+		
 		node = RouteManager._routes.get(route)
 		
 		if node is None:
@@ -50,6 +52,7 @@ class RouteManager:
 	@staticmethod
 	def render_route(route: str) -> None:
 		node = RouteManager.get_node(route)
+		RouteManager._root_node.innerHTML = ""
 		RouteManager._root_node.appendChild(node.dom)
 	
 	@staticmethod
@@ -60,5 +63,4 @@ class RouteManager:
 		}
 		
 		document.title = route_data.get("title")
-		RouteManager._root_node.innerHTML = ""
 		RouteManager.render_route(route)

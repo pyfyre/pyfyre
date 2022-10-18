@@ -75,9 +75,20 @@ def _generate_page_body(route_name: str) -> str:
 	)
 	
 	with in_path("__temp__", append_to_sys_path=True):
+		import pyfyre
+		pyfyre.PRODUCTION = True
+		
 		import index
 		from pyfyre.router import RouteManager
-		html = RouteManager.get_node(route_name).html()
+		
+		# Set [parse_route] to `False` because the [get_node] method
+		# uses a Brython function which will not work
+		# if [parse_route] is `True` in this context because
+		# we are running the app using Python and not Brython.
+		# Brython functions like [createElement] will not work in this context
+		# that's why we would not want to parse the route which uses
+		# a Brython function (document.createElement).
+		html = RouteManager.get_node(route_name, parse_route=False).html()
 	
 	shutil.rmtree("__temp__")
 	return html
