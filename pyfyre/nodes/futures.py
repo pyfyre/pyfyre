@@ -7,10 +7,12 @@ from pyfyre.exceptions import (
 
 
 class FutureElement(Element):
+	"""Error handling is not currently supported."""
+	
 	def __init__(
 		self,
 		tag_name: str,
-		children: Awaitable[List[Node]],
+		children: Callable[[], Awaitable[List[Node]]],
 		*,
 		attrs: Optional[Dict[str, str]] = None,
 	) -> None:
@@ -21,11 +23,16 @@ class FutureElement(Element):
 		self._done_callbacks: List[Callable[["FutureElement"], None]] = []
 		super().__init__(tag_name, lambda: self._process_result(), attrs=attrs)
 		
-		async def build_children(children: Awaitable[List[Node]]) -> None:
-			res = await children
-			successful = self.set_result(res, ignore_done=True)
+		async def build_children(
+			children: Callable[[], Awaitable[List[Node]]]
+		) -> None:
+			res = await children()
 			
-			if successful:
+			# Set [ignore_done] to `True` to not have an error when this
+			# future is already done before it sets the result.
+			is_successful = self.set_result(res, ignore_done=True)
+			
+			if is_successful:
 				self.update_dom()
 		
 		aio.run(build_children(children))
@@ -75,12 +82,18 @@ class FutureElement(Element):
 		self._mark_as_done()
 		return True
 	
-	def set_exception(self, exception: BaseException) -> None:
+	def set_exception(
+		self, exception: BaseException, *, ignore_done: bool = False
+	) -> bool:
 		if self.is_done():
+			if ignore_done:
+				return False
+			
 			raise FutureAlreadyDone()
 		
 		self._exception = exception
 		self._mark_as_done()
+		return True
 	
 	def is_done(self) -> bool:
 		return self.is_cancelled() or self._is_done
