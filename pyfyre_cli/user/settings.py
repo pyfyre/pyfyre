@@ -43,4 +43,4 @@ ROUTES: Dict[str, Dict[str, Any]] = {
 # 	"random_string",
 # 	"url64"
 # ]
-DEPENDENCIES: List[str] = []
+PYTHON_DEPENDENCIES: List[str] = []

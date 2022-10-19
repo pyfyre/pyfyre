@@ -13,5 +13,4 @@ class EmptyObject:
 
 
 ROUTES = EmptyObject()
-DEPENDENCIES = EmptyObject()
 PYTHON_DEPENDENCIES = EmptyObject()

@@ -61,7 +61,7 @@ def _generate_page_head(*, production: bool) -> List[str]:
 			'3.10.7/brython_stdlib.min.js"></script>'
 		)
 	
-	if settings.DEPENDENCIES:
+	if settings.PYTHON_DEPENDENCIES:
 		head.append('<script src="/cpython_packages.brython.js"></script>')
 	
 	return head
@@ -176,7 +176,7 @@ def bundle_scripts(*, production: bool) -> None:
 def add_cpython_packages(*, production: bool) -> None:
 	importlib.reload(settings)
 	
-	for package_name in settings.DEPENDENCIES:
+	for package_name in settings.PYTHON_DEPENDENCIES:
 		subprocess.run(["brython-cli", "add_package", package_name])
 	
 	packages_dir = os.path.join("Lib", "site-packages")
