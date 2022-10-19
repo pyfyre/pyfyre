@@ -181,3 +181,7 @@ class TextNode(Node):
 	
 	def html(self) -> str:
 		return self.value
+
+
+E = Element
+Text = TextNode

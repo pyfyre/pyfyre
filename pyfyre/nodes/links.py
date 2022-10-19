@@ -4,7 +4,7 @@ from browser import DOMEvent, window, document
 from typing import Optional, Dict, List, Callable
 
 
-class Anchor(Element):
+class Link(Element):
 	def __init__(
 		self,
 		href: str,
@@ -29,7 +29,7 @@ class Anchor(Element):
 		return bool(el.host == window.location.host)
 
 
-class RouterLink(Anchor):
+class RouterLink(Link):
 	def __init__(
 		self,
 		href: str,

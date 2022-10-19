@@ -33,7 +33,7 @@ from pyfyre.nodes import *
 
 class HelloWorld(Element):
 	def __init__(self) -> None:
-		super().__init__("p", lambda: [TextNode("Hello, World!")])
+		super().__init__("p", lambda: [Text("Hello, World!")])
 
 
 render("body", {"/": lambda: HelloWorld()})

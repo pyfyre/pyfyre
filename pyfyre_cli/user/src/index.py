@@ -5,16 +5,16 @@ from pyfyre.nodes import *
 class App(Element):
 	def __init__(self) -> None:
 		super().__init__("main", lambda: [
-			Element("h1", lambda: [TextNode("Welcome to PyFyre 🐍🔥")]),
+			Element("h1", lambda: [Text("Welcome to PyFyre 🐍🔥")]),
 			Element("p", lambda: [
-				TextNode("Learn PyFyre by reading the "),
-				Anchor(
+				Text("Learn PyFyre by reading the "),
+				Link(
 					"https://pyfyre.netlify.app/",
-					lambda: [TextNode("documentation")]
+					lambda: [Text("documentation")]
 				),
-				TextNode(". It is also advisable to learn "),
-				Anchor("https://www.brython.info/", lambda: [TextNode("Brython")]),
-				TextNode(" alongside PyFyre as it is built on top of Brython.")
+				Text(". It is also advisable to learn "),
+				Link("https://www.brython.info/", lambda: [Text("Brython")]),
+				Text(" alongside PyFyre as it is built on top of Brython.")
 			])
 		])
 
