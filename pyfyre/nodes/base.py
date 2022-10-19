@@ -12,11 +12,7 @@ from typing import Any, Dict, List, Optional, Callable
 
 class Node(ABC):
 	def __init__(self) -> None:
-		self.dom = self.create_dom()
-	
-	@abstractmethod
-	def create_dom(self) -> DOMNode:
-		raise NotImplementedError
+		self.dom = self.vdom()
 	
 	@abstractmethod
 	def update_dom(self) -> None:
@@ -39,7 +35,41 @@ class Element(Node):
 		self.children: List[Node] = []
 		self.attrs = attrs or {}
 		self._children_builder = children
+
 		super().__init__()
+
+	def vdom(self):
+
+		children = self.patch()
+		
+		return {
+			"tagName": self.tag_name,
+			"children": children,
+			"props": self.attrs
+		}
+
+	def patch(self) -> List[Node]:
+
+		self.children = self._secure_build()
+
+		oldProps = self.attrs
+		
+		for k, v in oldProps.items():
+			self.attrs[k] = v
+
+		if isinstance(self.children, str):
+			return self.children
+
+		if isinstance(self.children, list):
+
+			children = []
+
+			for child in self.children:
+				children.append(child.vdom())
+
+			return children
+
+		return str(self.children)
 	
 	def _secure_build(self) -> List[Node]:
 		if self._children_builder is None:
@@ -113,23 +143,6 @@ class Element(Node):
 			)
 		]
 	
-	def build_children(self) -> None:
-		self.children = self._secure_build()
-		
-		for child in self.children:
-			self.dom.appendChild(child.dom)
-			
-			if isinstance(child, Element):
-				child.build_children()
-	
-	def create_dom(self) -> DOMNode:
-		el = document.createElement(self.tag_name)
-		
-		for attr_name, attr_value in self.attrs.items():
-			el.setAttribute(attr_name, attr_value)
-		
-		return el
-	
 	def update_dom(self) -> None:
 		for attr_name, attr_value in self.attrs.items():
 			self.dom.setAttribute(attr_name, attr_value)
@@ -175,6 +188,9 @@ class TextNode(Node):
 	
 	def create_dom(self) -> DOMNode:
 		return document.createTextNode(self.value)
+
+	def vdom(self):
+		return self.value
 	
 	def update_dom(self) -> None:
 		self.dom.nodeValue = self.value

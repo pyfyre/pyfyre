@@ -1,3 +1,4 @@
+from pyfyre.runtime_dom.render import Render
 from settings import ROUTES
 from typing import Dict, Callable, Optional
 from pyfyre.nodes import Node, Element, TextNode
@@ -43,17 +44,15 @@ class RouteManager:
 			route_builder = RouteManager._routes_builder.get(route)
 			node = route_builder() if route_builder else None
 			RouteManager._routes[route] = node
-			
-			if isinstance(node, Element):
-				node.build_children()
-		
+					
 		return node or Element("p", lambda: [TextNode("404: Page Not Found :(")])
 	
 	@staticmethod
 	def render_route(route: str) -> None:
 		node = RouteManager.get_node(route)
+		_app = Render.render(node.vdom())
 		RouteManager._root_node.innerHTML = ""
-		RouteManager._root_node.appendChild(node.dom)
+		RouteManager._root_node.appendChild(_app)
 	
 	@staticmethod
 	def change_route(route: str) -> None:
