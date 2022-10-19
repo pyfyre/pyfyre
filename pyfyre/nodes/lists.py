@@ -1,3 +1,4 @@
+import sys
 from browser import DOMEvent, aio
 from pyfyre.nodes import Node, Element
 from pyfyre.events import ElementEventType
@@ -42,7 +43,11 @@ class ListBuilder(Element):
 	
 	def render_next_children(self) -> None:
 		for _ in range(self.render_batch):
-			child = self.children_builder(self.index)
+			try:
+				child = self.children_builder(self.index)
+			except BaseException:
+				error_children = self.on_build_error(*sys.exc_info())
+				child = Element("div", lambda: error_children)
 			
 			if child is None:
 				break
