@@ -3,16 +3,6 @@ import shutil
 from pyfyre_cli.utils import in_path, empty_directory
 
 
-def _copy_project_template(project_path: str) -> None:
-	cli_path = os.path.dirname(__file__)
-	
-	with in_path(cli_path) as path:
-		shutil.copytree(os.path.join(path, "user"), project_path, dirs_exist_ok=True)
-	
-	with in_path(os.path.join(cli_path, "..")):
-		shutil.copytree("pyfyre", os.path.join(project_path, "src", "pyfyre"))
-
-
 def create_app(app_name: str, app_dir: str, *, dev_mode: bool = False) -> None:
 	if not dev_mode:
 		print(f"Creating your PyFyre project '{app_name}'...")
@@ -31,7 +21,8 @@ def create_app(app_name: str, app_dir: str, *, dev_mode: bool = False) -> None:
 			print("Aborting...")
 			return
 	
-	_copy_project_template(project_path)
+	with in_path(os.path.dirname(__file__)) as path:
+		shutil.copytree(os.path.join(path, "user"), project_path, dirs_exist_ok=True)
 	
 	if not dev_mode:
 		print("Project created successfully.")
