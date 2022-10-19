@@ -1,5 +1,4 @@
 import os
-import shutil
 from typing import List
 from setuptools import setup
 
@@ -20,15 +19,6 @@ def get_package_files(directory: str) -> List[str]:
 
 
 packages = ["pyfyre", "pyfyre_cli"]
-py_modules = ["browser", "settings"]
-
-for module in py_modules:
-	shutil.copy(
-		os.path.join(
-			os.path.dirname(__file__), "pyfyre_cli", "copybin", f"{module}.py"
-		),
-		os.path.join(os.path.dirname(__file__))
-	)
 
 setup(
 	name="pyfyre",
@@ -45,7 +35,6 @@ setup(
 	package_data={
 		"": sum([get_package_files(directory) for directory in packages], [])
 	},
-	py_modules=py_modules,
 	license="MIT",
 	project_urls={
 		"Source": "https://github.com/pyfyre/pyfyre",
@@ -57,6 +46,3 @@ setup(
 	},
 	install_requires=[i.strip() for i in open("requirements.txt").readlines()]
 )
-
-for module in py_modules:
-	os.remove(os.path.join(os.path.dirname(__file__), f"{module}.py"))
