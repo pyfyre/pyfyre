@@ -31,12 +31,18 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		<title>{title}</title>
 		
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, user-scalable=yes"
+		/>
 		
 		<link rel="icon" href="{icon}" />
 		
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython.min.js"></script>
-		<script src="/src.brython.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython.min.js"
+			defer="defer"
+		></script>
+		<script src="/src.brython.js" defer="defer"></script>
 		<script type="text/python">
 			import pyfyre
 			pyfyre.PRODUCTION = {prod_env}
@@ -54,15 +60,17 @@ def _generate_page_head(*, production: bool) -> List[str]:
 	head: List[str] = []
 	
 	if production:
-		head.append('<script src="/modules.brython.js"></script>')
+		head.append('<script src="/modules.brython.js" defer="defer"></script>')
 	else:
 		head.append(
 			'<script src="https://cdnjs.cloudflare.com/ajax/libs/brython/'
-			'3.10.7/brython_stdlib.min.js"></script>'
+			'3.10.7/brython_stdlib.min.js" defer="defer"></script>'
 		)
 	
 	if settings.PYTHON_DEPENDENCIES:
-		head.append('<script src="/cpython_packages.brython.js"></script>')
+		head.append(
+			'<script src="/cpython_packages.brython.js" defer="defer"></script>'
+		)
 	
 	return head
 
