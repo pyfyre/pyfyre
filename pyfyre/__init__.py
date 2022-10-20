@@ -18,7 +18,7 @@ def _set_custom_window_events() -> Dict[str, DOMEvent]:
 	events = {}
 	
 	for pyfyre_event in PyFyreEventType:
-		event = document.createEvent("Event")
+		event = window.Event.new("Event")
 		event.initEvent(pyfyre_event.value, True, True)
 		events[pyfyre_event.value] = event
 	
@@ -32,10 +32,10 @@ def render(root_selector: str, routes: Dict[str, Callable[[], Node]]) -> None:
 	_rendered = True
 	
 	custom_events = _set_custom_window_events()
+	node = document.select_one(root_selector)
 	
-	nodes = document.select(root_selector)
-	if nodes:
-		RouteManager.initialize(nodes[0], routes)
+	if node is not None:
+		RouteManager.initialize(node, routes)
 		RouteManager.render_route(window.location.pathname)
 		window.dispatchEvent(custom_events["pyfyreload"])
 	else:

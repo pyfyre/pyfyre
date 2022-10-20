@@ -117,7 +117,7 @@ class Element(Node):
 		self.children = self._secure_build()
 		
 		for child in self.children:
-			self.dom.appendChild(child.dom)
+			self.dom.attach(child.dom)
 			
 			if isinstance(child, Element):
 				child.build_children()

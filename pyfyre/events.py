@@ -82,7 +82,7 @@ class WindowEventType(BaseEventType):
 
 
 def window_event_listener(
-	event_type: WindowEventType
+	event_type: BaseEventType
 ) -> Callable[[Callable[[DOMEvent], None]], Callable[[DOMEvent], None]]:
 	def window_event_listener_decorator(
 		callback: Callable[[DOMEvent], None]

@@ -8,7 +8,7 @@ from pyfyre.events import window_event_listener, WindowEventType
 class RouteManager:
 	_routes_builder: Dict[str, Callable[[], Node]] = {}
 	_routes: Dict[str, Optional[Node]] = {}
-	_root_node = document.select("body")
+	_root_node = document.select_one("body")
 	
 	@staticmethod
 	def initialize(
@@ -52,8 +52,8 @@ class RouteManager:
 	@staticmethod
 	def render_route(route: str) -> None:
 		node = RouteManager.get_node(route)
-		RouteManager._root_node.innerHTML = ""
-		RouteManager._root_node.appendChild(node.dom)
+		RouteManager._root_node.clear()
+		RouteManager._root_node.attach(node.dom)
 	
 	@staticmethod
 	def change_route(route: str) -> None:
