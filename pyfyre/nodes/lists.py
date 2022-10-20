@@ -45,8 +45,10 @@ class ListBuilder(Element):
 		self.add_event_listener("scroll", render_nodes)
 	
 	def render_next_children(self) -> None:
+		prev_index = self.index
+		
 		for _ in range(self.render_batch):
-			if self.count:
+			if self.count is not None:
 				if self.index >= self.count:
 					break
 			
@@ -62,7 +64,8 @@ class ListBuilder(Element):
 			self.rendered_children.append(child)
 			self.index += 1
 		
-		self.update_dom()
+		if self.index > prev_index:
+			self.update_dom()
 	
 	def build_children(self) -> None:
 		async def async_wrapper() -> None:
