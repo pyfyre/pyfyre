@@ -1,4 +1,5 @@
 import sys
+from pyfyre.styles import Style
 from browser import DOMEvent, aio
 from pyfyre.nodes import Node, Element
 from pyfyre.events import ElementEventType
@@ -11,6 +12,7 @@ class ListBuilder(Element):
 		max_height: str = "300px",
 		render_batch: int = 10,
 		render_interval: float = 0,
+		styles: Optional[List[Style]] = None,
 		attrs: Optional[Dict[str, str]] = None
 	) -> None:
 		self.attrs = attrs or {}
@@ -28,7 +30,9 @@ class ListBuilder(Element):
 			self.attrs["style"] = "overflow-y: scroll; " +\
 				f"overflow-wrap: break-word; max-height: {max_height};"
 		
-		super().__init__("div", lambda: self.rendered_children, attrs=self.attrs)
+		super().__init__(
+			"div", lambda: self.rendered_children, styles=styles, attrs=self.attrs
+		)
 		
 		def render_nodes(event: DOMEvent) -> None:
 			el = event.target

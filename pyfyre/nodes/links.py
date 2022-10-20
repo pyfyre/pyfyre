@@ -1,3 +1,4 @@
+from pyfyre.styles import Style
 from pyfyre.events import ElementEventType
 from pyfyre.nodes.base import Node, Element
 from browser import DOMEvent, window, document
@@ -10,12 +11,13 @@ class Link(Element):
 		href: str,
 		children: Optional[Callable[[], List[Node]]] = None,
 		*,
+		styles: Optional[List[Style]] = None,
 		attrs: Optional[Dict[str, str]] = None
 	) -> None:
 		self.href = href
 		attrs = attrs or {}
 		attrs["href"] = href
-		super().__init__("a", children, attrs=attrs)
+		super().__init__("a", children, styles=styles, attrs=attrs)
 	
 	@property
 	def absolute_href(self) -> str:
@@ -35,9 +37,10 @@ class RouterLink(Link):
 		href: str,
 		children: Optional[Callable[[], List[Node]]] = None,
 		*,
+		styles: Optional[List[Style]] = None,
 		attrs: Optional[Dict[str, str]] = None
 	) -> None:
-		super().__init__(href, children, attrs=attrs)
+		super().__init__(href, children, styles=styles, attrs=attrs)
 		
 		def change_route(event: DOMEvent) -> None:
 			# Import here due to cicular import problem

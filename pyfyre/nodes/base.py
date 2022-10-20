@@ -4,6 +4,7 @@ import traceback
 from typing import Type
 from browser import document
 from types import TracebackType
+from pyfyre.styles import Style
 from abc import ABC, abstractmethod
 from browser import DOMNode, DOMEvent
 from pyfyre.events import BaseEventType
@@ -33,12 +34,21 @@ class Element(Node):
 		tag_name: str,
 		children: Optional[Callable[[], List[Node]]] = None,
 		*,
+		styles: Optional[List[Style]] = None,
 		attrs: Optional[Dict[str, str]] = None
 	) -> None:
 		self.tag_name = tag_name
 		self.children: List[Node] = []
+		self.style = Style.from_styles(styles) if styles else None
 		self.attrs = attrs or {}
 		self._children_builder = children
+		
+		if self.style is not None:
+			if "style" in self.attrs:
+				self.attrs["style"] += f"; {self.style.css()}"
+			else:
+				self.attrs["style"] = self.style.css()
+		
 		super().__init__()
 	
 	def _secure_build(self) -> List[Node]:
