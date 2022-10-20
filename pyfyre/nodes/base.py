@@ -43,11 +43,21 @@ class Element(Node):
 		self.attrs = attrs or {}
 		self._children_builder = children
 		
+		def update_style_attr() -> None:
+			self.attrs = attrs or {}
+			
+			if self.style is not None:
+				if "style" in self.attrs:
+					self.attrs["style"] += f"; {self.style.css()}"
+				else:
+					self.attrs["style"] = self.style.css()
+			
+			if getattr(self, "dom", None) is not None:
+				self.update_attrs()
+		
 		if self.style is not None:
-			if "style" in self.attrs:
-				self.attrs["style"] += f"; {self.style.css()}"
-			else:
-				self.attrs["style"] = self.style.css()
+			self.style.add_listener(update_style_attr)
+			update_style_attr()
 		
 		super().__init__()
 	
@@ -139,14 +149,16 @@ class Element(Node):
 		return el
 	
 	def update_dom(self) -> None:
-		for attr_name, attr_value in self.attrs.items():
-			self.dom.setAttribute(attr_name, attr_value)
-		
+		self.update_attrs()
 		self.children = self._secure_build()
 		self.dom.replaceChildren(*[c.dom for c in self.children])
 		
 		for child in self.children:
 			child.update_dom()
+	
+	def update_attrs(self) -> None:
+		for attr_name, attr_value in self.attrs.items():
+			self.dom.setAttribute(attr_name, attr_value)
 	
 	def html(self) -> str:
 		def attributes() -> str:
