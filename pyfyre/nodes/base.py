@@ -75,61 +75,15 @@ class Element(Node):
 		exc_value: BaseException, exc_traceback: TracebackType
 	) -> List[Node]:
 		if pyfyre.PRODUCTION:
-			return [
-				Element(
-					"div",
-					lambda: [
-						Element(
-							"p",
-							lambda: [TextNode("An error occurred while loading this element")],
-							styles=[Style(
-								color="black", font_size="1rem", margin="0", font_weight="bold"
-							)]
-						)
-					],
-					styles=[Style(
-						padding="15px", background_color="white", box_shadow="0 0 10px #888888",
-						border_top="5px solid #ff726f", border_radius="5px", font_family="Arial",
-						display="inline-block"
-					)]
-				)
-			]
+			from pyfyre.presets.errors import ErrorMessage
+			return [ErrorMessage("An error occurred while loading this element")]
 		
-		tr = traceback.format_exc()
-		return [
-			Element(
-				"div",
-				lambda: [
-					Element("p", lambda: [TextNode("Unhandled Runtime Error")], styles=[Style(
-						color="black", font_size="1.5rem", font_weight="bold",
-						margin_top="0", margin_bottom="7px"
-					)]),
-					Element(
-						"span", lambda: [TextNode(f"{exc_type.__name__}: {exc_value}")],
-						styles=[Style(
-							color="#ff3131", font_weight="bold",
-							font_family="monospace", font_size="0.91rem"
-						)]
-					),
-					Element("p", lambda: [TextNode("Traceback")], styles=[Style(
-						color="black", font_size="1.3rem", font_weight="bold",
-						margin_bottom="7px"
-					)]),
-					Element(
-						"p",
-						lambda: [Element("pre", lambda: [TextNode(tr)])],
-						styles=[Style(
-							background_color="black", color="white", padding="1px 15px"
-						)]
-					)
-				],
-				styles=[Style(
-					padding="15px", background_color="white", box_shadow="0 0 10px #888888",
-					border_top="5px solid #ff726f", border_radius="5px", font_family="Arial",
-					display="inline-block"
-				)]
-			)
-		]
+		from pyfyre.presets.errors import DebugError
+		return [DebugError(
+			exc_type=exc_type,
+			exc_value=exc_value,
+			exc_traceback=traceback.format_exc()
+		)]
 	
 	def build_children(self) -> None:
 		self.children = self._secure_build()

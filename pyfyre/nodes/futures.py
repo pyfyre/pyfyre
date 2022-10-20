@@ -48,11 +48,8 @@ class FutureElement(Element):
 			return self.while_no_result()
 	
 	def while_no_result(self) -> List[Node]:
-		return [Element(
-			"div",
-			lambda: [Element("div") for _ in range(12)],
-			attrs={"class": "lds"}
-		)]
+		from pyfyre.presets.loading import Loading
+		return [Loading()]
 	
 	def result(self) -> List[Node]:
 		if self.is_done():
