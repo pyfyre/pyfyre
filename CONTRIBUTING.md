@@ -16,8 +16,6 @@ pip install -r requirements.txt
 Core files of PyFyre.
 - [**pyfyre_cli**](pyfyre_cli)  
 Command-line interface for using PyFyre.
-- [**demo**](demo)  
-Example projects using PyFyre.
 
 ## Code of Conduct
 Please note that we have a [code of conduct](CODE_OF_CONDUCT.md), please follow it in all your interactions with the project to keep our community approachable and respectable.

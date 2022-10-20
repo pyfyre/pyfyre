@@ -24,7 +24,7 @@ Learn PyFyre by reading the [documentation](https://pyfyre.netlify.app/).
 It is also advisable to learn [Brython](https://www.brython.info/) alongside PyFyre as it is built on top of Brython.
 
 ## Examples
-See the [demo](demo) folder for more examples. But here is a super simple example.  
+See the [examples](https://github.com/pyfyre/pyfyre-examples) repository for more. But here is a super simple example.  
 See how easy it is to create a simple Hello World web app with PyFyre:
 ```py
 from pyfyre import render
