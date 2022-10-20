@@ -51,7 +51,7 @@ _HTML_TEMPLATE = """<!DOCTYPE html>
 		
 		{head}
 	</head>
-	<body onload="brython()">{body}</body>
+	<body onload="brython({brython_options})">{body}</body>
 </html>
 """
 
@@ -120,6 +120,10 @@ def create_pages(*, production: bool) -> None:
 			head = _generate_page_head(production=production)
 			html = _HTML_TEMPLATE.format(
 				prod_env=production,
+				brython_options=str({
+					"debug": 0 if production else 1,
+					"cache": 1 if production else 0,
+				}),
 				title=data.get("title", "A PyFyre App"),
 				icon=data.get("icon", ""),
 				head="\n\t\t".join(head + data.get("head", [])),
