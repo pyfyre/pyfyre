@@ -25,36 +25,6 @@ except ModuleNotFoundError:
 	print("This directory is not a PyFyre project.")
 	exit()
 
-_HTML_TEMPLATE = """<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>{title}</title>
-		
-		<meta charset="utf-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1, user-scalable=yes"
-		/>
-		
-		<link rel="icon" href="{icon}" />
-		
-		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython.min.js"
-			defer="defer"
-		></script>
-		<script src="/src.brython.js" defer="defer"></script>
-		<script type="text/python">
-			import pyfyre
-			pyfyre.PRODUCTION = {prod_env}
-			import index
-		</script>
-		
-		{head}
-	</head>
-	<body onload="brython({brython_options})">{body}</body>
-</html>
-"""
-
 
 def _generate_page_head(*, production: bool) -> List[str]:
 	head: List[str] = []
@@ -111,6 +81,9 @@ def _generate_page_body(route_name: str) -> str:
 def create_pages(*, production: bool) -> None:
 	importlib.reload(settings)
 	
+	with open("template.html") as file:
+		html_template = file.read()
+	
 	for route, data in settings.ROUTES.items():
 		directory = os.path.join(
 			"build" if production else "_pyfyre",
@@ -120,7 +93,7 @@ def create_pages(*, production: bool) -> None:
 		
 		with open(os.path.join(directory, "index.html"), "w") as file:
 			head = _generate_page_head(production=production)
-			html = _HTML_TEMPLATE.format(
+			html = html_template.format(
 				prod_env=production,
 				brython_options=str({
 					"debug": 0 if production else 1,
