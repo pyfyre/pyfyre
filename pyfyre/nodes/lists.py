@@ -8,6 +8,7 @@ from typing import Optional, Dict, List, Callable
 class ListBuilder(Element):
 	def __init__(
 		self, children_builder: Callable[[int], Optional[Node]], *,
+		count: Optional[int] = None,
 		max_height: str = "300px",
 		render_batch: int = 10,
 		render_interval: float = 0,
@@ -16,6 +17,7 @@ class ListBuilder(Element):
 	) -> None:
 		styles = styles or []
 		self.children_builder = children_builder
+		self.count = count
 		self.render_batch = render_batch
 		self.render_interval = render_interval
 		
@@ -44,6 +46,10 @@ class ListBuilder(Element):
 	
 	def render_next_children(self) -> None:
 		for _ in range(self.render_batch):
+			if self.count:
+				if self.index >= self.count:
+					break
+			
 			try:
 				child = self.children_builder(self.index)
 			except BaseException:
