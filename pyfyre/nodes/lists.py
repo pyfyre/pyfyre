@@ -2,7 +2,6 @@ import sys
 from pyfyre.styles import Style
 from browser import DOMEvent, aio
 from pyfyre.nodes import Node, Element
-from pyfyre.events import ElementEventType
 from typing import Optional, Dict, List, Callable
 
 
@@ -41,7 +40,7 @@ class ListBuilder(Element):
 				if self.index > prev_index:
 					render_nodes(event)
 		
-		self.add_event_listener(ElementEventType.scroll, render_nodes)
+		self.add_event_listener("scroll", render_nodes)
 	
 	def render_next_children(self) -> None:
 		for _ in range(self.render_batch):

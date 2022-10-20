@@ -7,7 +7,6 @@ from types import TracebackType
 from pyfyre.styles import Style
 from abc import ABC, abstractmethod
 from browser import DOMNode, DOMEvent
-from pyfyre.events import BaseEventType
 from typing import Any, Dict, List, Optional, Callable
 
 
@@ -130,9 +129,9 @@ class Element(Node):
 		return result + f"</{self.tag_name}>"
 	
 	def add_event_listener(
-		self, event_type: BaseEventType, callback: Callable[[DOMEvent], None]
+		self, event_type: str, callback: Callable[[DOMEvent], None]
 	) -> None:
-		self.dom.bind(event_type.value, callback)
+		self.dom.bind(event_type, callback)
 
 
 class TextNode(Node):
@@ -146,6 +145,7 @@ class TextNode(Node):
 	
 	def set_value(self, value: Any) -> None:
 		self._value = str(value)
+		self.update_dom()
 	
 	def create_dom(self) -> DOMNode:
 		return document.createTextNode(self.value)

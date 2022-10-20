@@ -1,6 +1,5 @@
 from browser import DOMEvent
 from pyfyre.styles import Style
-from pyfyre.events import ElementEventType
 from pyfyre.nodes.base import Node, Element
 from typing import Callable, Optional, Dict, List
 
@@ -15,4 +14,4 @@ class Button(Element):
 		attrs: Optional[Dict[str, str]] = None
 	) -> None:
 		super().__init__("button", children, styles=styles, attrs=attrs)
-		self.add_event_listener(ElementEventType.click, onclick)
+		self.add_event_listener("click", onclick)

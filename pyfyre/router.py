@@ -1,8 +1,8 @@
 from settings import ROUTES
 from typing import Dict, Callable, Optional
+from pyfyre.events import window_event_listener
 from pyfyre.nodes import Node, Element, TextNode
 from browser import document, window, DOMEvent, DOMNode
-from pyfyre.events import window_event_listener, WindowEventType
 
 
 class RouteManager:
@@ -17,7 +17,7 @@ class RouteManager:
 		RouteManager._root_node = root_node
 		RouteManager._routes_builder = routes
 		
-		@window_event_listener(WindowEventType.popstate)
+		@window_event_listener("popstate")
 		def onpopstate(event: DOMEvent) -> None:
 			RouteManager.change_route(window.location.pathname)
 	
