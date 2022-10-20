@@ -15,7 +15,7 @@ class ListBuilder(Element):
 		styles: Optional[List[Style]] = None,
 		attrs: Optional[Dict[str, str]] = None
 	) -> None:
-		self.attrs = attrs or {}
+		styles = styles or []
 		self.children_builder = children_builder
 		self.render_batch = render_batch
 		self.render_interval = render_interval
@@ -23,15 +23,13 @@ class ListBuilder(Element):
 		self.index = 0
 		self.rendered_children: List[Node] = []
 		
-		if "style" in self.attrs:
-			self.attrs["style"] += "; overflow-y: scroll; " +\
-				f"overflow-wrap: break-word; max-height: {max_height};"
-		else:
-			self.attrs["style"] = "overflow-y: scroll; " +\
-				f"overflow-wrap: break-word; max-height: {max_height};"
-		
 		super().__init__(
-			"div", lambda: self.rendered_children, styles=styles, attrs=self.attrs
+			"div", lambda: self.rendered_children, attrs=attrs,
+			styles=[Style(
+				overflow_y="scroll",
+				overflow_wrap="break-word",
+				max_height=max_height
+			)] + styles
 		)
 		
 		def render_nodes(event: DOMEvent) -> None:
