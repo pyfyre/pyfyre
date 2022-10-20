@@ -78,10 +78,12 @@ def _generate_page_head(*, production: bool) -> List[str]:
 def _generate_page_body(route_name: str) -> str:
 	shutil.copytree("src", "__temp__", dirs_exist_ok=True)
 	shutil.copy("settings.py", "__temp__")
-	shutil.copy(
-		os.path.join(os.path.dirname(__file__), "copybin", "browser.py"),
-		"__temp__"
-	)
+	
+	for module in ["browser", "interpreter", "javascript"]:
+		shutil.copy(
+			os.path.join(os.path.dirname(__file__), "copybin", f"{module}.py"),
+			"__temp__"
+		)
 	
 	with in_path("__temp__", append_to_sys_path=True):
 		with warnings.catch_warnings():
