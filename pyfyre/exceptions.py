@@ -2,10 +2,6 @@ class PyFyreException(Exception):
 	pass
 
 
-class NodeNotFound(PyFyreException):
-	pass
-
-
 class FutureElementException(PyFyreException):
 	pass
 

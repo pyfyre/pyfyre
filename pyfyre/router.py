@@ -1,20 +1,17 @@
 from settings import ROUTES
 from typing import Dict, Callable, Optional
+from browser import document, window, DOMEvent
 from pyfyre.events import window_event_listener
 from pyfyre.nodes import Node, Element, TextNode
-from browser import document, window, DOMEvent, DOMNode
 
 
 class RouteManager:
 	_routes_builder: Dict[str, Callable[[], Node]] = {}
 	_routes: Dict[str, Optional[Node]] = {}
-	_root_node = document.select_one("body")
+	_root_node = document.select_one("#root")
 	
 	@staticmethod
-	def initialize(
-		root_node: DOMNode, routes: Dict[str, Callable[[], Node]]
-	) -> None:
-		RouteManager._root_node = root_node
+	def initialize(routes: Dict[str, Callable[[], Node]]) -> None:
 		RouteManager._routes_builder = routes
 		
 		@window_event_listener("popstate")

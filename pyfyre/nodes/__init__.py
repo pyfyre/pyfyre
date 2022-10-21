@@ -4,6 +4,7 @@ from .futures import FutureElement
 from .inputs import TextInput
 from .links import Link, RouterLink
 from .lists import ListBuilder
+from .widgets import Widget
 
 __all__ = [
 	"Node",
@@ -16,5 +17,6 @@ __all__ = [
 	"TextInput",
 	"Link",
 	"RouterLink",
-	"ListBuilder"
+	"ListBuilder",
+	"Widget"
 ]

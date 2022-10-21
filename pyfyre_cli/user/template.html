@@ -24,5 +24,8 @@
 		
 		{head}
 	</head>
-	<body onload="brython({brython_options})">{body}</body>
+	<body onload="brython({brython_options})">
+		<noscript>Warning: JavaScript is not enabled.</noscript>
+		<div id="root">{body}</div>
+	</body>
 </html>

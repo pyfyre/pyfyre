@@ -2,9 +2,9 @@ from pyfyre import render
 from pyfyre.nodes import *
 
 
-class App(Element):
-	def __init__(self) -> None:
-		super().__init__("main", lambda: [
+class App(Widget):
+	def build(self) -> Element:
+		return Element("main", lambda: [
 			Element("h1", lambda: [Text("Welcome to PyFyre 🐍🔥")]),
 			Element("p", lambda: [
 				Text("Learn PyFyre by reading the "),
@@ -19,4 +19,4 @@ class App(Element):
 		])
 
 
-render("body", {"/": lambda: App()})
+render({"/": lambda: App()})

@@ -31,12 +31,12 @@ from pyfyre import render
 from pyfyre.nodes import *
 
 
-class HelloWorld(Element):
-	def __init__(self) -> None:
-		super().__init__("p", lambda: [Text("Hello, World!")])
+class HelloWorld(Widget):
+	def build(self) -> Element:
+		return Element("p", lambda: [Text("Hello, World!")])
 
 
-render("body", {"/": lambda: HelloWorld()})
+render({"/": lambda: HelloWorld()})
 ```
 ![image](https://user-images.githubusercontent.com/64759159/111881940-d80e4380-89ed-11eb-9ffc-d607d80896fb.png)
 
