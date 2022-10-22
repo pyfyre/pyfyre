@@ -1,0 +1,8 @@
+# PyFyre generated
+/Lib
+/build
+/_pyfyre
+/__temp__
+
+# Python generated
+__pycache__
