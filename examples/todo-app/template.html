@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>{title}</title>
+		
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, user-scalable=yes"
+		/>
+		
+		<link rel="icon" href="{icon}" />
+		
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.7/brython.min.js"
+			defer="defer"
+		></script>
+		<script src="/src.brython.js" defer="defer"></script>
+		<script type="text/python">
+			import pyfyre
+			pyfyre.PRODUCTION = {prod_env}
+			import index
+		</script>
+		
+		{head}
+	</head>
+	<body onload="brython({brython_options})">
+		<noscript>Warning: JavaScript is not enabled.</noscript>
+		<div id="root">{body}</div>
+	</body>
+</html>
