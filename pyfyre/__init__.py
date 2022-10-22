@@ -4,10 +4,12 @@ from browser import window, DOMEvent
 from pyfyre.router import RouteManager
 from pyfyre.events import PyFyreEventType
 from pyfyre.exceptions import PyFyreException
+from .states import State
 
 __all__ = [
 	"PRODUCTION",
-	"render"
+	"render",
+	"State"
 ]
 
 _rendered = False

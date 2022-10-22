@@ -1,7 +1,8 @@
-from typing import List, Optional, Callable
+from typing import List, Optional
+from pyfyre.utils import EventMixin
 
 
-class Style:
+class Style(EventMixin):
 	@classmethod
 	def from_styles(
 		cls, styles: List["Style"], *, dynamic: bool = True
@@ -29,8 +30,8 @@ class Style:
 		return s
 	
 	def __init__(self, **props: str) -> None:
+		super().__init__()
 		self.props = props
-		self._listeners: List[Callable[[], None]] = []
 	
 	def __getitem__(self, prop: str) -> Optional[str]:
 		return self.props.get(prop)
@@ -43,28 +44,8 @@ class Style:
 		del self.props[prop]
 		self.call_listeners()
 	
-	def call_listeners(self) -> None:
-		for listener in self._listeners:
-			listener()
-	
 	def css(self) -> str:
 		return "; ".join([
 			f"{prop.replace('_', '-')}: {value}"
 			for prop, value in self.props.items()
 		])
-	
-	def add_listener(self, listener: Callable[[], None]) -> None:
-		self._listeners.append(listener)
-	
-	def remove_listener(self, listener: Callable[[], None]) -> int:
-		remaining_listeners = []
-		removed = 0
-		
-		for c in self._listeners:
-			if c == listener:
-				removed += 1
-			else:
-				remaining_listeners.append(c)
-		
-		self._listeners = remaining_listeners
-		return removed

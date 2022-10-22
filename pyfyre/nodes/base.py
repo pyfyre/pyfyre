@@ -5,6 +5,7 @@ from typing import Type
 from browser import document
 from types import TracebackType
 from pyfyre.styles import Style
+from pyfyre.states import State
 from abc import ABC, abstractmethod
 from browser import DOMNode, DOMEvent
 from typing import Any, Dict, List, Optional, Callable
@@ -136,7 +137,12 @@ class Element(Node):
 
 class TextNode(Node):
 	def __init__(self, value: Any) -> None:
-		self._value = str(value)
+		if isinstance(value, State):
+			self._value = str(value.value)
+			value.add_listener(lambda: self.set_value(value.value))
+		else:
+			self._value = str(value)
+		
 		super().__init__()
 	
 	@property
