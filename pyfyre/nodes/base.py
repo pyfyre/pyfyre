@@ -54,7 +54,7 @@ class Element(Node):
 					self.attrs["style"] = self.style.css()
 			
 			if getattr(self, "dom", None) is not None:
-				self.update_attrs()
+				self.dom.setAttribute("style", self.attrs["style"])
 		
 		if self.style is not None:
 			self.style.add_listener(update_style_attr)
