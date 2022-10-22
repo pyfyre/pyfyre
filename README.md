@@ -16,7 +16,7 @@ PyFyre offers the following:
 - [x] **Asynchronous programming**. Run non-blocking functions out of the box.
 - [x] **CPython interoperability**. Developers can limitedly use existing PyPi packages on the client-side web.
 - [ ] **JavaScript interoperability**. Allowing developers to leverage NPM packages and integrate with existing JavaScript applications.
-- [ ] **Pure Python**. Build web apps without ever touching other languages like HTML and JavaScript.
+- [x] **Pure Python**. Build web apps without ever touching other languages like HTML and JavaScript.
 - [x] **And more!**
 
 ## Documentation
