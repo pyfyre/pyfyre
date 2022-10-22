@@ -1,8 +1,9 @@
 import sys
 from pyfyre.styles import Style
+from pyfyre.states import State
 from browser import DOMEvent, aio
 from pyfyre.nodes import Node, Element
-from typing import Optional, Dict, List, Callable
+from typing import Optional, Dict, List, Callable, Any
 
 
 class ListBuilder(Element):
@@ -13,6 +14,7 @@ class ListBuilder(Element):
 		render_batch: int = 10,
 		render_interval: float = 0,
 		styles: Optional[List[Style]] = None,
+		states: Optional[List[State[Any]]] = None,
 		attrs: Optional[Dict[str, str]] = None
 	) -> None:
 		styles = styles or []
@@ -30,21 +32,20 @@ class ListBuilder(Element):
 				overflow_y="scroll",
 				overflow_wrap="break-word",
 				max_height=max_height
-			)] + styles
+			)] + styles,
+			states=states
 		)
 		
 		def render_nodes(event: DOMEvent) -> None:
 			el = event.target
 			if el.scrollHeight - el.scrollTop - el.clientHeight < 1:
-				prev_index = self.index
-				self.render_next_children()
-				
-				if self.index > prev_index:
+				rendered = self.render_next_children()
+				if rendered:
 					render_nodes(event)
 		
 		self.add_event_listener("scroll", render_nodes)
 	
-	def render_next_children(self) -> None:
+	def render_next_children(self) -> bool:
 		prev_index = self.index
 		
 		for _ in range(self.render_batch):
@@ -66,12 +67,19 @@ class ListBuilder(Element):
 		
 		if self.index > prev_index:
 			self.update_dom()
+			return True
+		
+		return False
 	
-	def build_children(self) -> None:
+	def build_children(self, *, propagate: bool = True) -> None:
 		async def async_wrapper() -> None:
 			while self.dom.scrollHeight == self.dom.clientHeight:
-				self.render_next_children()
+				rendered = self.render_next_children()
+				
+				if not rendered:
+					return
+				
 				await aio.sleep(self.render_interval)
 		
-		super().build_children()
+		super().build_children(propagate=propagate)
 		aio.run(async_wrapper())

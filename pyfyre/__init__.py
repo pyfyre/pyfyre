@@ -5,11 +5,13 @@ from pyfyre.router import RouteManager
 from pyfyre.events import PyFyreEventType
 from pyfyre.exceptions import PyFyreException
 from .states import State
+from .styles import Style
 
 __all__ = [
 	"PRODUCTION",
 	"render",
-	"State"
+	"State",
+	"Style"
 ]
 
 _rendered = False

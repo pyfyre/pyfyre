@@ -1,7 +1,8 @@
 from browser import aio
 from pyfyre.styles import Style
+from pyfyre.states import State
 from pyfyre.nodes import Node, Element
-from typing import Dict, List, Optional, Callable, Awaitable
+from typing import Dict, List, Optional, Callable, Awaitable, Any
 from pyfyre.exceptions import (
 	FutureNoResult, FutureCancelled, FutureAlreadyDone
 )
@@ -16,6 +17,7 @@ class FutureElement(Element):
 		children: Callable[[], Awaitable[List[Node]]],
 		*,
 		styles: Optional[List[Style]] = None,
+		states: Optional[List[State[Any]]] = None,
 		attrs: Optional[Dict[str, str]] = None,
 	) -> None:
 		self._is_done = False
@@ -24,7 +26,8 @@ class FutureElement(Element):
 		self._exception: Optional[BaseException] = None
 		self._done_callbacks: List[Callable[["FutureElement"], None]] = []
 		super().__init__(
-			tag_name, lambda: self._process_result(), styles=styles, attrs=attrs
+			tag_name, lambda: self._process_result(),
+			styles=styles, states=states, attrs=attrs
 		)
 		
 		async def build_children(

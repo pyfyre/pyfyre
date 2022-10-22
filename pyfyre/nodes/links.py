@@ -1,7 +1,8 @@
 from pyfyre.styles import Style
+from pyfyre.states import State
 from pyfyre.nodes.base import Node, Element
 from browser import DOMEvent, window, document
-from typing import Optional, Dict, List, Callable
+from typing import Optional, Dict, List, Callable, Any
 
 
 class Link(Element):
@@ -11,12 +12,13 @@ class Link(Element):
 		children: Optional[Callable[[], List[Node]]] = None,
 		*,
 		styles: Optional[List[Style]] = None,
+		states: Optional[List[State[Any]]] = None,
 		attrs: Optional[Dict[str, str]] = None
 	) -> None:
 		self.href = href
 		attrs = attrs or {}
 		attrs["href"] = href
-		super().__init__("a", children, styles=styles, attrs=attrs)
+		super().__init__("a", children, styles=styles, states=states, attrs=attrs)
 	
 	@property
 	def absolute_href(self) -> str:

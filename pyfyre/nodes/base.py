@@ -35,6 +35,7 @@ class Element(Node):
 		children: Optional[Callable[[], List[Node]]] = None,
 		*,
 		styles: Optional[List[Style]] = None,
+		states: Optional[List[State[Any]]] = None,
 		attrs: Optional[Dict[str, str]] = None
 	) -> None:
 		self.tag_name = tag_name
@@ -58,6 +59,10 @@ class Element(Node):
 		if self.style is not None:
 			self.style.add_listener(update_style_attr)
 			update_style_attr()
+		
+		if states:
+			for state in states:
+				state.add_listener(self.update_dom)
 		
 		super().__init__()
 	
@@ -85,13 +90,13 @@ class Element(Node):
 			exc_traceback=traceback.format_exc()
 		)]
 	
-	def build_children(self) -> None:
+	def build_children(self, *, propagate: bool = True) -> None:
 		self.children = self._secure_build()
 		
 		for child in self.children:
 			self.dom.attach(child.dom)
 			
-			if isinstance(child, Element):
+			if propagate and isinstance(child, Element):
 				child.build_children()
 	
 	def create_dom(self) -> DOMNode:
@@ -103,9 +108,9 @@ class Element(Node):
 		return el
 	
 	def update_dom(self) -> None:
+		self.dom.clear()
 		self.update_attrs()
-		self.children = self._secure_build()
-		self.dom.replaceChildren(*[c.dom for c in self.children])
+		self.build_children(propagate=False)
 		
 		for child in self.children:
 			child.update_dom()
