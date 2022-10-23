@@ -1,22 +1,26 @@
-from pyfyre import render
 from pyfyre.nodes import *
-from pyfyre import State
+from browser import DOMEvent
+from pyfyre import render, State
+
 
 class App(Widget):
-	def __init__(self):
-		self.todos = State[list[str]](["Hello"]) # A State object with a list of strings and default value of ["Hello"]
+	def __init__(self) -> None:
+		# A State object with a list of strings and default value of ["Hello"]
+		self.todos = State[list[str]](["Hello"])
 
-		self.text_input = TextInput() # TextInput is declared as variable to get the value of it in the Widget.
+		# TextInput is declared as variable to get the value of it in the Widget.
+		self.text_input = TextInput()
 
 		super().__init__()
 
 	def build(self) -> Element:
+		def todo(index: int) -> Element:
+			# Wrapped in Element("p") to add block display styling
+			return Element("p", children=lambda: [Text(self.todos.value[index])])
 
-		def todo(i):
-			return Element("p", children=lambda: [ Text(self.todos.value[i]) ]) # Wrapped in Element("p") to remove inline-block
-
-		def add_todo(e):
-			self.todos.set_value(self.todos.value + [self.text_input.value])
+		def add_todo(event: DOMEvent) -> None:
+			if self.text_input.value:
+				self.todos.set_value(self.todos.value + [self.text_input.value])
 
 		return Element("main", lambda: [
 			Element(
@@ -27,10 +31,12 @@ class App(Widget):
 						count=len(self.todos.value)
 					),
 				],
-				states=[self.todos] # Element("div") will be automatically rerendered once its dependency states has been updated.
+				# Element("div") will be automatically rerendered once its
+				# dependency states has been updated.
+				states=[self.todos]
 			),
 			self.text_input,
-			Button(onclick=add_todo, children=lambda: [ Text("Add Todo") ])
+			Button(onclick=add_todo, children=lambda: [Text("Add Todo")])
 		])
 
 
