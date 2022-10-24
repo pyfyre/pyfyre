@@ -1,9 +1,8 @@
-import typing
 from pyfyre.styles import Style
 from pyfyre.states import State
 from abc import ABC, abstractmethod
+from typing import Optional, Dict, List, Any
 from pyfyre.nodes import Node, Element, FutureElement
-from typing import Optional, Dict, List, Callable, Awaitable, Any
 
 
 class Widget(Element, ABC):
@@ -15,12 +14,12 @@ class Widget(Element, ABC):
 		attrs: Optional[Dict[str, str]] = None
 	) -> None:
 		super().__init__(
-			tag_name, lambda: [self.build()],
+			tag_name, self.build,
 			styles=styles, states=states, attrs=attrs
 		)
 	
 	@abstractmethod
-	def build(self) -> Element:
+	def build(self) -> List[Node]:
 		raise NotImplementedError
 
 
@@ -32,14 +31,11 @@ class FutureWidget(FutureElement, ABC):
 		states: Optional[List[State[Any]]] = None,
 		attrs: Optional[Dict[str, str]] = None
 	) -> None:
-		async def build() -> List[Element]:
-			return [await self.build()]
-		
 		super().__init__(
-			tag_name, typing.cast(Callable[[], Awaitable[List[Node]]], build),
+			tag_name, self.build,
 			styles=styles, states=states, attrs=attrs
 		)
 	
 	@abstractmethod
-	async def build(self) -> Element:
+	async def build(self) -> List[Node]:
 		raise NotImplementedError
