@@ -32,8 +32,8 @@ from pyfyre.nodes import *
 
 
 class HelloWorld(Widget):
-	def build(self) -> Element:
-		return Element("p", lambda: [Text("Hello, World!")])
+	def build(self) -> list[Node]:
+		return [Element("p", lambda: [Text("Hello, World!")])]
 
 
 render({"/": lambda: HelloWorld()})

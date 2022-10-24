@@ -13,7 +13,7 @@ class App(Widget):
 
 		super().__init__()
 
-	def build(self) -> Element:
+	def build(self) -> list[Node]:
 		def todo(index: int) -> Element:
 			# Wrapped in Element("p") to add block display styling
 			return Element("p", children=lambda: [Text(self.todos.value[index])])
@@ -22,7 +22,7 @@ class App(Widget):
 			if self.text_input.value:
 				self.todos.set_value(self.todos.value + [self.text_input.value])
 
-		return Element("main", lambda: [
+		return [
 			Element(
 				"div",
 				children=lambda: [
@@ -37,7 +37,7 @@ class App(Widget):
 			),
 			self.text_input,
 			Button(onclick=add_todo, children=lambda: [Text("Add Todo")])
-		])
+		]
 
 
 render({"/": lambda: App()})

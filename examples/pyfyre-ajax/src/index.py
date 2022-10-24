@@ -1,7 +1,7 @@
 from browser import ajax
 from pyfyre.nodes import *
-from typing import Dict, Any
 from pyfyre import render, State
+from typing import Dict, Any, List
 
 
 class App(FutureWidget):
@@ -27,10 +27,10 @@ class App(FutureWidget):
 			# oncomplete: (req) => this.user.set_value(req.json)
 		)
 
-	async def build(self) -> Element:
+	async def build(self) -> List[Node]:
 		await self.fetch_user()  # Fetch the data asyncronously
 
-		return Element(
+		return [Element(
 			"main",
 			lambda: [
 				Element(
@@ -49,7 +49,7 @@ class App(FutureWidget):
 			# Element("main") will be automatically rerendered once its
 			# dependency state has been updated.
 			states=[self.user]
-		)
+		)]
 
 
 render({"/": lambda: App()})
