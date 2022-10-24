@@ -30,7 +30,8 @@ class DebugError(Element):
 					"p",
 					lambda: [Element("pre", lambda: [Text(exc_traceback)])],
 					styles=[Style(
-						background_color="black", color="white", padding="1px 15px"
+						background_color="black", color="white",
+						padding="1px 15px", font_size="0.9rem", font_weight="normal"
 					)]
 				)
 			],
