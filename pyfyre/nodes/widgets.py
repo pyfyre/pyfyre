@@ -7,15 +7,11 @@ from typing import Optional, Dict, List, Callable, Awaitable, Any
 
 
 class Widget(Element, ABC):
-	def __init__(
-		self, *,
-		styles: Optional[List[Style]] = None,
-		states: Optional[List[State[Any]]] = None,
-		attrs: Optional[Dict[str, str]] = None
-	) -> None:
+	def __init__(self) -> None:
+		el = self.build()
 		super().__init__(
-			"div", lambda: [self.build()],
-			styles=styles, states=states, attrs=attrs
+			el.tag_name, el._children_builder,
+			styles=el._styles, states=el.states, attrs=el.attrs
 		)
 	
 	@abstractmethod
@@ -26,6 +22,7 @@ class Widget(Element, ABC):
 class FutureWidget(FutureElement, ABC):
 	def __init__(
 		self, *,
+		tag_name: str = "div",
 		styles: Optional[List[Style]] = None,
 		states: Optional[List[State[Any]]] = None,
 		attrs: Optional[Dict[str, str]] = None
@@ -34,7 +31,7 @@ class FutureWidget(FutureElement, ABC):
 			return [await self.build()]
 		
 		super().__init__(
-			"div", typing.cast(Callable[[], Awaitable[List[Node]]], build),
+			tag_name, typing.cast(Callable[[], Awaitable[List[Node]]], build),
 			styles=styles, states=states, attrs=attrs
 		)
 	
