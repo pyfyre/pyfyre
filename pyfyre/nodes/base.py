@@ -43,7 +43,6 @@ class Element(Node):
 		self.style = Style.from_styles(styles) if styles else None
 		self.states = states or []
 		self.attrs = attrs or {}
-		self._styles = styles
 		self._children_builder = children
 		
 		def update_style_attr() -> None:

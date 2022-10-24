@@ -1,4 +1,3 @@
-import sys
 import typing
 from pyfyre.styles import Style
 from pyfyre.states import State
@@ -8,16 +7,16 @@ from typing import Optional, Dict, List, Callable, Awaitable, Any
 
 
 class Widget(Element, ABC):
-	def __init__(self) -> None:
-		try:
-			el = self.build()
-		except BaseException:
-			error_children = self.on_build_error(*sys.exc_info())
-			el = Element("div", lambda: error_children)
-		
+	def __init__(
+		self, *,
+		tag_name: str = "div",
+		styles: Optional[List[Style]] = None,
+		states: Optional[List[State[Any]]] = None,
+		attrs: Optional[Dict[str, str]] = None
+	) -> None:
 		super().__init__(
-			el.tag_name, el._children_builder,
-			styles=el._styles, states=el.states, attrs=el.attrs
+			tag_name, lambda: [self.build()],
+			styles=styles, states=states, attrs=attrs
 		)
 	
 	@abstractmethod
