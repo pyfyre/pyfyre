@@ -18,7 +18,7 @@ class FutureElement(Element):
 		*,
 		styles: Optional[List[Style]] = None,
 		states: Optional[List[State[Any]]] = None,
-		attrs: Optional[Dict[str, str]] = None,
+		attrs: Optional[Dict[str, str]] = None
 	) -> None:
 		self._is_done = False
 		self._is_cancelled = False

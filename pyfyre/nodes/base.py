@@ -41,6 +41,7 @@ class Element(Node):
 		self.tag_name = tag_name
 		self.children: List[Node] = []
 		self.style = Style.from_styles(styles) if styles else None
+		self.states = states or []
 		self.attrs = attrs or {}
 		self._children_builder = children
 		
@@ -60,9 +61,8 @@ class Element(Node):
 			self.style.add_listener(update_style_attr)
 			update_style_attr()
 		
-		if states:
-			for state in states:
-				state.add_listener(self.update_dom)
+		for state in self.states:
+			state.add_listener(self.update_dom)
 		
 		super().__init__()
 	
