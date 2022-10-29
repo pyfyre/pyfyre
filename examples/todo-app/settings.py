@@ -23,11 +23,11 @@ from typing import Dict, List, Any
 # 	}
 # }
 ROUTES: Dict[str, Dict[str, Any]] = {
-	"/": {
-		"title": "A PyFyre App",
-		"icon": "/favicon.ico",
-		"head": ['<link rel="stylesheet" href="/style.css" />']
-	}
+    "/": {
+        "title": "A PyFyre App",
+        "icon": "/favicon.ico",
+        "head": ['<link rel="stylesheet" href="/style.css" />'],
+    }
 }
 
 # When building your app, PyFyre makes your CPython packages installed by pip
