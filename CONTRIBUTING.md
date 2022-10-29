@@ -11,15 +11,22 @@ pip install -r requirements.txt
 pip install -r dev_requirements.txt
 ```
 - This codebase uses [Black](https://github.com/psf/black) Python code formatter.
-  Make sure to format your code using Black before making a pull request.
-  Just run `black .` on your command line in the directory of this project.
-  Or you can also install a Black auto-formatter on your code editor or IDE.
+  You may install Black on your code editor or IDE.
+- This codebase uses [Mypy](http://mypy-lang.org/) Python static type checker.
+  Make sure to apply type hinting and annotations in your code.
+  You may install Mypy on your code editor or IDE.
 - Read the module docstring of [dev.py](dev.py).
 
 ## Python Code Style
 The following items apply to all Python modules inside this project.
 - The code is formatted using [Black](https://github.com/psf/black).
 - Docstrings use [Google style](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html).
+
+## Pull Request
+Make sure to do the following items before making a pull request.
+- Format your code using [Black](https://github.com/psf/black).
+  You may run `black .` on your command line in the directory of this project.
+- Run `mypy .` on your command line in the directory of this project to type check your code.
 
 ## Project Directory
 - [**pyfyre**](pyfyre)  
