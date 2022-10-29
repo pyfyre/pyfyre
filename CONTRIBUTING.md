@@ -16,6 +16,11 @@ pip install -r dev_requirements.txt
   Or you can also install a Black auto-formatter on your code editor or IDE.
 - Read the module docstring of [dev.py](dev.py).
 
+## Python Code Style
+The following items apply to all Python modules inside this project.
+- The code is formatted using [Black](https://github.com/psf/black).
+- Docstrings use [Google style](https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html).
+
 ## Project Directory
 - [**pyfyre**](pyfyre)  
 Core files of PyFyre.
