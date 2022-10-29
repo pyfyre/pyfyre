@@ -5,7 +5,7 @@ When contributing to this repository, please first discuss the change you wish t
 Thank you for investing your time in contributing to our project!
 
 ## Before Starting
-- Install the required packages for development.
+- Install the required packages for dedsfvelopment.
 ```bash
 pip install -r requirements.txt
 pip install -r dev_requirements.txt
