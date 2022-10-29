@@ -5,11 +5,16 @@ When contributing to this repository, please first discuss the change you wish t
 Thank you for investing your time in contributing to our project!
 
 ## Before Starting
-- Read the module docstring of [dev.py](dev.py).
-- Install the required [packages](requirements.txt) for development.
+- Install the required packages for development.
 ```bash
 pip install -r requirements.txt
+pip install -r dev_requirements.txt
 ```
+- This codebase uses [Black](https://github.com/psf/black) Python code formatter.
+  Make sure to format your code using Black before making a pull request.
+  Just run `black .` on your command line in the directory of this project.
+  Or you can also install a Black auto-formatter on your code editor or IDE.
+- Read the module docstring of [dev.py](dev.py).
 
 ## Project Directory
 - [**pyfyre**](pyfyre)  

@@ -1,18 +1,18 @@
 class PyFyreException(Exception):
-	pass
+    pass
 
 
 class FutureElementException(PyFyreException):
-	pass
+    pass
 
 
 class FutureNoResult(FutureElementException):
-	pass
+    pass
 
 
 class FutureCancelled(FutureElementException):
-	pass
+    pass
 
 
 class FutureAlreadyDone(FutureElementException):
-	pass
+    pass
