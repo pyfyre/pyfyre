@@ -2,3 +2,4 @@ brython==3.10.7
 livereload==2.6.3
 python-minifier==2.6.0
 autoflake==1.6.1
+Flask==2.2.2
