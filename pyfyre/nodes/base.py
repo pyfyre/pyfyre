@@ -12,8 +12,15 @@ from typing import Any, Dict, List, Optional, Callable
 
 
 class Node(ABC):
+    """Represents an HTML DOM node.
+
+    Attributes:
+        dom: Brython DOMNode type.
+            The corresponding HTML DOM node of this object.
+    """
+
     def __init__(self) -> None:
-        self.dom = self.create_dom()
+        self.dom: DOMNode = self.create_dom()
 
     @abstractmethod
     def create_dom(self) -> DOMNode:
@@ -29,6 +36,16 @@ class Node(ABC):
 
 
 class Element(Node):
+    """Represents an HTML DOM element.
+
+    Args:
+        tag_name: Name of the HTML tag.
+        children: Builder for the children nodes of this element.
+        styles: HTML "style" attribute of this element.
+        states: State dependencies of this object.
+        attrs: HTML attributes of this element.
+    """
+
     def __init__(
         self,
         tag_name: str,
@@ -106,6 +123,11 @@ class Element(Node):
                 child.build_children()
 
     def create_dom(self) -> DOMNode:
+        """Create a new HTML DOM element from this object.
+
+        Returns:
+            Brython DOMNode type.
+        """
         el = document.createElement(self.tag_name)
 
         for attr_name, attr_value in self.attrs.items():
@@ -144,6 +166,13 @@ class Element(Node):
 
 
 class TextNode(Node):
+    """Represents an HTML DOM text node.
+
+    Args:
+        value: Value of the text.
+            If the value is an instance of [State]
+    """
+
     def __init__(self, value: Any) -> None:
         if isinstance(value, State):
             self._value = str(value.value)
