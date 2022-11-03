@@ -15,7 +15,7 @@ class Node(ABC):
     """Represents an HTML DOM node.
 
     Attributes:
-        dom: Brython DOMNode type.
+        dom: Brython ``DOMNode`` type.
             The corresponding HTML DOM node of this object.
     """
 
@@ -32,6 +32,7 @@ class Node(ABC):
 
     @abstractmethod
     def html(self) -> str:
+        """HTML representation of this object."""
         raise NotImplementedError
 
 
@@ -39,11 +40,25 @@ class Element(Node):
     """Represents an HTML DOM element.
 
     Args:
-        tag_name: Name of the HTML tag.
+        tag_name: HTML tag name of this element.
         children: Builder for the children nodes of this element.
-        styles: HTML "style" attribute of this element.
+        styles: CSS styling of this element.
+            This will be combined into a single ``Style`` object.
+            The styles are evaluated in order from left to right.
         states: State dependencies of this object.
+            If one of the state dependencies has changed its state,
+            the ``update_dom`` method of this object will be called.
         attrs: HTML attributes of this element.
+
+    Attributes:
+        tag_name (str): HTML tag name of this element.
+        children (List[Node]): Children nodes of this element.
+            This is equal to the return of the ``children`` argument.
+        style (Optional[Style]): CSS styling of this element.
+        states (List[State[Any]]): State dependencies of this object.
+            If one of the state dependencies has changed its state,
+            the ``update_dom`` method of this object will be called.
+        attrs (Dict[str, str]): HTML attributes of this element.
     """
 
     def __init__(
@@ -60,7 +75,17 @@ class Element(Node):
         self.style = Style.from_styles(styles) if styles else None
         self.states = states or []
         self.attrs = attrs or {}
-        self._children_builder = children
+
+        def children_builder() -> List[Node]:
+            if children is None:
+                return self.children
+
+            try:
+                return children()
+            except BaseException:
+                return self.on_build_error(*sys.exc_info())
+
+        self._children_builder = children_builder
 
         def update_style_attr() -> None:
             self.attrs = attrs or {}
@@ -83,21 +108,13 @@ class Element(Node):
 
         super().__init__()
 
-    def _secure_build(self) -> List[Node]:
-        if self._children_builder is None:
-            return self.children
-
-        try:
-            return self._children_builder()
-        except BaseException:
-            return self.on_build_error(*sys.exc_info())
-
     def on_build_error(
         self,
         exc_type: Type[BaseException],
         exc_value: BaseException,
         exc_traceback: TracebackType,
     ) -> List[Node]:
+        """:meta private:"""
         if pyfyre.PRODUCTION:
             from pyfyre.presets.errors import ErrorMessage
 
@@ -114,7 +131,8 @@ class Element(Node):
         ]
 
     def build_children(self, *, propagate: bool = True) -> None:
-        self.children = self._secure_build()
+        """:meta private:"""
+        self.children = self._children_builder()
 
         for child in self.children:
             self.dom.attach(child.dom)
@@ -126,7 +144,7 @@ class Element(Node):
         """Create a new HTML DOM element from this object.
 
         Returns:
-            Brython DOMNode type.
+            Brython ``DOMNode`` type.
         """
         el = document.createElement(self.tag_name)
 
@@ -136,6 +154,9 @@ class Element(Node):
         return el
 
     def update_dom(self) -> None:
+        """Update the corresponding HTML DOM element of this object.
+        This rebuilds the children of this element recursively.
+        """
         self.dom.clear()
         self.update_attrs()
         self.build_children(propagate=False)
@@ -144,6 +165,7 @@ class Element(Node):
             child.update_dom()
 
     def update_attrs(self) -> None:
+        """Update the attributes of the corresponding HTML DOM element of this object."""
         for attr_name, attr_value in self.attrs.items():
             self.dom.setAttribute(attr_name, attr_value)
 
@@ -162,6 +184,7 @@ class Element(Node):
     def add_event_listener(
         self, event_type: str, callback: Callable[[DOMEvent], None]
     ) -> None:
+        """Calls the ``callback`` whenever the specified ``event_type`` is delivered to this element."""
         self.dom.bind(event_type, callback)
 
 
@@ -170,7 +193,10 @@ class TextNode(Node):
 
     Args:
         value: Value of the text.
-            If the value is an instance of [State]
+            You can pass in a ``State`` object to automatically update the value of the text
+            when the state dependency has changed its state.
+            If the ``value`` is a ``State`` object,
+            the value of the text will be equal to ``[State].value``.
     """
 
     def __init__(self, value: Any) -> None:
@@ -184,17 +210,26 @@ class TextNode(Node):
 
     @property
     def value(self) -> str:
+        """Value of the text."""
+        self._value = self.dom.nodeValue
         return self._value
 
     def set_value(self, value: Any) -> None:
+        """Set the value of the text."""
         self._value = str(value)
         self.update_dom()
 
     def create_dom(self) -> DOMNode:
-        return document.createTextNode(self.value)
+        """Create a new HTML DOM text node from this object.
+
+        Returns:
+            Brython ``DOMNode`` type.
+        """
+        return document.createTextNode(self._value)
 
     def update_dom(self) -> None:
-        self.dom.nodeValue = self.value
+        """:meta private:"""
+        self.dom.nodeValue = self._value
 
     def html(self) -> str:
         return self.value

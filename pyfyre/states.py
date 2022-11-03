@@ -14,5 +14,6 @@ class State(Generic[T], EventMixin):
         return self._value
 
     def set_value(self, value: T) -> None:
-        self._value = value
-        self.call_listeners()
+        if self._value != value:
+            self._value = value
+            self.call_listeners()
