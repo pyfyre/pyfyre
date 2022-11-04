@@ -15,7 +15,7 @@ class Node(ABC):
     """Represents an HTML DOM node.
 
     Attributes:
-        dom: Brython ``DOMNode`` type.
+        dom (DOMNode): Brython ``DOMNode`` type.
             The corresponding HTML DOM node of this object.
     """
 
@@ -54,8 +54,8 @@ class Element(Node):
         tag_name (str): HTML tag name of this element.
         children (List[Node]): Children nodes of this element.
             This is equal to the return of the ``children`` argument.
-        style (Optional[Style]): CSS styling of this element.
-        states (List[State[Any]]): State dependencies of this object.
+        style (Optional[~pyfyre.Style]): CSS styling of this element.
+        states (List[~pyfyre.State[Any]]): State dependencies of this object.
             If one of the state dependencies has changed its state,
             the ``update_dom`` method of this object will be called.
         attrs (Dict[str, str]): HTML attributes of this element.
@@ -82,7 +82,7 @@ class Element(Node):
 
             try:
                 return children()
-            except BaseException:
+            except Exception:
                 return self.on_build_error(*sys.exc_info())
 
         self._children_builder = children_builder
@@ -110,8 +110,8 @@ class Element(Node):
 
     def on_build_error(
         self,
-        exc_type: Type[BaseException],
-        exc_value: BaseException,
+        exc_type: Type[Exception],
+        exc_value: Exception,
         exc_traceback: TracebackType,
     ) -> List[Node]:
         """:meta private:"""

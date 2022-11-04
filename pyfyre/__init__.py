@@ -11,6 +11,7 @@ __all__ = ["PRODUCTION", "render", "State", "Style"]
 
 _rendered = False
 PRODUCTION: bool = False
+"""Whether the app is running on production environment or not."""
 
 
 def _set_custom_window_events() -> Dict[str, DOMEvent]:
@@ -25,6 +26,27 @@ def _set_custom_window_events() -> Dict[str, DOMEvent]:
 
 
 def render(routes: Dict[str, Callable[[], Node]]) -> None:
+    """The main function for initializing a PyFyre application.
+    This function can only be called once.
+
+    Args:
+        routes: Pairs of route name and its corresponding route builder.
+            The route builder returns a ``Node`` that will be rendered on the web page.
+
+    Raises:
+        PyFyreException: When this function is called again.
+
+    **Example:**
+
+    .. code-block:: python
+
+        render({
+            "/": lambda: HomePage(),
+            "/about": lambda: AboutPage(),
+            "/contact": lambda: ContactPage()
+        })
+    """
+
     global _rendered
     if _rendered:
         raise PyFyreException("'render' function can only be called once")

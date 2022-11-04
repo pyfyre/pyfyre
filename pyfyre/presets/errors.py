@@ -4,11 +4,21 @@ from pyfyre.nodes import Element, Text
 
 
 class DebugError(Element):
+    """An error message with traceback.
+    Typically used for debugging on development environment.
+
+    Args:
+        exc_type: Type of the exception.
+        exc_value: The exception itself.
+        exc_traceback: Traceback object which typically encapsulates the
+            call stack at the point where the exception last occurred.
+    """
+
     def __init__(
         self,
         *,
-        exc_type: Type[BaseException],
-        exc_value: BaseException,
+        exc_type: Type[Exception],
+        exc_value: Exception,
         exc_traceback: str,
     ) -> None:
         super().__init__(
@@ -80,6 +90,8 @@ class DebugError(Element):
 
 
 class ErrorMessage(Element):
+    """A simple error message. Typically used on production environment."""
+
     def __init__(self, message: Any) -> None:
         super().__init__(
             "div",

@@ -6,6 +6,12 @@ from typing import Callable, Optional, Dict, List, Any
 
 
 class Button(Element):
+    """Represents an HTML ``<button>``.
+
+    Args:
+        onclick: Called when this button is clicked.
+    """
+
     def __init__(
         self,
         onclick: Callable[[DOMEvent], None],

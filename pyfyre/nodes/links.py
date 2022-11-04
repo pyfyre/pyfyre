@@ -6,6 +6,15 @@ from typing import Optional, Dict, List, Callable, Any
 
 
 class Link(Element):
+    """Represents an HTML ``<a>``.
+
+    Args:
+        href: Hyperlink of the page the link goes to.
+
+    Attributes:
+        href (str): Hyperlink of the page the link goes to.
+    """
+
     def __init__(
         self,
         href: str,
@@ -21,18 +30,22 @@ class Link(Element):
         super().__init__("a", children, styles=styles, states=states, attrs=attrs)
 
     @property
-    def absolute_href(self) -> str:
+    def url(self) -> str:
+        """URL of the page the link goes to."""
         el = document.createElement("a")
         el.href = self.href
         return el.href
 
     def is_internal(self) -> bool:
+        """Whether the href is linked within the same domain."""
         el = document.createElement("a")
         el.href = self.href
         return bool(el.host == window.location.host)
 
 
 class RouterLink(Link):
+    """Navigates to a different route inside the website as a single-page application."""
+
     def __init__(
         self,
         href: str,
@@ -47,7 +60,7 @@ class RouterLink(Link):
             # Import here due to cicular import problem
             from pyfyre.router import RouteManager
 
-            window.history.pushState(None, None, self.absolute_href)
+            window.history.pushState(None, None, self.url)
             event.preventDefault()
             RouteManager.change_route(href)
 
