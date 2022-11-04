@@ -26,7 +26,7 @@ class App(Widget):
             Element(
                 "div",
                 children=lambda: [
-                    ListBuilder(children_builder=todo, count=len(self.todos.value)),
+                    ListBuilder(item_builder=todo, count=len(self.todos.value)),
                 ],
                 # Element("div") will be automatically rerendered once its
                 # dependency states has been updated.

@@ -2,6 +2,8 @@ from typing import List, Callable
 
 
 class EventMixin:
+    """:meta private:"""
+
     def __init__(self) -> None:
         self._listeners: List[Callable[[], None]] = []
 

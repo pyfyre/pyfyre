@@ -5,6 +5,13 @@ from typing import Any, Callable, Optional, Dict, List
 
 
 class TextInput(Element):
+    """Represents an HTML ``<input>`` or ``<textarea>`` depending on the ``multiline`` argument.
+
+    Args:
+        placeholder: Placeholder text of this input.
+        multiline: Whether this text input is multiline or not.
+    """
+
     def __init__(
         self,
         children: Optional[Callable[[], List[Node]]] = None,
@@ -28,8 +35,10 @@ class TextInput(Element):
 
     @property
     def value(self) -> str:
+        """Value of this text input."""
         return str(self.dom.value)
 
     def set_value(self, value: Any) -> None:
+        """Set the value of this text input."""
         self.dom.value = str(value)
         self.update_dom()
