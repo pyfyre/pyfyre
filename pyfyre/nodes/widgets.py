@@ -111,6 +111,4 @@ class FutureWidget(FutureElement, ABC):
         Returns:
             By default, a loading animation.
         """
-        from pyfyre.presets.loading import Loading
-
-        return [Loading()]
+        return super().while_no_result()
