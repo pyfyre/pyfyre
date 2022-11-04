@@ -1,4 +1,4 @@
-"""Run this script to update the Sphinx generated documentation in the `docs` directory."""
+"""Run this script before a release."""
 
 import os
 import subprocess
@@ -10,7 +10,7 @@ if __name__ == "__main__":
         PYTHONPATH = os.getenv("PYTHONPATH") or ""
 
         subprocess.run(
-            "pip install -e . && "
+            "black . && mypy . && pip install -e . && "
             f"export PYTHONPATH={MODULESPATH}:{SETTINGSPATH}:{PYTHONPATH} && "
             "sphinx-apidoc -f -o docs/source pyfyre && "
             "cd docs && make clean html && make html",
