@@ -8,6 +8,11 @@ def create_static_flask_app(directory: str) -> Flask:
     @app.route("/", defaults={"filename": "index.html"})
     @app.route("/<path:filename>")
     def index(filename: str) -> Response:
-        return send_from_directory(".", filename)
+        target = os.path.join(directory, *filename.split("/"))
+
+        if os.path.isfile(target):
+            return send_from_directory(".", filename)
+
+        return send_from_directory(".", os.path.join(filename, "index.html"))
 
     return app
