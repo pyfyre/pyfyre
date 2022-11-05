@@ -1,4 +1,6 @@
+import traceback
 from typing import Any, Type
+from types import TracebackType
 from pyfyre.styles import Style
 from pyfyre.nodes import Element, Text
 
@@ -16,11 +18,11 @@ class DebugError(Element):
 
     def __init__(
         self,
-        *,
         exc_type: Type[Exception],
         exc_value: Exception,
-        exc_traceback: str,
+        exc_traceback: TracebackType,
     ) -> None:
+        tr = traceback.format_exc()
         super().__init__(
             "div",
             lambda: [
@@ -63,7 +65,7 @@ class DebugError(Element):
                 ),
                 Element(
                     "p",
-                    lambda: [Element("pre", lambda: [Text(exc_traceback)])],
+                    lambda: [Element("pre", lambda: [Text(tr)])],
                     styles=[
                         Style(
                             background_color="black",

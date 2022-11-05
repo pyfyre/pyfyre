@@ -1,6 +1,5 @@
 import sys
 import pyfyre
-import traceback
 from typing import Type
 from browser import document
 from types import TracebackType
@@ -126,7 +125,7 @@ class Element(Node):
             DebugError(
                 exc_type=exc_type,
                 exc_value=exc_value,
-                exc_traceback=traceback.format_exc(),
+                exc_traceback=exc_traceback,
             )
         ]
 
