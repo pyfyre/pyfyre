@@ -9,15 +9,15 @@
 
 A fast, declarative, and incrementally adoptable Python web frontend framework for building reactive web user interfaces.  
 PyFyre offers the following:
-- [x] **Component-based framework**. Developers who have experience in using other frontend frameworks should feel quite at home when using PyFyre.
-- [x] **Truly reactive**. PyFyre's virtual DOM allows for simple and efficient state management.
-- [x] **Quick navigation**. Navigation between pages is quick with PyFyre's single-page application design.
-- [x] **Pythonic code with static typing**. Developing with PyFyre is much easier with its type hinting and Pythonic style of coding.
-- [x] **Asynchronous programming**. Run non-blocking functions out of the box.
-- [x] **CPython interoperability**. Developers can limitedly use existing PyPI packages on the client-side web.
-- [ ] **JavaScript interoperability**. Allowing developers to leverage NPM packages and integrate with existing JavaScript applications.
-- [x] **Pure Python**. Build web apps without ever touching other languages like HTML and JavaScript.
-- [x] **And more!**
+- **Component-based framework**. Developers who have experience in using other frontend frameworks should feel quite at home when using PyFyre.
+- **Truly reactive**. PyFyre's virtual DOM allows for simple and efficient state management.
+- **Quick navigation**. Navigation between pages is quick with PyFyre's single-page application design.
+- **Pythonic code with static typing**. Developing with PyFyre is much easier with its type hinting and Pythonic style of coding.
+- **Asynchronous programming**. Run non-blocking functions out of the box.
+- **CPython interoperability**. Developers can limitedly use existing PyPI packages on the client-side web.
+- **JavaScript interoperability**. Allowing developers to leverage NPM packages and integrate with existing JavaScript applications.
+- **Pure Python**. Build web apps without ever touching other languages like HTML and JavaScript.
+- **And more!**
 
 ## Documentation
 Learn PyFyre by reading the [documentation](https://pyfyre.netlify.app/).
