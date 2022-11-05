@@ -1,10 +1,8 @@
-"""
-Entry point for pyfyre.
+"""Entry point for PyFyre CLI.
 
 Example:
-```bash
-python pyfyre create hello-world
-```
+    >>> cd /path/to/pyfyre/..
+    >>> python pyfyre create hello-world
 """
 
 import sys

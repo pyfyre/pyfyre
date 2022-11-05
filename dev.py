@@ -1,5 +1,5 @@
 """
-This module creates a PyFyre project in the `__dev__` directory.
+This script creates a PyFyre project in the `__dev__` directory.
 This starts a live server hosting the `__dev__/_pyfyre` directory.
 The live server watches for changes in the
 `pyfyre` and `pyfyre_cli` directories.

@@ -1,4 +1,8 @@
-"""Run this script before a release."""
+"""Run this script before a release.
+
+Read this for more information about making a release:
+    https://discord.com/channels/963120162041651281/1021948524390273024/1038051906074988597
+"""
 
 import os
 import subprocess

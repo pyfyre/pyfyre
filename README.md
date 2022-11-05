@@ -48,7 +48,7 @@ pip install pyfyre
 ## Create and Run a PyFyre Project
 ```bash
 pyfyre create [name]
-cd [project_directory]
+cd <project_directory>
 pyfyre run
 ```
 

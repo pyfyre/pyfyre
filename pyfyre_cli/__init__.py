@@ -1,10 +1,7 @@
-"""
-Entry point for pyfyre installed via pip or setuptools.
+"""Entry point for PyFyre CLI installed via pip or setuptools.
 
 Example:
-```bash
-pyfyre create hello-world
-```
+    >>> pyfyre create hello-world
 """
 
 import os
@@ -13,21 +10,18 @@ import pathlib
 from typing import List, Optional
 
 _HELP_MESSAGE = (
-    "Manage your PyFyre projects.\n"
-    "\n"
-    "  Common Commands:\n"
+    "Commands:\n"
     "    pyfyre help\n"
-    "      Show this message.\n"
-    "\n"
-    "    pyfyre create [path]\n"
-    "      Create a new PyFyre project in the specified path.\n"
-    "      The directory of the path will be your project's name.\n"
-    "\n"
+    "        Show this message.\n"
+    "    pyfyre version\n"
+    "        Show the current version of PyFyre.\n"
+    "    pyfyre create [path=./pyfyre-app]\n"
+    "        Create a new PyFyre project in the specified path.\n"
+    "        The directory name of the path will be your project's name.\n"
     "    pyfyre run\n"
-    "      Run the PyFyre project in the current directory in development mode.\n"
-    "\n"
+    "        Run the PyFyre project in the current directory in development mode.\n"
     "    pyfyre build\n"
-    "      Build the PyFyre project in the current directory for production.\n"
+    "        Build the PyFyre project in the current directory for production.\n"
 )
 
 
@@ -43,7 +37,9 @@ def execute(args: Optional[List[str]] = None) -> None:
 
     command = args_list[1] or "help"
 
-    if command == "create":
+    if command == "version":
+        print("PyFyre 0.6.2-alpha")
+    elif command == "create":
         from pyfyre_cli.create_app import create_app
 
         app_name = args_list[2] or "pyfyre-app"
