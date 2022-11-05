@@ -141,7 +141,7 @@ def bundle_scripts(*, production: bool) -> None:
 
     temp_dir = os.path.abspath("__temp__")
     with in_path(os.path.join(os.path.dirname(__file__), "..")):
-        shutil.copytree("pyfyre", os.path.join(temp_dir, "pyfyre"))
+        shutil.copytree("pyfyre", os.path.join(temp_dir, "pyfyre"), dirs_exist_ok=True)
 
     if production:
         subprocess.run(
