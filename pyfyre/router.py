@@ -19,6 +19,10 @@ class RouteManager:
         RouteManager._current_route = RouteManager.parse_route(window.location.href)
         RouteManager._routes_builder = routes
 
+        @window_event_listener("popstate")
+        def onpopstate(event: DOMEvent) -> None:
+            RouteManager.change_route(window.location.href)
+
     @staticmethod
     def parse_route(route_name: str) -> str:
         """Parse the ``route_name`` to turn it into a valid route name.
@@ -80,7 +84,7 @@ class RouteManager:
     def _update_page(
         route_data: Dict[str, Any], prev_route_data: Dict[str, Any]
     ) -> bool:
-        if route_data.get("head") != prev_route_data.get("head"):
+        if (route_data.get("head") or []) != (prev_route_data.get("head") or []):
             return False
 
         document.title = route_data.get("title")
