@@ -7,8 +7,8 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "PyFyre"
-copyright = "2022, StackSpace, Jabez Borja, Nadie Fiind"
-author = "StackSpace, Jabez Borja, Nadie Fiind"
+copyright = "2022, StackSpace"
+author = "StackSpace"
 release = "0.6.3-alpha"
 
 # -- General configuration ---------------------------------------------------
