@@ -55,14 +55,14 @@ class RouteManager:
         """
 
         if parse_route:
-            route = RouteManager.parse_route(route_name)
+            route_name = RouteManager.parse_route(route_name)
 
-        node = RouteManager._routes.get(route)
+        node = RouteManager._routes.get(route_name)
 
         if node is None:
-            route_builder = RouteManager._routes_builder.get(route)
+            route_builder = RouteManager._routes_builder.get(route_name)
             node = route_builder() if route_builder else None
-            RouteManager._routes[route] = node
+            RouteManager._routes[route_name] = node
 
             if isinstance(node, Element):
                 node.build_children()
