@@ -38,7 +38,7 @@ def execute(args: Optional[List[str]] = None) -> None:
     command = args_list[1] or "help"
 
     if command == "version":
-        print("PyFyre 0.6.2-alpha")
+        print("PyFyre 0.6.3-alpha")
     elif command == "create":
         from pyfyre_cli.create_app import create_app
 
