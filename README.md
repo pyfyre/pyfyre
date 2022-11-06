@@ -14,7 +14,7 @@ PyFyre offers the following:
 - **Quick navigation**. Navigation between pages is quick with PyFyre's single-page application design.
 - **Pythonic code with static typing**. Developing with PyFyre is much easier with its type hinting and Pythonic style of coding.
 - **Asynchronous programming**. Run non-blocking functions out of the box.
-- **CPython interoperability**. Developers can limitedly use existing PyPI packages on the client-side web.
+- **CPython interoperability**. Developers can limitedly use CPython packages on the client-side web.
 - **JavaScript interoperability**. Allowing developers to leverage NPM packages and integrate with existing JavaScript applications.
 - **Pure Python**. Build web apps without ever touching other languages like HTML and JavaScript.
 - **And more!**
