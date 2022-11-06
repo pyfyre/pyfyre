@@ -231,7 +231,7 @@ class TextNode(Node):
         self.dom.nodeValue = self._value
 
     def html(self) -> str:
-        return self.value
+        return self._value
 
 
 E = Element
