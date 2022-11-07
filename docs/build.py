@@ -1,3 +1,5 @@
+"""This script is used by Netlify build."""
+
 import os
 import subprocess
 

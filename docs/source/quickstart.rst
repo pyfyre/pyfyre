@@ -51,6 +51,7 @@ The source code of the app is inside the ``src/index.py`` file.
 You may start making changes there and see it reflect on your browser.
 
 The ``run`` command starts a development server with live reload that detects changes in the code and reloads the application automatically.
+To stop the server, press ``Ctrl+C`` on your terminal or cmd.
 
 .. note::
    Once you have run the app, PyFyre will generate a folder called `_pyfyre`. The folder contains all the files the running server needs. You can safely delete it after the server has been stopped.
