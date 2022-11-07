@@ -25,7 +25,7 @@ def create_app(app_name: str, app_dir: str, *, dev_mode: bool = False) -> None:
             print("Aborting...")
             return
 
-    with in_path(os.path.dirname(__file__)) as path:
+    with in_path(os.path.dirname(os.path.abspath(__file__))) as path:
         shutil.copytree(os.path.join(path, "user"), project_path, dirs_exist_ok=True)
 
     if not dev_mode:

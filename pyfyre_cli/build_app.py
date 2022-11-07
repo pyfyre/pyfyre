@@ -52,7 +52,9 @@ def _generate_page_body(route_name: str) -> str:
 
     for module in ["browser", "interpreter", "javascript"]:
         shutil.copy(
-            os.path.join(os.path.dirname(__file__), "copybin", f"{module}.py"),
+            os.path.join(
+                os.path.dirname(os.path.abspath(__file__)), "copybin", f"{module}.py"
+            ),
             "__temp__",
         )
 
@@ -112,7 +114,9 @@ def create_pages(*, production: bool) -> None:
 
 def _cherry_pick_modules() -> None:
     shutil.copy(
-        os.path.join(os.path.dirname(__file__), "copybin", "brython_stdlib.js"),
+        os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "copybin", "brython_stdlib.js"
+        ),
         "__temp__",
     )
 
@@ -140,7 +144,7 @@ def bundle_scripts(*, production: bool) -> None:
     shutil.copy("settings.py", "__temp__")
 
     temp_dir = os.path.abspath("__temp__")
-    with in_path(os.path.join(os.path.dirname(__file__), "..")):
+    with in_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")):
         shutil.copytree("pyfyre", os.path.join(temp_dir, "pyfyre"), dirs_exist_ok=True)
 
     if production:

@@ -10,7 +10,7 @@ def export_pyfyre_path() -> str:
 
 
 if __name__ == "__main__":
-    os.chdir(os.path.dirname(__file__))
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
     subprocess.run(
         f"pip install -r requirements.txt && {export_pyfyre_path()} && make html",
         shell=True,

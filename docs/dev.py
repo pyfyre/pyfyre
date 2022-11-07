@@ -16,7 +16,7 @@ def _make_html() -> None:
 
 
 if __name__ == "__main__":
-    if os.path.dirname(__file__) == os.getcwd():
+    if os.path.dirname(os.path.abspath(__file__)) == os.getcwd():
         subprocess.run(
             "pip install -e .. && "
             f"{export_pyfyre_path()} && "

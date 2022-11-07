@@ -8,7 +8,7 @@ import os
 import subprocess
 
 if __name__ == "__main__":
-    if os.path.dirname(__file__) == os.getcwd():
+    if os.path.dirname(os.path.abspath(__file__)) == os.getcwd():
         MODULESPATH = os.path.abspath(os.path.join("pyfyre_cli", "copybin"))
         SETTINGSPATH = os.path.abspath(os.path.join("pyfyre_cli", "user"))
         PYTHONPATH = os.getenv("PYTHONPATH") or ""
