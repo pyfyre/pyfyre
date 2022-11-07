@@ -10,12 +10,8 @@ def export_pyfyre_path() -> str:
 
 
 if __name__ == "__main__":
-    if os.path.dirname(__file__) == os.getcwd():
-        subprocess.run(
-            "pip install -r requirements.txt && "
-            f"{export_pyfyre_path()} && "
-            "make html",
-            shell=True,
-        )
-    else:
-        print("You must be in the directory of pyfyre/docs to run this script.")
+    os.chdir(os.path.dirname(__file__))
+    subprocess.run(
+        f"pip install -r requirements.txt && {export_pyfyre_path()} && make html",
+        shell=True,
+    )
