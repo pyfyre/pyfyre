@@ -40,6 +40,7 @@ setup(
         "Source": "https://github.com/pyfyre/pyfyre",
         "Updates": "https://www.facebook.com/pyfyreframework/",
         "Documentation": "https://pyfyre-docs.netlify.app/",
+        "Community": "https://discord.gg/YzEDuqhgZJ",
     },
     entry_points={"console_scripts": ["pyfyre = pyfyre_cli:execute"]},
     install_requires=[i.strip() for i in open("requirements.txt").readlines()],

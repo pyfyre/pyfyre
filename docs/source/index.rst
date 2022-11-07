@@ -41,10 +41,6 @@ But here is a super simple example. See how easy it is to create a simple Hello 
 .. image:: https://user-images.githubusercontent.com/64759159/111881940-d80e4380-89ed-11eb-9ffc-d607d80896fb.png
    :alt: output
 
-Stay Updated
-------------
-Stay updated about the PyFyre framework by following our `Facebook page <https://www.facebook.com/pyfyreframework>`_.
-
 Want to jump right in?
 ----------------------
 Feeling like an eager beaver? Jump in to the quick start docs:
@@ -59,6 +55,10 @@ Implementation
 --------------
 PyFyre is built on top of `Brython <https://brython.info/>`_ (Browser Python), a Python 3 implementation for client-side web programming. Brython allows Python code to be executed on the client-side browser. Anything you can do with JavaScript, you can also do with Python using Brython. Brython's speed of execution is similar to CPython for most operations. If you want to deep dive into how Brython works under the hood, check `this <https://github.com/brython-dev/brython/wiki/How-Brython-works>`_ out.
 
+Stay Updated
+------------
+Stay updated about the PyFyre framework by following our `Facebook page <https://www.facebook.com/pyfyreframework>`_.
+
 Contents
 --------
 
@@ -67,6 +67,7 @@ Contents
    
    Introduction <self>
    quickstart
+   help
 
 .. toctree::
    :maxdepth: 1
@@ -85,3 +86,4 @@ Contents
    Repository <https://github.com/pyfyre/pyfyre>
    Homepage <https://pyfyre.netlify.app>
    Facebook Page <https://www.facebook.com/pyfyreframework>
+   Discord Server <https://discord.gg/YzEDuqhgZJ>

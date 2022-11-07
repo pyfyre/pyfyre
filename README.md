@@ -47,3 +47,4 @@ It is also advisable to learn [Brython](https://www.brython.info/) alongside PyF
 - [Repository](https://github.com/pyfyre/pyfyre)
 - [Documentation](https://pyfyre-docs.netlify.app/)
 - [Facebook Page](https://www.facebook.com/pyfyreframework/)
+- [Discord Server](https://discord.gg/YzEDuqhgZJ)

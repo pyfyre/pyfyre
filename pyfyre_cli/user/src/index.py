@@ -84,6 +84,15 @@ class App(Widget):
                             )
                         ],
                     ),
+                    Element(
+                        "li",
+                        lambda: [
+                            Link(
+                                "https://discord.gg/YzEDuqhgZJ",
+                                lambda: [Text("Discord Server")],
+                            )
+                        ],
+                    ),
                 ],
             ),
         ]
