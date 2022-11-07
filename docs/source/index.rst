@@ -45,26 +45,40 @@ Stay Updated
 ------------
 Stay updated about the PyFyre framework by following our `Facebook page <https://www.facebook.com/pyfyreframework>`_.
 
+Want to jump right in?
+----------------------
+Feeling like an eager beaver? Jump in to the quick start docs:
+
+.. button-ref:: quickstart
+   :color: primary
+   :outline:
+   :align: left
+   :expand:
+
+Implementation
+--------------
+PyFyre is built on top of `Brython <https://brython.info/>`_ (Browser Python), a Python 3 implementation for client-side web programming. Brython allows Python code to be executed on the client-side browser. Anything you can do with JavaScript, you can also do with Python using Brython. Brython's speed of execution is similar to CPython for most operations. If you want to deep dive into how Brython works under the hood, check `this <https://github.com/brython-dev/brython/wiki/How-Brython-works>`_ out.
+
 Contents
 --------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    
    Introduction <self>
    quickstart
-   modules
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Search
+   :maxdepth: 1
+   :caption: References
    
+   modules
    genindex
    modindex
    search
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Links
    
    PyPI <https://pypi.org/project/pyfyre>
