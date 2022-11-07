@@ -1,6 +1,11 @@
 pyfyre package
 ==============
 
+.. automodule:: pyfyre
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Subpackages
 -----------
 
@@ -57,14 +62,6 @@ pyfyre.utils module
 -------------------
 
 .. automodule:: pyfyre.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: pyfyre
    :members:
    :undoc-members:
    :show-inheritance:

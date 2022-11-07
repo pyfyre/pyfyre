@@ -16,7 +16,7 @@ if __name__ == "__main__":
         subprocess.run(
             "black . && mypy . && pip install -e . && "
             f"export PYTHONPATH={MODULESPATH}:{SETTINGSPATH}:{PYTHONPATH} && "
-            "sphinx-apidoc -f -o docs/source pyfyre && "
+            "sphinx-apidoc -M -f -o docs/source pyfyre && "
             "cd docs && make clean html && make html",
             shell=True,
         )

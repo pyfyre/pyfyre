@@ -1,6 +1,11 @@
 pyfyre.presets package
 ======================
 
+.. automodule:: pyfyre.presets
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Submodules
 ----------
 
@@ -16,14 +21,6 @@ pyfyre.presets.loading module
 -----------------------------
 
 .. automodule:: pyfyre.presets.loading
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: pyfyre.presets
    :members:
    :undoc-members:
    :show-inheritance:

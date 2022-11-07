@@ -1,6 +1,11 @@
 pyfyre.nodes package
 ====================
 
+.. automodule:: pyfyre.nodes
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Submodules
 ----------
 
@@ -56,14 +61,6 @@ pyfyre.nodes.widgets module
 ---------------------------
 
 .. automodule:: pyfyre.nodes.widgets
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: pyfyre.nodes
    :members:
    :undoc-members:
    :show-inheritance:

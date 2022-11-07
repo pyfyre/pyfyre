@@ -20,7 +20,7 @@ if __name__ == "__main__":
         subprocess.run(
             "pip install -e .. && "
             f"{export_pyfyre_path()} && "
-            "sphinx-apidoc -f -o source ../pyfyre && "
+            "sphinx-apidoc -M -f -o source ../pyfyre && "
             "make clean html && make html",
             shell=True,
         )
