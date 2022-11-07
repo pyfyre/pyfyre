@@ -29,8 +29,7 @@ if __name__ == "__main__":
         app.debug = True
 
         server = Server(app.wsgi_app)
-        server.watch(os.path.join("source", "conf.py"), _make_html)
-        server.watch(os.path.join("source", "index.rst"), _make_html)
+        server.watch("source/", _make_html)
         server.serve(port=9050, host="localhost")
     else:
         print("You must be in the directory of pyfyre/docs to run this script.")
