@@ -45,7 +45,7 @@ Running a PyFyre Application
    pyfyre run
 
 And voila! You now have a running PyFyre app on your local machine.
-You can visit your app on your browser at ``http:localhost:8080``.
+You can visit your app on your browser at ``http://localhost:5500``.
 
 The source code of the app is inside the ``src/index.py`` file.
 You may start making changes there and see it reflect on your browser.
