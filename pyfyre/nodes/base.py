@@ -53,7 +53,7 @@ class Element(Node):
         tag_name (str): HTML tag name of this element.
         children (List[Node]): Children nodes of this element.
             This is equal to the return of the ``children`` argument.
-        style (Optional[~pyfyre.Style]): CSS styling of this element.
+        style (~pyfyre.Style): CSS styling of this element.
         states (List[~pyfyre.State[Any]]): State dependencies of this object.
             If one of the state dependencies has changed its state,
             the ``update_dom`` method of this object will be called.
@@ -71,7 +71,7 @@ class Element(Node):
     ) -> None:
         self.tag_name = tag_name
         self.children: List[Node] = []
-        self.style = Style.from_styles(styles) if styles else None
+        self.style = Style.from_styles(styles) if styles else Style()
         self.states = states or []
         self.attrs = attrs or {}
 
@@ -89,17 +89,16 @@ class Element(Node):
         def update_style_attr() -> None:
             self.attrs = attrs or {}
 
-            if self.style is not None:
-                if "style" in self.attrs:
-                    self.attrs["style"] += f"; {self.style.css()}"
-                else:
-                    self.attrs["style"] = self.style.css()
+            if "style" in self.attrs:
+                self.attrs["style"] += f"; {self.style.css()}"
+            else:
+                self.attrs["style"] = self.style.css()
 
             if getattr(self, "dom", None) is not None:
                 self.dom.setAttribute("style", self.attrs["style"])
 
-        if self.style is not None:
-            self.style.add_listener(update_style_attr)
+        self.style.add_listener(update_style_attr)
+        if self.style.props:
             update_style_attr()
 
         for state in self.states:
