@@ -19,4 +19,4 @@ def run_app() -> None:
     server.watch("src/", lambda: bundle_scripts(production=False))
     server.watch("settings.py", build_app)
     server.watch("template.html", lambda: create_pages(production=False))
-    server.serve()
+    server.serve(port=5500, host="localhost")

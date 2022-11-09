@@ -42,6 +42,6 @@ if __name__ == "__main__":
         server = Server(app.wsgi_app)
         server.watch("pyfyre/", _create_app)
         server.watch("pyfyre_cli/", _create_app)
-        server.serve(port=8080, host="localhost")
+        server.serve(port=5501, host="localhost")
     else:
         print("You must be in the directory of pyfyre to run the development server.")
