@@ -19,8 +19,10 @@ _HELP_MESSAGE = (
     "        Create a new PyFyre project in the specified path.\n"
     "        If no path is supplied, the default is 'pyfyre-app'.\n"
     "        The directory name of the path will be your project's name.\n"
-    "    pyfyre run\n"
+    "    pyfyre run [port] [hostname]\n"
     "        Run the PyFyre project in the current directory in development mode.\n"
+    "        If no port is supplied, the default is '5500'.\n"
+    "        If no hostname is supplied, the default is 'localhost'.\n"
     "    pyfyre build\n"
     "        Build the PyFyre project in the current directory for production.\n"
 )
@@ -28,7 +30,7 @@ _HELP_MESSAGE = (
 
 def execute(args: Optional[List[str]] = None) -> None:
     args = args or sys.argv
-    args_list: List[Optional[str]] = [None, None, None]
+    args_list: List[Optional[str]] = [None, None, None, None]
 
     for index, arg in enumerate(args):
         try:
@@ -56,7 +58,10 @@ def execute(args: Optional[List[str]] = None) -> None:
     elif command == "run":
         from pyfyre_cli.run_app import run_app
 
-        run_app()
+        port = args_list[2] or "5500"
+        hostname = args_list[3] or "localhost"
+
+        run_app(port, hostname)
     elif command == "build":
         from pyfyre_cli.build_app import build_app
 
