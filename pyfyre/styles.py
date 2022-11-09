@@ -75,6 +75,28 @@ class Style(EventMixin):
         del self.props[prop]
         self.call_listeners()
 
+    def update(self, **props: str) -> None:
+        """Update the properties of this style.
+
+        Args:
+            **props: CSS properties but the hyphens (-) are replaced by underscores (_).
+                The values are unchanged.
+        """
+        for prop, value in props.items():
+            self.props[prop] = value
+
+        self.call_listeners()
+
+    def set(self, **props: str) -> None:
+        """Overwrite the properties of this style.
+
+        Args:
+            **props: CSS properties but the hyphens (-) are replaced by underscores (_).
+                The values are unchanged.
+        """
+        self.props = props
+        self.call_listeners()
+
     def css(self) -> str:
         """CSS representation of this object."""
         return "; ".join(
