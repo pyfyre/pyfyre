@@ -7,7 +7,7 @@ from pyfyre.styles import Style
 from pyfyre.states import State
 from abc import ABC, abstractmethod
 from browser import DOMNode, DOMEvent
-from typing import Any, Dict, List, Optional, Callable
+from typing import Any, Dict, List, Optional, Callable, Union
 
 
 class Node(ABC):
@@ -190,32 +190,42 @@ class TextNode(Node):
     """Represents an HTML DOM text node.
 
     Args:
-        value: Value of the text.
+        *values: Value of the text.
             You can pass in a ``State`` object to automatically update the value of the text
             when the state dependency has changed its state.
-            If the ``value`` is a ``State`` object,
-            the value of the text will be equal to ``[State].value``.
     """
 
-    def __init__(self, value: Any) -> None:
-        if isinstance(value, State):
-            self._value = str(value.value)
-            value.add_listener(lambda: self.set_value(value.value))
-        else:
-            self._value = str(value)
-
+    def __init__(self, *values: Union[State[Any], Any]) -> None:
+        self._value = self._process_values(*values)
         super().__init__()
+
+    def _process_values(self, *values: Union[State[Any], Any]) -> str:
+        def add_values() -> str:
+            result = ""
+
+            for value in values:
+                if isinstance(value, State):
+                    result += str(value.value)
+                else:
+                    result += str(value)
+
+            return result
+
+        def update_value() -> None:
+            self._value = add_values()
+            self.update_dom()
+
+        for value in values:
+            if isinstance(value, State):
+                value.add_listener(update_value)
+
+        return add_values()
 
     @property
     def value(self) -> str:
         """Value of the text."""
         self._value = self.dom.nodeValue
         return self._value
-
-    def set_value(self, value: Any) -> None:
-        """Set the value of the text."""
-        self._value = str(value)
-        self.update_dom()
 
     def create_dom(self) -> DOMNode:
         """Create a new HTML DOM text node from this object.
