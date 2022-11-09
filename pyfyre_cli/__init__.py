@@ -15,8 +15,9 @@ _HELP_MESSAGE = (
     "        Show this message.\n"
     "    pyfyre version\n"
     "        Show the current version of PyFyre.\n"
-    "    pyfyre create [path=./pyfyre-app]\n"
+    "    pyfyre create [path]\n"
     "        Create a new PyFyre project in the specified path.\n"
+    "        If no path is supplied, the default is 'pyfyre-app'.\n"
     "        The directory name of the path will be your project's name.\n"
     "    pyfyre run\n"
     "        Run the PyFyre project in the current directory in development mode.\n"
@@ -37,14 +38,21 @@ def execute(args: Optional[List[str]] = None) -> None:
 
     command = args_list[1] or "help"
 
-    if command == "version":
+    if command == "help":
+        print(_HELP_MESSAGE)
+    elif command == "version":
         print("PyFyre 0.6.3-alpha")
     elif command == "create":
         from pyfyre_cli.create_app import create_app
 
         app_name = args_list[2] or "pyfyre-app"
         app_path = pathlib.Path(os.path.abspath(app_name))
-        create_app(app_path.parts[-1], os.path.join(*app_path.parts[:-1]))
+        app_path_parts = app_path.parts[:-1]
+
+        if not app_path_parts:
+            print("You can't create a project in that directory.")
+        else:
+            create_app(app_path.parts[-1], os.path.join(*app_path_parts))
     elif command == "run":
         from pyfyre_cli.run_app import run_app
 
@@ -54,4 +62,5 @@ def execute(args: Optional[List[str]] = None) -> None:
 
         build_app(production=True)
     else:
+        print("Command not found.")
         print(_HELP_MESSAGE)
