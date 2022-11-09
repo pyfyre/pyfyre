@@ -204,7 +204,10 @@ def build_app(*, production: bool = False) -> None:
         print("Building app...")
 
     # Mirror the public files of the user to the build files
-    shutil.copytree("public", "build" if production else "_pyfyre", dirs_exist_ok=True)
+    if os.path.isdir("public"):
+        shutil.copytree(
+            "public", "build" if production else "_pyfyre", dirs_exist_ok=True
+        )
 
     create_pages(production=production)
     bundle_scripts(production=production)
