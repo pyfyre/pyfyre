@@ -9,7 +9,7 @@
 project = "PyFyre"
 copyright = "2022, StackSpace"
 author = "StackSpace"
-release = "0.6.4-alpha"
+release = "0.6.5-alpha"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
