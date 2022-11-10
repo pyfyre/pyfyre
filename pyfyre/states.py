@@ -52,8 +52,7 @@ class State(Generic[T], BaseState):
 
 
 class EventState(BaseState):
-    """A state which changes state whenever the specified
-    ``event_type`` is delivered to the ``target``.
+    """A state which updates whenever the specified ``event_type`` is delivered to the ``target``.
     If the ``target`` is None, will listen to the window instead.
 
     This object is used as a state dependency for elements.
@@ -79,3 +78,36 @@ class EventState(BaseState):
             target.add_event_listener(event_type, lambda ev: self.call_listeners())
         else:
             window.bind(event_type, lambda ev: self.call_listeners())
+
+
+class MediaQuery(BaseState):
+    """A state which updates whenever the media query match has changed its state.
+
+    This is similar to JavaScript ``window.matchMedia``.
+
+    This object is used as a state dependency for elements.
+
+    Args:
+        media_query_string: Specifies the media query string to match.
+
+    **Example:**
+
+    .. code-block:: python
+
+        Element(
+            "p",
+            lambda: [Text()],
+            # The element will rebuild every time the media query matches.
+            states=[MediaQuery("(max-width: 700px)")]
+        )
+    """
+
+    def __init__(self, media_query_string: str) -> None:
+        super().__init__()
+        self._media_query = window.matchMedia(media_query_string)
+        self._media_query.addListener(lambda mq: self.call_listeners())
+
+    @property
+    def matches(self) -> bool:
+        """True if the window currently matches the media query, False otherwise."""
+        return bool(self._media_query.matches)
