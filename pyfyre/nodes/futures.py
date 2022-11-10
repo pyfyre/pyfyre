@@ -151,7 +151,7 @@ class FutureElement(Element):
 
         Returns:
             The number of callbacks removed, which is typically 1,
-            unless a callback was added more than once.
+            unless the ``callback`` was added more than once.
         """
         remaining_callbacks = []
         removed = 0
