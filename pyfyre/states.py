@@ -1,10 +1,15 @@
+from abc import ABC
 from typing import TypeVar, Generic
 from pyfyre.utils import EventMixin
 
 T = TypeVar("T")
 
 
-class State(Generic[T], EventMixin):
+class BaseState(ABC, EventMixin):
+    """Abstract base class for state dependencies used for rebuilding nodes."""
+
+
+class State(Generic[T], BaseState):
     """An object which stores a ``value`` of generic type ``T``.
 
     This object is used as a state dependency for nodes.

@@ -1,8 +1,8 @@
 from browser import DOMEvent
 from pyfyre.styles import Style
-from pyfyre.states import State
+from pyfyre.states import BaseState
 from pyfyre.nodes.base import Node, Element
-from typing import Callable, Optional, Dict, List, Any
+from typing import Callable, Optional, Dict, List
 
 
 class Button(Element):
@@ -18,7 +18,7 @@ class Button(Element):
         children: Optional[Callable[[], List[Node]]] = None,
         *,
         styles: Optional[List[Style]] = None,
-        states: Optional[List[State[Any]]] = None,
+        states: Optional[List[BaseState]] = None,
         attrs: Optional[Dict[str, str]] = None
     ) -> None:
         super().__init__("button", children, styles=styles, states=states, attrs=attrs)

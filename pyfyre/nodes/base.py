@@ -4,7 +4,7 @@ from typing import Type
 from browser import document
 from types import TracebackType
 from pyfyre.styles import Style
-from pyfyre.states import State
+from pyfyre.states import BaseState, State
 from abc import ABC, abstractmethod
 from browser import DOMNode, DOMEvent
 from typing import Any, Dict, List, Optional, Callable, Union
@@ -54,7 +54,7 @@ class Element(Node):
         children (List[Node]): Children nodes of this element.
             This is equal to the return of the ``children`` argument.
         style (~pyfyre.Style): CSS styling of this element.
-        states (List[~pyfyre.State[Any]]): State dependencies of this object.
+        states (List[~pyfyre.BaseState]): State dependencies of this object.
             If one of the state dependencies has changed its state,
             the ``update_dom`` method of this object will be called.
         attrs (Dict[str, str]): HTML attributes of this element.
@@ -66,7 +66,7 @@ class Element(Node):
         children: Optional[Callable[[], List[Node]]] = None,
         *,
         styles: Optional[List[Style]] = None,
-        states: Optional[List[State[Any]]] = None,
+        states: Optional[List[BaseState]] = None,
         attrs: Optional[Dict[str, str]] = None,
     ) -> None:
         self.tag_name = tag_name
@@ -182,7 +182,9 @@ class Element(Node):
     def add_event_listener(
         self, event_type: str, callback: Callable[[DOMEvent], None]
     ) -> None:
-        """Calls the ``callback`` whenever the specified ``event_type`` is delivered to this element."""
+        """Calls the ``callback`` whenever the specified ``event_type``
+        is delivered to this element.
+        """
         self.dom.bind(event_type, callback)
 
 

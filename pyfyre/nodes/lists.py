@@ -1,10 +1,10 @@
 import sys
 from pyfyre.styles import Style
-from pyfyre.states import State
+from pyfyre.states import BaseState
 from browser import timer
 from browser import DOMEvent
 from pyfyre.nodes import Node, Element
-from typing import Optional, Dict, List, Callable, Any
+from typing import Optional, Dict, List, Callable
 
 
 class ListBuilder(Element):
@@ -47,7 +47,7 @@ class ListBuilder(Element):
         render_batch: int = 10,
         render_interval: float = 0,
         styles: Optional[List[Style]] = None,
-        states: Optional[List[State[Any]]] = None,
+        states: Optional[List[BaseState]] = None,
         attrs: Optional[Dict[str, str]] = None
     ) -> None:
         styles = styles or []
