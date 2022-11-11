@@ -1,8 +1,23 @@
 # Welcome to PyFyre Contributing Guide
 As an open-source project, PyFyre welcomes contributions of any form.  
-When contributing to this repository, please first discuss the change you wish to make via [issue](https://github.com/pyfyre/pyfyre/issues), [discussion](https://github.com/pyfyre/pyfyre/discussions), or any other method with the owners of this repository before making a change.
+When contributing to this repository, please first discuss the change you wish to make via [Discord](https://discord.com/invite/YzEDuqhgZJ), [issue](https://github.com/pyfyre/pyfyre/issues), [discussion](https://github.com/pyfyre/pyfyre/discussions), or any other method with the owners of this repository before making a change.
 
 Thank you for investing your time in contributing to our project!
+
+## Project Directory
+- [.github](.github)  
+  Files used by the remote repository on GitHub.
+- [browser](browser), [interpreter](interpreter), and [javascript](javascript)  
+  Empty implementation of [Brython built-in packages](https://brython.info/static_doc/en/browser.html).
+  These allow us to run PyFyre modules in a Python interpreter.
+- [docs](docs)  
+  Documentation for the PyFyre framework. This directory was generated using [Sphinx](https://www.sphinx-doc.org/en/master/).
+- [examples](examples)  
+  Example PyFyre projects.
+- [pyfyre](pyfyre)  
+  The core of PyFyre framework.
+- [pyfyre_cli](pyfyre_cli)  
+  PyFyre command-line interface.
 
 ## Before Starting
 If you just want to contribute to the documentation, skip ahead [here](#documentation).

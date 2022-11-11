@@ -9,13 +9,12 @@ import subprocess
 
 if __name__ == "__main__":
     if os.path.dirname(os.path.abspath(__file__)) == os.getcwd():
-        MODULESPATH = os.path.abspath(os.path.join("pyfyre_cli", "copybin"))
         SETTINGSPATH = os.path.abspath(os.path.join("pyfyre_cli", "user"))
         PYTHONPATH = os.getenv("PYTHONPATH") or ""
 
         subprocess.run(
             "black . && mypy . && pip install -e . && "
-            f"export PYTHONPATH={MODULESPATH}:{SETTINGSPATH}:{PYTHONPATH} && "
+            f"export PYTHONPATH={SETTINGSPATH}:{PYTHONPATH} && "
             "sphinx-apidoc -M -f -o docs/source pyfyre && "
             "cd docs && make clean html && make html",
             shell=True,

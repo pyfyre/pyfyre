@@ -5,10 +5,9 @@ import subprocess
 
 
 def export_pyfyre_path() -> str:
-    MODULESPATH = os.path.abspath(os.path.join("..", "pyfyre_cli", "copybin"))
     SETTINGSPATH = os.path.abspath(os.path.join("..", "pyfyre_cli", "user"))
     PYTHONPATH = os.getenv("PYTHONPATH") or ""
-    return f"export PYTHONPATH={MODULESPATH}:{SETTINGSPATH}:{PYTHONPATH}"
+    return f"export PYTHONPATH={SETTINGSPATH}:{PYTHONPATH}"
 
 
 if __name__ == "__main__":

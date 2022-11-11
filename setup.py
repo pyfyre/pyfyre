@@ -18,7 +18,7 @@ def get_package_files(directory: str) -> List[str]:
     return paths
 
 
-packages = ["pyfyre", "pyfyre_cli"]
+packages = ["pyfyre", "pyfyre_cli", "browser", "interpreter", "javascript"]
 
 setup(
     name="pyfyre",
