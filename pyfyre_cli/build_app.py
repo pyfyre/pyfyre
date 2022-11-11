@@ -76,7 +76,8 @@ def _generate_page_body(route_name: str) -> str:
             # Brython functions like [createElement] will not work in this context
             # that's why we would not want to parse the route which uses
             # a Brython function (document.createElement).
-            html = RouteManager.get_node(route_name, parse_route=False).html()
+            html = RouteManager.get_node(route_name, parse_route=False)
+            html = html.html() if html else "No route to render."
 
     shutil.rmtree("__temp__")
     return html

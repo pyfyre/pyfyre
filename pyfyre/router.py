@@ -45,7 +45,7 @@ class RouteManager:
         return str(el.pathname).rstrip("/")
 
     @staticmethod
-    def get_node(route_name: str, *, parse_route: bool = True) -> Node:
+    def get_node(route_name: str, *, parse_route: bool = True) -> Optional[Node]:
         """Get the corresponding ``Node`` of the ``route_name``.
 
         Args:
@@ -71,12 +71,12 @@ class RouteManager:
             if isinstance(node, Element):
                 node.build_children()
 
-        return node or Element("p", lambda: [TextNode("404: Page Not Found :(")])
+        return node
 
     @staticmethod
     def render_route(route_name: str) -> None:
         """:meta private:"""
-        node = RouteManager.get_node(route_name)
+        node = RouteManager.get_node(route_name) or TextNode("No route to render.")
         RouteManager._root_node.clear()
         RouteManager._root_node.attach(node.dom)
 
