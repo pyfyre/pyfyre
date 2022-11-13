@@ -2,7 +2,7 @@ from pyfyre.styles import Style
 from pyfyre.states import BaseState
 from pyfyre.nodes.base import Node, Element
 from browser import DOMEvent, window, document
-from typing import Optional, Dict, List, Callable
+from typing import Any, Optional, Dict, List, Callable
 
 
 class Link(Element):
@@ -44,13 +44,21 @@ class Link(Element):
 
 
 class RouterLink(Link):
-    """Navigates to a different route inside the website as a single-page application."""
+    """Navigates to a different route inside the website as a single-page application.
+
+    Args:
+        arg: The argument that will be passed in to the route builder.
+        force_build: Whether to call the route builder even if it is already called before.
+            By default, called route builders are cached.
+    """
 
     def __init__(
         self,
         href: str,
         children: Optional[Callable[[], List[Node]]] = None,
         *,
+        arg: Any = None,
+        force_build: bool = False,
         styles: Optional[List[Style]] = None,
         attrs: Optional[Dict[str, str]] = None
     ) -> None:
@@ -62,6 +70,6 @@ class RouterLink(Link):
 
             window.history.pushState(None, None, self.url)
             event.preventDefault()
-            RouteManager.change_route(href)
+            RouteManager.change_route(href, arg=arg, force_build=force_build)
 
         self.add_event_listener("click", change_route)

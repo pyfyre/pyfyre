@@ -130,6 +130,7 @@ class Element(Node):
 
     def build_children(self, *, propagate: bool = True) -> None:
         """:meta private:"""
+        self.dom.clear()
         self.children = self._children_builder()
 
         for child in self.children:
@@ -155,7 +156,6 @@ class Element(Node):
         """Update the corresponding HTML DOM element of this object.
         This rebuilds the children of this element recursively.
         """
-        self.dom.clear()
         self.update_attrs()
         self.build_children(propagate=False)
 

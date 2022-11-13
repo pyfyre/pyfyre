@@ -32,13 +32,15 @@ def _set_custom_window_events() -> Dict[str, DOMEvent]:
     return events
 
 
-def render(routes: Dict[str, Callable[[], Node]]) -> None:
+def render(routes: Dict[str, Callable[..., Node]]) -> None:
     """The main function for initializing a PyFyre application.
     This function can only be called once.
 
     Args:
         routes: Pairs of route name and its corresponding route builder.
             The route builder returns a ``Node`` that will be rendered on the web page.
+            The route builder optionally accepts a single argument.
+            The value of the argument may be passed in by a ``RouterLink``.
 
     Raises:
         PyFyreException: When this function is called again.
@@ -47,10 +49,13 @@ def render(routes: Dict[str, Callable[[], Node]]) -> None:
 
     .. code-block:: python
 
+        RouterLink("/random", arg="A Random Title")
+
         render({
             "/": lambda: HomePage(),
             "/about": lambda: AboutPage(),
-            "/contact": lambda: ContactPage()
+            "/contact": lambda: ContactPage(),
+            "/random": lambda title: RandomPage(title)  # The argument defaults to None.
         })
     """
 

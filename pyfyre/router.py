@@ -9,12 +9,12 @@ class RouteManager:
     """A static class that enables navigation between various views in a PyFyre application."""
 
     _current_route: str
-    _routes_builder: Dict[str, Callable[[], Node]] = {}
+    _routes_builder: Dict[str, Callable[..., Node]] = {}
     _routes: Dict[str, Optional[Node]] = {}
     _root_node = document.select_one("#root")
 
     @staticmethod
-    def initialize(routes: Dict[str, Callable[[], Node]]) -> None:
+    def initialize(routes: Dict[str, Callable[..., Node]]) -> None:
         """:meta private:"""
         RouteManager._current_route = RouteManager.parse_route(window.location.href)
         RouteManager._routes_builder = routes
@@ -45,15 +45,25 @@ class RouteManager:
         return str(el.pathname).rstrip("/")
 
     @staticmethod
-    def get_node(route_name: str, *, parse_route: bool = True) -> Optional[Node]:
-        """Get the corresponding ``Node`` of the ``route_name``.
+    def get_node(
+        route_name: str,
+        *,
+        arg: Any = None,
+        force_build: bool = False,
+        parse_route: bool = True,
+    ) -> Optional[Node]:
+        """Call the corresponding route builder of the ``route_name``
+        and return its ``Node``.
 
         Args:
+            arg: The argument that will be passed in to the route builder.
+            force_build: Whether to call the route builder even if it is already called before.
+                By default, called route builders are cached.
             parse_route: Whether to call the
                 ``RouteManager.parse_route`` method on the ``route_name``.
 
         Returns:
-            The corresponding ``Node`` of the ``route_name``.
+            The returned ``Node`` of the corresponding route builder of the ``route_name``.
             If the route doesn't exist, the default will be returned
             which has a 404 message.
         """
@@ -63,9 +73,17 @@ class RouteManager:
 
         node = RouteManager._routes.get(route_name)
 
-        if node is None:
+        if force_build or node is None:
             route_builder = RouteManager._routes_builder.get(route_name)
-            node = route_builder() if route_builder else None
+
+            if route_builder is not None:
+                try:
+                    node = route_builder(arg)
+                except TypeError:
+                    node = route_builder()
+            else:
+                node = None
+
             RouteManager._routes[route_name] = node
 
             if isinstance(node, Element):
@@ -74,9 +92,13 @@ class RouteManager:
         return node
 
     @staticmethod
-    def render_route(route_name: str) -> None:
+    def render_route(
+        route_name: str, *, arg: Any = None, force_build: bool = False
+    ) -> None:
         """:meta private:"""
-        node = RouteManager.get_node(route_name) or TextNode("No route to render.")
+        node = RouteManager.get_node(
+            route_name, arg=arg, force_build=force_build
+        ) or TextNode("No route to render.")
         RouteManager._root_node.clear()
         RouteManager._root_node.attach(node.dom)
 
@@ -96,7 +118,9 @@ class RouteManager:
         return True
 
     @staticmethod
-    def change_route(route_name: str) -> None:
+    def change_route(
+        route_name: str, *, arg: Any = None, force_build: bool = False
+    ) -> None:
         """:meta private:"""
         prev_route = RouteManager._current_route
 
@@ -114,6 +138,8 @@ class RouteManager:
                     route_data, ROUTES[prev_route]
                 )
                 if has_same_head:
-                    RouteManager.render_route(route_name)
+                    RouteManager.render_route(
+                        route_name, arg=arg, force_build=force_build
+                    )
                 else:
                     window.location.reload()
