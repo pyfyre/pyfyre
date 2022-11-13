@@ -58,7 +58,7 @@ class RouterLink(Link):
         children: Optional[Callable[[], List[Node]]] = None,
         *,
         arg: Any = None,
-        force_build: bool = False,
+        force_build: bool = True,
         styles: Optional[List[Style]] = None,
         attrs: Optional[Dict[str, str]] = None
     ) -> None:

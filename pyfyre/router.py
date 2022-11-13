@@ -5,10 +5,25 @@ from pyfyre.events import window_event_listener
 from pyfyre.nodes import Node, Element, TextNode
 
 
+class _NavigationStack:
+    def __init__(self, initial_route: str) -> None:
+        self._data = [initial_route]
+
+    @property
+    def top(self) -> str:
+        return self._data[-1]
+
+    def push(self, route: str) -> None:
+        self._data.append(route)
+
+    def pop(self) -> str:
+        return self._data.pop()
+
+
 class RouteManager:
     """A static class that enables navigation between various views in a PyFyre application."""
 
-    _current_route: str
+    _stack: _NavigationStack
     _routes_builder: Dict[str, Callable[..., Node]] = {}
     _routes: Dict[str, Optional[Node]] = {}
     _root_node = document.select_one("#root")
@@ -16,7 +31,8 @@ class RouteManager:
     @staticmethod
     def initialize(routes: Dict[str, Callable[..., Node]]) -> None:
         """:meta private:"""
-        RouteManager._current_route = RouteManager.parse_route(window.location.href)
+        initial_route = RouteManager.parse_route(window.location.href)
+        RouteManager._stack = _NavigationStack(initial_route)
         RouteManager._routes_builder = routes
 
         @window_event_listener("popstate")
@@ -49,7 +65,7 @@ class RouteManager:
         route_name: str,
         *,
         arg: Any = None,
-        force_build: bool = False,
+        force_build: bool = True,
         parse_route: bool = True,
     ) -> Optional[Node]:
         """Call the corresponding route builder of the ``route_name``
@@ -93,7 +109,7 @@ class RouteManager:
 
     @staticmethod
     def render_route(
-        route_name: str, *, arg: Any = None, force_build: bool = False
+        route_name: str, *, arg: Any = None, force_build: bool = True
     ) -> None:
         """:meta private:"""
         node = RouteManager.get_node(
@@ -119,16 +135,16 @@ class RouteManager:
 
     @staticmethod
     def change_route(
-        route_name: str, *, arg: Any = None, force_build: bool = False
+        route_name: str, *, arg: Any = None, force_build: bool = True
     ) -> None:
         """:meta private:"""
-        prev_route = RouteManager._current_route
+        prev_route = RouteManager._stack.top
 
         if ROUTES.get(prev_route) is None:
             window.location.reload()
         else:
             route_name = RouteManager.parse_route(route_name)
-            RouteManager._current_route = route_name
+            RouteManager._stack.push(route_name)
             route_data = ROUTES.get(route_name)
 
             if route_data is None:
