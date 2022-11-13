@@ -25,5 +25,5 @@ class EmptyObject:
         return other + str(self)
 
 
-Interpreter = EmptyObject("Interpreter")
-Inspector = EmptyObject("Inspector")
+Interpreter: Any = EmptyObject("Interpreter")
+Inspector: Any = EmptyObject("Inspector")

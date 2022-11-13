@@ -1,9 +1,10 @@
+from typing import List
 from pyfyre import render, Style
 from pyfyre.nodes import *
 
 
 class App(Widget):
-    def build(self) -> list[Node]:
+    def build(self) -> List[Node]:
         return [
             Element(
                 "h1",
