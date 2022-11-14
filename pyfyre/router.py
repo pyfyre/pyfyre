@@ -134,28 +134,45 @@ class RouteManager:
         return True
 
     @staticmethod
+    def _get_url(route_name: str) -> str:
+        """Get the URL of the page the ``route_name`` goes to."""
+        el = document.createElement("a")
+        el.href = route_name
+        return el.href
+
+    @staticmethod
     def change_route(
         route_name: str, *, arg: Any = None, force_build: bool = True
     ) -> None:
-        """:meta private:"""
-        prev_route = RouteManager._stack.top
+        """Change the current route.
 
-        if ROUTES.get(prev_route) is None:
+        This adds an entry to the browser's session history stack.
+
+        If the ``route_name`` is not present in the ``ROUTES``
+        in your ``settings.py`` file, `404 Not Found` will be returned.
+
+        If the ``ROUTES[route_name]["head"]`` (head data)
+        is not equal to the head data of the current route, the page will reload.
+        This is because it is really not allowed to modify the head tag in HTML.
+
+        Args:
+            route_name: The name of the route that will be rendered.
+            arg: The argument that will be passed in to the route builder.
+            force_build: Whether to call the route builder even if it is already called before.
+                By default, called route builders are cached.
+        """
+        route_name = RouteManager.parse_route(route_name)
+        prev_route = RouteManager._stack.top
+        route_data = ROUTES.get(route_name)
+
+        window.history.pushState(None, None, RouteManager._get_url(route_name))
+        RouteManager._stack.push(route_name)
+
+        if route_data is None:
             window.location.reload()
         else:
-            route_name = RouteManager.parse_route(route_name)
-            RouteManager._stack.push(route_name)
-            route_data = ROUTES.get(route_name)
-
-            if route_data is None:
-                window.location.reload()
+            has_same_head = RouteManager._update_page(route_data, ROUTES[prev_route])
+            if has_same_head:
+                RouteManager.render_route(route_name, arg=arg, force_build=force_build)
             else:
-                has_same_head = RouteManager._update_page(
-                    route_data, ROUTES[prev_route]
-                )
-                if has_same_head:
-                    RouteManager.render_route(
-                        route_name, arg=arg, force_build=force_build
-                    )
-                else:
-                    window.location.reload()
+                window.location.reload()

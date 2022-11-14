@@ -68,7 +68,6 @@ class RouterLink(Link):
             # Import here due to cicular import problem
             from pyfyre.router import RouteManager
 
-            window.history.pushState(None, None, self.url)
             event.preventDefault()
             RouteManager.change_route(href, arg=arg, force_build=force_build)
 
