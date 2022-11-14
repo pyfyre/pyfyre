@@ -71,7 +71,7 @@ def _generate_page_body(route_name: str) -> str:
             html = RouteManager.get_node(route_name, parse_route=False)
             html = html.html() if html else "No route to render."
 
-    shutil.rmtree("__temp__")
+    shutil.rmtree("__temp__", ignore_errors=True)
     return html
 
 
@@ -129,7 +129,7 @@ def _cherry_pick_modules() -> None:
             if os.path.isfile(file):
                 os.remove(file)
             else:
-                shutil.rmtree(file)
+                shutil.rmtree(file, ignore_errors=True)
 
 
 def bundle_scripts(*, production: bool) -> None:
@@ -166,7 +166,7 @@ def bundle_scripts(*, production: bool) -> None:
             "src.brython.js", os.path.join("..", "build" if production else "_pyfyre")
         )
 
-    shutil.rmtree("__temp__")
+    shutil.rmtree("__temp__", ignore_errors=True)
 
 
 def add_cpython_packages(*, production: bool) -> None:
@@ -187,7 +187,7 @@ def add_cpython_packages(*, production: bool) -> None:
             os.path.join("..", "..", "build" if production else "_pyfyre"),
         )
 
-    shutil.rmtree("Lib")
+    shutil.rmtree("Lib", ignore_errors=True)
 
 
 def build_app(*, production: bool = False) -> None:
@@ -195,6 +195,9 @@ def build_app(*, production: bool = False) -> None:
 
     if production:
         print("Building app...")
+        shutil.rmtree("build", ignore_errors=True)
+    else:
+        shutil.rmtree("_pyfyre", ignore_errors=True)
 
     # Mirror the public files of the user to the build files
     if os.path.isdir("public"):
