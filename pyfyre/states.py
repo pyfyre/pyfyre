@@ -1,7 +1,7 @@
 import pyfyre
 from abc import ABC
 from typing import TypeVar, Generic, Optional
-from browser import window
+from browser import window, DOMEvent
 from pyfyre.utils import EventMixin
 
 T = TypeVar("T")
@@ -57,6 +57,11 @@ class EventState(StateDependency):
 
     This object is used as a state dependency for elements.
 
+    Attributes:
+        value (Optional[DOMEvent]): Brython ``DOMEvent`` type.
+            The event delivered to the ``target``.
+            None if the event hasn't been delivered yet.
+
     **Example:**
 
     .. code-block:: python
@@ -72,12 +77,17 @@ class EventState(StateDependency):
     def __init__(
         self, event_type: str, target: "Optional[pyfyre.nodes.Element]" = None
     ) -> None:
+        self.value: Optional[DOMEvent] = None
         super().__init__()
 
+        def set_value(event: DOMEvent) -> None:
+            self.value = event
+            self.call_listeners()
+
         if target is not None:
-            target.add_event_listener(event_type, lambda ev: self.call_listeners())
+            target.add_event_listener(event_type, set_value)
         else:
-            window.bind(event_type, lambda ev: self.call_listeners())
+            window.bind(event_type, set_value)
 
 
 class MediaQuery(StateDependency):
