@@ -7,11 +7,11 @@ from pyfyre.utils import EventMixin
 T = TypeVar("T")
 
 
-class BaseState(ABC, EventMixin):
+class StateDependency(ABC, EventMixin):
     """Abstract base class for state dependencies used for rebuilding nodes."""
 
 
-class State(Generic[T], BaseState):
+class State(Generic[T], StateDependency):
     """An object which stores a ``value`` of generic type ``T``.
 
     This object is used as a state dependency for nodes.
@@ -51,7 +51,7 @@ class State(Generic[T], BaseState):
             self.call_listeners()
 
 
-class EventState(BaseState):
+class EventState(StateDependency):
     """A state which updates whenever the specified ``event_type`` is delivered to the ``target``.
     If the ``target`` is None, will listen to the window instead.
 
@@ -80,7 +80,7 @@ class EventState(BaseState):
             window.bind(event_type, lambda ev: self.call_listeners())
 
 
-class MediaQuery(BaseState):
+class MediaQuery(StateDependency):
     """A state which updates whenever the media query match has changed its state.
 
     This is similar to JavaScript ``window.matchMedia``.

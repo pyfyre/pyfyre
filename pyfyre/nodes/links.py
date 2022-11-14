@@ -1,5 +1,5 @@
 from pyfyre.styles import Style
-from pyfyre.states import BaseState
+from pyfyre.states import StateDependency
 from pyfyre.nodes.base import Node, Element
 from browser import DOMEvent, window, document
 from typing import Any, Optional, Dict, List, Callable
@@ -21,7 +21,7 @@ class Link(Element):
         children: Optional[Callable[[], List[Node]]] = None,
         *,
         styles: Optional[List[Style]] = None,
-        states: Optional[List[BaseState]] = None,
+        states: Optional[List[StateDependency]] = None,
         attrs: Optional[Dict[str, str]] = None
     ) -> None:
         self.href = href

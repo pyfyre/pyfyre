@@ -1,6 +1,6 @@
 from browser import aio
 from pyfyre.styles import Style
-from pyfyre.states import BaseState
+from pyfyre.states import StateDependency
 from pyfyre.nodes import Node, Element
 from typing import Dict, List, Optional, Callable, Awaitable
 from pyfyre.exceptions import FutureNoResult, FutureCancelled, FutureAlreadyDone
@@ -19,7 +19,7 @@ class FutureElement(Element):
         children: Callable[[], Awaitable[List[Node]]],
         *,
         styles: Optional[List[Style]] = None,
-        states: Optional[List[BaseState]] = None,
+        states: Optional[List[StateDependency]] = None,
         attrs: Optional[Dict[str, str]] = None
     ) -> None:
         self._is_done = False

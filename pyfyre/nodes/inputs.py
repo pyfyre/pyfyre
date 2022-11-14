@@ -1,5 +1,5 @@
 from pyfyre.styles import Style
-from pyfyre.states import BaseState
+from pyfyre.states import StateDependency
 from pyfyre.nodes.base import Node, Element
 from typing import Any, Callable, Optional, Dict, List
 
@@ -19,7 +19,7 @@ class TextInput(Element):
         placeholder: str = "",
         multiline: bool = False,
         styles: Optional[List[Style]] = None,
-        states: Optional[List[BaseState]] = None,
+        states: Optional[List[StateDependency]] = None,
         attrs: Optional[Dict[str, str]] = None
     ) -> None:
         attrs = attrs or {}

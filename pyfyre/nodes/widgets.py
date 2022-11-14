@@ -2,7 +2,7 @@ from types import TracebackType
 from abc import ABC, abstractmethod
 from typing import Optional, Dict, List, Type
 from pyfyre.styles import Style
-from pyfyre.states import BaseState
+from pyfyre.states import StateDependency
 from pyfyre.nodes import Node, Element, FutureElement
 
 
@@ -25,7 +25,7 @@ class Widget(Element, ABC):
         *,
         tag_name: str = "div",
         styles: Optional[List[Style]] = None,
-        states: Optional[List[BaseState]] = None,
+        states: Optional[List[StateDependency]] = None,
         attrs: Optional[Dict[str, str]] = None
     ) -> None:
         super().__init__(
@@ -85,7 +85,7 @@ class FutureWidget(FutureElement, ABC):
         *,
         tag_name: str = "div",
         styles: Optional[List[Style]] = None,
-        states: Optional[List[BaseState]] = None,
+        states: Optional[List[StateDependency]] = None,
         attrs: Optional[Dict[str, str]] = None
     ) -> None:
         super().__init__(
