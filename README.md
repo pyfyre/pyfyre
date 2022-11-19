@@ -23,20 +23,40 @@ A fast, declarative, and incrementally adoptable Python web frontend framework f
 ## Example
 See the [examples](examples) directory for more.
 If you want to quickly test how PyFyre feels or looks like, try our [playground](https://pyfyre.netlify.app/playground/)!
-But here is a super simple example. See how easy it is to create a simple Hello World web app with PyFyre:
+But here is a super simple example. See how easy it is to create a simple Counter app with PyFyre:
 ```py
-from pyfyre import render
 from pyfyre.nodes import *
+from browser import DOMEvent
+from pyfyre import render, State
 
 
-class HelloWorld(Widget):
+class App(Widget):
+	def __init__(self) -> None:
+		self.count = State[int](0)
+		super().__init__()
+
 	def build(self) -> list[Node]:
-		return [Element("p", lambda: [Text("Hello, World!")])]
+		def increment(event: DOMEvent) -> None:
+			self.count.set_value(self.count.value + 1)
+
+		def decrement(event: DOMEvent) -> None:
+			self.count.set_value(self.count.value - 1)
+
+		return [
+			Button(
+				onclick=decrement,
+				children=lambda: [Text("-")]
+			),
+			Text(self.count),
+			Button(
+				onclick=increment,
+				children=lambda: [Text("+")]
+			)
+		]
 
 
-render({"/": lambda: HelloWorld()})
+render({"/": lambda: App()})
 ```
-![image](https://user-images.githubusercontent.com/64759159/111881940-d80e4380-89ed-11eb-9ffc-d607d80896fb.png)
 
 ## Documentation
 Learn PyFyre by reading the [documentation](https://pyfyre-docs.netlify.app/).
