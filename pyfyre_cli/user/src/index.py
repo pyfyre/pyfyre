@@ -1,6 +1,6 @@
 from typing import List
 from pyfyre import render, Style
-from pyfyre.nodes import *
+from pyfyre.nodes import Node, Widget, Element, Text, Link
 
 
 class App(Widget):

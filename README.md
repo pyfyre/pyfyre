@@ -25,34 +25,28 @@ See the [examples](examples) directory for more.
 If you want to quickly test how PyFyre feels or looks like, try our [playground](https://pyfyre.netlify.app/playground/)!
 But here is a super simple example. See how easy it is to create a simple Counter app with PyFyre:
 ```py
-from pyfyre.nodes import *
 from browser import DOMEvent
 from pyfyre import render, State
+from pyfyre.nodes import Node, Widget, Text, Button
 
 
 class App(Widget):
-	def __init__(self) -> None:
-		self.count = State[int](0)
-		super().__init__()
+    def __init__(self) -> None:
+        self.count = State[int](0)
+        super().__init__()
 
-	def build(self) -> list[Node]:
-		def increment(event: DOMEvent) -> None:
-			self.count.set_value(self.count.value + 1)
+    def build(self) -> list[Node]:
+        def increment(event: DOMEvent) -> None:
+            self.count.set_value(self.count.value + 1)
 
-		def decrement(event: DOMEvent) -> None:
-			self.count.set_value(self.count.value - 1)
+        def decrement(event: DOMEvent) -> None:
+            self.count.set_value(self.count.value - 1)
 
-		return [
-			Button(
-				onclick=decrement,
-				children=lambda: [Text("-")]
-			),
-			Text(self.count),
-			Button(
-				onclick=increment,
-				children=lambda: [Text("+")]
-			)
-		]
+        return [
+            Button(onclick=decrement, children=lambda: [Text("-")]),
+            Text(self.count),
+            Button(onclick=increment, children=lambda: [Text("+")]),
+        ]
 
 
 render({"/": lambda: App()})

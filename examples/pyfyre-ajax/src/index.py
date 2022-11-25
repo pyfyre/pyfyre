@@ -1,7 +1,7 @@
 from browser import ajax
-from pyfyre.nodes import *
 from pyfyre import render, State
 from typing import Dict, Any, List
+from pyfyre.nodes import Node, FutureWidget, Element, Text
 
 
 class App(FutureWidget):

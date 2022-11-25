@@ -28,12 +28,12 @@ But here is a super simple example. See how easy it is to create a simple Hello 
 .. code-block:: python
 
    from pyfyre import render
-   from pyfyre.nodes import *
+   from pyfyre.nodes import Node, Widget, Element, Text
 
 
    class HelloWorld(Widget):
-      def build(self) -> list[Node]:
-         return [Element("p", lambda: [Text("Hello, World!")])]
+       def build(self) -> list[Node]:
+           return [Element("p", lambda: [Text("Hello, World!")])]
 
 
    render({"/": lambda: HelloWorld()})

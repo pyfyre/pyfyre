@@ -16,11 +16,11 @@ from typing import Dict, List, Any
 #
 # Example:
 # {
-# 	"/": {
-# 		"title": "A PyFyre App",
-# 		"icon": "/favicon.ico",
-# 		"head": ['<link rel="stylesheet" href="/style.css" />']
-# 	}
+#     "/": {
+#         "title": "A PyFyre App",
+#         "icon": "/favicon.ico",
+#         "head": ['<link rel="stylesheet" href="/style.css" />']
+#     }
 # }
 ROUTES: Dict[str, Dict[str, Any]] = {
     "/": {
@@ -39,8 +39,8 @@ ROUTES: Dict[str, Dict[str, Any]] = {
 #
 # Example:
 # [
-# 	"text_generator",
-# 	"random_string",
-# 	"url64"
+#     "text_generator",
+#     "random_string",
+#     "url64"
 # ]
 PYTHON_DEPENDENCIES: List[str] = []

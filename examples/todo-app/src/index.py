@@ -1,6 +1,6 @@
-from pyfyre.nodes import *
 from browser import DOMEvent
 from pyfyre import render, State
+from pyfyre.nodes import Node, Widget, Element, Text, TextInput, ListBuilder, Button
 
 
 class App(Widget):
