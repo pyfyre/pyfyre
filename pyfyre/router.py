@@ -138,7 +138,7 @@ class RouteManager:
         """Get the URL of the page the ``route_name`` goes to."""
         el = document.createElement("a")
         el.href = route_name
-        return el.href
+        return str(el.href + window.location.hash)
 
     @staticmethod
     def change_route(
