@@ -167,12 +167,39 @@ class Element(Node):
         for attr_name, attr_value in self.attrs.items():
             self.dom.setAttribute(attr_name, attr_value)
 
+    def is_void(self) -> bool:
+        """Whether this element is a void or not based on its tag name.
+
+        More about void elements:
+            https://developer.mozilla.org/en-US/docs/Glossary/Void_element
+        """
+        return self.tag_name in (
+            "area",
+            "base",
+            "br",
+            "col",
+            "embed",
+            "hr",
+            "img",
+            "input",
+            "keygen",
+            "link",
+            "meta",
+            "param",
+            "source",
+            "track",
+            "wbr",
+        )
+
     def html(self) -> str:
         def attributes() -> str:
             attrs = [f'{name}="{value}"' for name, value in self.attrs.items()]
             return " " + " ".join(attrs) if attrs else ""
 
         result = f"<{self.tag_name}{attributes()}>"
+
+        if self.is_void():
+            return result
 
         for child in self.children:
             result += child.html()
