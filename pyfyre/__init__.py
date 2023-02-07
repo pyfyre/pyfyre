@@ -6,6 +6,7 @@ from pyfyre.events import PyFyreEventType
 from pyfyre.exceptions import PyFyreException
 from .states import State, EventState, MediaQuery
 from .styles import Style
+from .decorators import on_mount, create_effect
 
 __all__ = [
     "PRODUCTION",
@@ -14,6 +15,8 @@ __all__ = [
     "EventState",
     "MediaQuery",
     "Style",
+    'on_mount',
+    'create_effect'
 ]
 
 _rendered = False
