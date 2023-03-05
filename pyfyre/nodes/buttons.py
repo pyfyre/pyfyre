@@ -1,4 +1,5 @@
 from browser import DOMEvent
+from pyfyre.noderef import NodeRef
 from pyfyre.styles import Style
 from pyfyre.states import StateDependency
 from pyfyre.nodes.base import Node, Element
@@ -19,7 +20,8 @@ class Button(Element):
         *,
         styles: Optional[List[Style]] = None,
         states: Optional[List[StateDependency]] = None,
-        attrs: Optional[Dict[str, str]] = None
+        attrs: Optional[Dict[str, str]] = None,
+        ref: Optional[NodeRef] = None
     ) -> None:
-        super().__init__("button", children, styles=styles, states=states, attrs=attrs)
+        super().__init__("button", children, styles=styles, states=states, attrs=attrs, ref=ref)
         self.add_event_listener("click", onclick)

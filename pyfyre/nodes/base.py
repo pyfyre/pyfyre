@@ -1,13 +1,13 @@
 import sys
-import pyfyre
-from typing import Type
-from browser import document
-from types import TracebackType
-from pyfyre.styles import Style
-from pyfyre.states import StateDependency, State
 from abc import ABC, abstractmethod
-from browser import DOMNode, DOMEvent
-from typing import Any, Dict, List, Optional, Callable, Union
+from types import TracebackType
+from typing import Any, Callable, Dict, List, Optional, Type, Union
+
+import pyfyre
+from browser import DOMEvent, DOMNode, document
+from pyfyre.noderef import NodeRef
+from pyfyre.states import State, StateDependency
+from pyfyre.styles import Style
 
 
 class Node(ABC):
@@ -18,8 +18,12 @@ class Node(ABC):
             The corresponding HTML DOM node of this object.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, *, ref: Optional[NodeRef] = None) -> None:
         self.dom: DOMNode = self.create_dom()
+        self.ref = ref
+
+        if ref is not None:
+            ref._node = self
 
     @abstractmethod
     def create_dom(self) -> DOMNode:
@@ -33,6 +37,21 @@ class Node(ABC):
     def html(self) -> str:
         """HTML representation of this object."""
         raise NotImplementedError
+
+    # def __getattribute__(self, __name: str) -> Any:
+    #     if not hasattr(self, __name):
+    #         raise AttributeError(f"{__name} is not an attribute.")
+
+    #     return super().__getattribute__(__name)
+
+    # def __setattr__(self, __name: str, __value: any):
+    #     if not hasattr(self, __name):
+    #         raise AttributeError(f"{__name} is not an attribute.")
+
+    #     self._setter(__name, __value)
+
+    # def _setter(self, name, value):
+    #     super().__setattr__(name, value)
 
 
 class Element(Node):
@@ -68,6 +87,7 @@ class Element(Node):
         styles: Optional[List[Style]] = None,
         states: Optional[List[StateDependency]] = None,
         attrs: Optional[Dict[str, str]] = None,
+        ref: Optional[NodeRef] = None
     ) -> None:
         self.tag_name = tag_name
         self.children: List[Node] = []
@@ -104,7 +124,7 @@ class Element(Node):
         for state in self.states:
             state.add_listener(self.update_dom)
 
-        super().__init__()
+        super().__init__(ref=ref)
 
     def on_build_error(
         self,
