@@ -1,5 +1,5 @@
 brython==3.10.7
-git+https://github.com/nacho00112/python-livereload/archive/refs/heads/master.zip
+livereload @ git+https://github.com/nacho00112/python-livereload@master
 python-minifier==2.8.0
 autoflake==1.6.1
 Flask==2.2.2
