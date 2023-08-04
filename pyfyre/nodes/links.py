@@ -1,3 +1,4 @@
+from pyfyre.noderef import NodeRef
 from pyfyre.styles import Style
 from pyfyre.states import StateDependency
 from pyfyre.nodes.base import Node, Element
@@ -22,12 +23,13 @@ class Link(Element):
         *,
         styles: Optional[List[Style]] = None,
         states: Optional[List[StateDependency]] = None,
-        attrs: Optional[Dict[str, str]] = None
+        attrs: Optional[Dict[str, str]] = None,
+        ref: Optional[NodeRef] = None
     ) -> None:
         self.href = href
         attrs = attrs or {}
         attrs["href"] = href
-        super().__init__("a", children, styles=styles, states=states, attrs=attrs)
+        super().__init__("a", children, styles=styles, states=states, attrs=attrs, ref=ref)
 
     @property
     def url(self) -> str:

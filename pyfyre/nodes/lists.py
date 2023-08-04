@@ -1,4 +1,5 @@
 import sys
+from pyfyre.noderef import NodeRef
 from pyfyre.styles import Style
 from pyfyre.states import StateDependency
 from browser import timer
@@ -48,7 +49,8 @@ class ListBuilder(Element):
         render_interval: float = 0,
         styles: Optional[List[Style]] = None,
         states: Optional[List[StateDependency]] = None,
-        attrs: Optional[Dict[str, str]] = None
+        attrs: Optional[Dict[str, str]] = None,
+        ref: Optional[NodeRef] = None
     ) -> None:
         styles = styles or []
         self.item_builder = item_builder
@@ -73,6 +75,7 @@ class ListBuilder(Element):
             ]
             + styles,
             states=states,
+            ref=ref
         )
 
         def render_nodes(event: DOMEvent) -> None:

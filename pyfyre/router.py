@@ -3,7 +3,7 @@ from typing import Any, Dict, Callable, Optional
 from browser import document, window, DOMEvent
 from pyfyre.events import window_event_listener
 from pyfyre.nodes import Node, Element, TextNode
-
+from pyfyre.decorators import OnMountWatcher
 
 class _NavigationStack:
     def __init__(self, initial_route: str) -> None:
@@ -96,7 +96,8 @@ class RouteManager:
                 try:
                     node = route_builder(arg)
                 except TypeError:
-                    node = route_builder()
+                    node = route_builder()(route_name)
+                    OnMountWatcher.mount(route_name)
             else:
                 node = None
 

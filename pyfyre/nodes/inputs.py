@@ -1,3 +1,4 @@
+from pyfyre.noderef import NodeRef
 from pyfyre.styles import Style
 from pyfyre.states import StateDependency
 from pyfyre.nodes.base import Node, Element
@@ -20,7 +21,8 @@ class TextInput(Element):
         multiline: bool = False,
         styles: Optional[List[Style]] = None,
         states: Optional[List[StateDependency]] = None,
-        attrs: Optional[Dict[str, str]] = None
+        attrs: Optional[Dict[str, str]] = None,
+        ref: Optional[NodeRef] = None
     ) -> None:
         attrs = attrs or {}
         attrs["placeholder"] = placeholder
@@ -31,6 +33,7 @@ class TextInput(Element):
             styles=styles,
             states=states,
             attrs=attrs,
+            ref=ref
         )
 
     @property
