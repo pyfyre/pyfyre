@@ -22,7 +22,7 @@ packages = ["pyfyre", "pyfyre_cli", "browser", "interpreter", "javascript"]
 
 setup(
     name="pyfyre",
-    version="0.6.8",
+    version="0.6.9",
     description="A fast, declarative, and incrementally adoptable Python web "
     "frontend framework for building reactive web user interfaces.",
     long_description=get_readme(),
