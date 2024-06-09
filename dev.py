@@ -34,8 +34,6 @@ def _create_app() -> None:
 
 if __name__ == "__main__":
     if os.path.dirname(os.path.abspath(__file__)) == os.getcwd():
-        _create_app()
-
         app = web_app.create_static_flask_app(os.path.join("__dev__", "_pyfyre"))
         app.debug = True
 
