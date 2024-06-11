@@ -1,3 +1,3 @@
 brython
-livereload @ https://github.com/nacho00112/python-livereload/archive/refs/heads/master.zip
+livereload @ git+https://github.com/nacho00112/python-livereload.git@master
 autoflake==1.6.1
