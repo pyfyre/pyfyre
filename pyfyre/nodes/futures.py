@@ -1,4 +1,5 @@
 from browser import aio
+from pyfyre.noderef import NodeRef
 from pyfyre.styles import Style
 from pyfyre.states import StateDependency
 from pyfyre.nodes import Node, Element
@@ -20,7 +21,8 @@ class FutureElement(Element):
         *,
         styles: Optional[List[Style]] = None,
         states: Optional[List[StateDependency]] = None,
-        attrs: Optional[Dict[str, str]] = None
+        attrs: Optional[Dict[str, str]] = None,
+        ref: Optional[NodeRef] = None
     ) -> None:
         self._is_done = False
         self._is_cancelled = False
@@ -40,6 +42,7 @@ class FutureElement(Element):
             styles=styles,
             states=states,
             attrs=attrs,
+            ref=ref
         )
 
         async def build_children(children: Callable[[], Awaitable[List[Node]]]) -> None:
